@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>奇门遁甲</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="./css/mmin.css">
+		<!-- <link rel="stylesheet" href="../../css/ui-media.css"> -->
+		<link rel="stylesheet" href="./css/ui-base.css">
+		<!-- <link rel="stylesheet" href="../../css/ui-apple.css"> -->
+		<link rel="stylesheet" href="./css/iqm5.css" id="iqm5css">
+		<link href="./css/mui.picker.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="..css/image.css" />
+
+
+		<style>
+			html,
+			body,
+			.mui-content {
+				height: 0px;
+				margin: 0px;
+				background-color: #efeff4;
+			}
+
+			h5.mui-content-padded {
+				margin-left: 3px;
+				margin-top: 18px !important;
+			}
+
+			h5.mui-content-padded:first-child {
+				margin-top: 12px !important;
+			}
+
+			.mui-btn-link {
+				font-size: 14px;
+				padding: 2px;
+				margin: 0px 5px 0px 5px;
+			}
+
+			.mui-btn {
+				/* font-size: 14px; */
+				padding: 5px;
+				/* margin: 2px; */
+			}
+
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+
+			* {
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+			}
+
+			div {
+				word-wrap: break-word;
+				word-break: normal;
+			}		
+			
+		</style>
+
+	</head>
+
+	<script src="./js/mui.min.js"></script>
+	<script src="./js/mui.picker.min.js"></script>
+	
+	<script src="./js/iqm.js"></script>
+	
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h4 id="title" class="mui-title">阴盘奇门</h4>
+		</header>
+		<div class="mui-content">
+			<div class="mui-card">
+				<div id="ddate" class="mui-card-content-inner">
+					<button id='demo1' data-options='{"beginYear":1920,"endYear":2101}'
+						class="btn mui-btn-green mui-btn-primary">选择日期</button>
+
+					<span id="years"></span>年
+					<span id="months"></span>月
+					<span id="days"></span>日
+					<span id="hours"></span>时
+					<span id="mins"></span>分
+					<a class="mui-btn-blue mui-btn-outlined" onclick="resetdate(new Date())">重 置 </a><br>
+
+					或输入:<input id="dates" onfocusout="fantongbudates()" value="198904241601" style="width:140px"
+						class="mui-input-clear" placeholder="198904241601">
+					<span onclick="document.getElementById('chkislunar').click()">农</span><input id="chkislunar" type="checkbox" onclick="fantongbudates()" />
+
+					<span onclick="document.getElementById('rdsex1').click()">男</span><input id="rdsex1" name="rsex" type="radio" onclick="orisex='1'" checked />
+					<span onclick="document.getElementById('rdsex0').click()">女</span><input id="rdsex0" name="rsex" type="radio" onclick="orisex='0'" />
+					
+					<SELECT name=zxj size="1" ID="select7" style="WIDTH: 80px;font-size: 14px;" class="mui-btn-link">
+						<option value="-1" selected>道家</option>
+						<option value="0">阴9</option>
+						<option value="1">阴8</option>
+						<option value="2">阴7</option>
+						<option value="3">阴6</option>
+						<option value="4">阴5</option>
+						<option value="5">阴4</option>
+						<option value="6">阴3</option>
+						<option value="7">阴2</option>
+						<option value="8">阴1</option>
+						<option value="9">阳1</option>
+						<option value="10">阳2</option>
+						<option value="11">阳3</option>
+						<option value="12">阳4</option>
+						<option value="13">阳5</option>
+						<option value="14">阳6</option>
+						<option value="15">阳7</option>
+						<option value="16">阳8</option>
+						<option value="17">阳9</option>
+					</SELECT>
+					
+					<br><br>
+					
+					<div align="center">
+						<button class="mui-btn-blue mui-btn-outlined"
+							onclick="ppbtn(1);">时盘排盘</button>
+						
+					</div>
+					
+				
+			
+					<br>
+					
+					<div id="" class="">
+						<span id="">农历换算</span><br>
+						<SELECT name=year id=year size="1" style="WIDTH: 70px">
+							<script language="javascript">
+								for (var i = 1925; i < 2100; i++) {
+									document.write("<option value=" + i + (i == 2019 ? " selected>" : ">") + i + "</option>");
+								}
+							</SCRIPT>
+						</SELECT>
+						年
+						<SELECT name=month id=month style="WIDTH: 70px">
+							<script language="javascript">
+								for (var i = 1; i < 13; i++) {
+									document.write("<option value=" + i + (i == 3 ? " selected>" : ">") + monthName[i] + "</option>");
+								}
+							</SCRIPT>
+						</SELECT>
+						月
+						<SELECT name=day id=day style="WIDTH: 70px">
+							<script language="javascript">
+								for (var i = 1; i < 31; i++) {
+									document.write("<option value=" + i + (i == 12 ? " selected>" : ">") + cDay(i) + "</option>");
+								}
+							</SCRIPT>
+						</SELECT>
+						日
+						<!-- <INPUT type=checkbox name=liujia id=liujia onclick="test()" style="WIDTH: 18px"> <span>神盘&nbsp;</span> -->
+						<INPUT type=checkbox name=r id=r> <span onclick="document.getElementById('r').click()"> 闰</span>
+
+						<div name="answer" id="answer" class="" style="color: red;"> </div>
+						<!-- <INPUT type=checkbox name=tianmendihu id=tianmendihu> <span class=''>天门地户&nbsp;&nbsp;</span> -->
+						<div align="center">
+							<button class="mui-btn-blue mui-btn-outlined" onclick="myctog()">换算</button>
+						</div>
+						</li>
+						
+						
+						<center>
+						<br>无镜妙道奇门遁甲<br>精研数字易经、奇门、法术、风水<br>广结善缘、愿君同行<br>
+							电话微信：15512141951<br>
+							加微信入群免费学习<br>
+							
+							</center>
+					</div>
+
+					
+				</div>
+				<div id="drst" class="" style="display: none;">
+
+					<div id="dul" style="text-align: center;" class="mui-card-content-inner">
+
+						
+
+						<!-- </div> -->
+						<div id="outboard" class="mui-center"></div>
+						<div style="margin-top: -15px;" class="mui-center">
+							<!-- <span style="font-size: 10px;position:relative;top:-2px;">
+							<span style="color:#6F00D2;">刑</span>
+							<span style="color:#FF0000;">迫</span>
+							<span style="position:relative;top:0px;border-bottom:1.2px solid#009100;color:#009100">墓</span>
+							</span>&nbsp; -->
+							
+							
+							<center><div class="mui-center" id="nowsg"></div></center>
+						</div>
+ 
+						
+						
+						<div id="dayun" class="mui-center"></div>
+						<br> 
+						
+						
+					</div>
+
+					
+						
+					
+				
+
+				</div>
+			</div>
+		</div>
+	</body>
+
+</html>
+
+<script>
+	
+	
+	(function($) {
+		$.init();
+		var result = $('#result')[0];
+		var btns = $('.btn');
+
+		var objyears = document.getElementById("years");
+		var objmonths = document.getElementById("months");
+		var objdays = document.getElementById("days");
+		var objhours = document.getElementById("hours");
+		var objmins = document.getElementById("mins");
+
+
+		btns.each(function(i, btn) {
+			btn.addEventListener('tap', function() {
+				var _self = this;
+				if (_self.picker) {
+					_self.picker.show(function(rs) {
+						// result.innerText = '选择结果: ' + rs.text;
+						_self.picker.dispose();
+						_self.picker = null;
+					});
+				} else {
+					var seldate = objyears.innerText + "-" + objmonths.innerText + "-" + objdays
+						.innerText + " " + objhours.innerText +
+						":" + objmins.innerText;
+					var optionsJson = this.getAttribute('data-options') || '{}';
+					var options = JSON.parse(optionsJson);
+					options.value = seldate;
+					var id = this.getAttribute('id');
+					/*
+					 * 首次显示时实例化组件
+					 * 示例为了简洁，将 options 放在了按钮的 dom 上
+					 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+					 */
+					_self.picker = new $.DtPicker(options);
+					_self.picker.show(function(rs) {
+						/*
+						 * rs.value 拼合后的 value
+						 * rs.text 拼合后的 text
+						 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+						 * rs.m 月，用法同年
+						 * rs.d 日，用法同年
+						 * rs.h 时，用法同年
+						 * rs.i 分（minutes 的第二个字母），用法同年
+						 */
+						// result.innerText = '选择结果: ' + rs.text;
+						document.getElementById("years").innerText = rs.y.text;
+						document.getElementById("months").innerText = rs.m.text;
+						document.getElementById("days").innerText = rs.d.text;
+						document.getElementById("hours").innerText = rs.h.text;
+						document.getElementById("mins").innerText = rs.i.text;
+						tongbudates();
+						// document.getElementById("dates").value = rs.y.text+rs.m.text+rs.d.text+rs.h.text+rs.i.text;
+						// document.getElementById("dates").innerText = rs.text;
+						saveorival();
+
+						/* 
+						 * 返回 false 可以阻止选择框的关闭
+						 * return false;
+						 */
+						/*
+						 * 释放组件资源，释放后将将不能再操作组件
+						 * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+						 * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+						 * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+						 */
+						_self.picker.dispose();
+						_self.picker = null;
+					});
+				}
+
+			}, false);
+		});
+	})(mui);
+</script>
+
+<script>
+	mui.init({
+		swipeBack: true, //启用右滑关闭功能
+
+		beforeback: function() {
+
+
+			if (frompage) { // 来自外部页面则直接关闭
+				return true;
+			} else {
+				//获得父页面的webview
+				if (document.getElementById("ddate").style.display == "") {
+					return true;
+				} else {
+					procvisible('none');
+					return false;
+				}
+			}
+
+
+		}
+	});
+
+	var domready = false;
+	var ws = null;
+	var aready = false;
+
+	function plusReady() {
+		if (ws || !window.plus || !domready) {
+			return;
+		}
+		// 获取窗口对象
+		ws = plus.webview.currentWebview();
+		aready = true;
+		showdata({});
+		ws.addEventListener("loaded", function(event) {
+			console.log(ws.id);
+			plus.storage.setItem(ws.id, "loaded");
+		});
+	}
+	if (window.plus) {
+		plusReady();
+	} else {
+		document.addEventListener("plusready", plusReady, false);
+	}
+	// 监听DOMContentLoaded事件
+	document.addEventListener("DOMContentLoaded", function() {
+		domready = true;
+		plusReady();
+	}, false);
+
+	var frompage = "";
+	var eventdata;
+
+	function eventshowdata() {
+		if (aready) {
+			var obj = eventdata.detail;
+			frompage = obj.frompage; // 从哪个页面来
+			showdata(obj);
+		} else {
+			setTimeout(eventshowdata, 200);
+		}
+	}
+
+	function showdata(obj) {
+
+
+		// 判断是否是要现实log
+		if (obj.key && frompage == "log") {
+			plus.sqlite.selectSql({
+				name: 'recorddb',
+				sql: "select * from qmrecord where id=" + obj.key,
+				success: function(e) {
+					// console.log('selectSql success: ' + JSON.stringify(e));
+					for (var d in e) {
+						console.debug(e[d].testdate)
+						oriy = e[d].testdate.substr(0, 4) + "";
+						orim = e[d].testdate.substr(4, 2) + ""
+						orid = e[d].testdate.substr(6, 2) + ""
+						orih = e[d].testdate.substr(8, 2) + ""
+						orii = e[d].testdate.substr(10, 2) + ""
+						orisex = e[d].testname + "";
+						document.getElementById("memo_shi").value = e[d].note;
+						var pt = e[d].testtype;
+						if (pt == "shi") {
+							panstyle = "时盘"
+						} else {
+							panstyle = "刻盘"
+						}
+						ori();
+					}
+				},
+				fail: function(e) {
+					console.log('selectSql fail: ' + JSON.stringify(e));
+				}
+			});
+
+		} else if (obj.key && frompage == "cld") { // 来自日历
+			oriy = obj.sy + "";
+			orim = obj.smon + "";
+			orid = obj.sd + "";
+			orih = obj.sh + "";
+			orii = obj.min + "";
+			orisex = obj.sex+"";
+			if(orisex!="0" && orisex!="1")orisex="1";
+			if (obj.type == "ke") {
+				panstyle = "刻盘"
+			} else {
+				panstyle = "时盘"
+			}
+			document.getElementById("memo_shi").value = obj.note;
+			ori();
+
+
+		} else if (obj.key && frompage == "hisr") { // 来自历史记录
+
+			oriy = obj.key.substr(0, 4) + "";
+			orim = obj.key.substr(4, 2) + "";
+			orid = obj.key.substr(6, 2) + "";
+			orih = obj.key.substr(8, 2) + "";
+			orii = obj.key.substr(10, 2) + "";
+			panstyle = obj.key.split("|")[1];
+			ori();
+		}
+	}
+
+
+	var j = new Date();
+	resetdate(j);
+	saveorival();
+
+	function resetdate(j) {
+
+		k = j.getFullYear();
+		document.getElementById("years").innerText = j.getFullYear();
+		var m = j.getMonth() + 1 + "";
+		if (m < 10) m = "0" + m;
+		document.getElementById("months").innerText = m;
+		var d = j.getDate();
+		if (d < 10) d = "0" + d;
+		document.getElementById("days").innerText = d;
+		var h = j.getHours();
+		if (h < 10) h = "0" + h;
+		document.getElementById("hours").innerText = h;
+		var i = j.getMinutes();
+		if (i < 10) i = "0" + i;
+		document.getElementById("mins").innerText = i;
+
+		tongbudates();
+	}
+
+	function tongbudates() {
+		document.getElementById("dates").value = document.getElementById("years").innerText +
+			document.getElementById("months").innerText +
+			document.getElementById("days").innerText +
+			document.getElementById("hours").innerText +
+			document.getElementById("mins").innerText;
+	}
+
+	function fantongbudates() {
+		var tdv = document.getElementById("dates").value;
+		if (tdv.length < 12) tdv = (tdv + "000000000000").substr(0, 12)
+		document.getElementById("hours").innerText = tdv.substr(8, 2);
+		document.getElementById("mins").innerText = tdv.substr(10, 2);
+		if (document.getElementById("chkislunar").checked) {
+			// 农历
+			document.getElementById('year').value = tdv.substr(0, 4);
+			document.getElementById('month').selectedIndex = tdv.substr(4, 2) - 1;
+			document.getElementById('day').selectedIndex = tdv.substr(6, 2) - 1;
+			myctog();
+			tongbudates();
+			document.getElementById("chkislunar").checked = false;
+		} else {
+			document.getElementById("years").innerText = tdv.substr(0, 4);
+			document.getElementById("months").innerText = tdv.substr(4, 2);
+			document.getElementById("days").innerText = tdv.substr(6, 2);
+		}
+	}
+
+
+	window.addEventListener('showdata', function(event1) {
+		eventdata = event1;
+		eventshowdata();
+	});
+
+	var panstyle = "时盘";
+	var zxj = false;
+	var orisex = "1";
+	var oriy = "";
+	var orim = "";
+	var orid = "";
+	var orih = "";
+	var orii = "";
+	var t3d4 = false;
+	var oriju = "";
+	var orizx = false;
+
+	function saveorival(zx) { //排盘前保存原始的时间 防止点击下一局后恢复
+		oriy = document.getElementById("years").innerText;
+		orim = document.getElementById("months").innerText;
+		orid = document.getElementById("days").innerText;
+		orih = document.getElementById("hours").innerText;
+		orii = document.getElementById("mins").innerText;
+		oriju = document.getElementById("select7").value;
+		orizx = zx ? true : false;
+	}
+
+	function paiShipan(zx) {
+		zxj = zx;
+		panstyle = "时盘";
+
+		if (zx) {
+			var s = "";
+			var tJu = Math.floor(document.all.item("zxj").value);
+			if (tJu < 9) {
+				s = "阴" + (9 - tJu).toString();
+			} else {
+				s = "阳" + (tJu - 8).toString();
+			}
+			panpan = "时选" + s + "局";
+		} else
+			panpan = "时盘";
+
+		var s = paipan(zx, t3d4);
+		if (s != null) {
+			// alert(s)
+			document.getElementById('outboard').innerHTML = s;
+			
+			
+		}
+		procvisible("");
+
+		// 大运划分
+		paidayun();
+		// 显示当前四纲
+		shownowsg();
+	}
+	
+
+	
+	function paidayun(){
+		// 大运划分
+		var bz111 = paiDaYun(orisex);
+		var qiy = qiYun(orisex);
+		var dyhs = ""; // 大运干支
+		var y = parseInt(document.all.item("years").innerText);
+		var nowyear = new Date().getFullYear(); // 当前年
+		var age = nowyear - y + 1;
+		for (var i = 0; i < bz111.length; i++) {
+			// 是否当前大运
+			var tmpdygz = bz111[i];
+			if ((nowyear >= (qiy + y)) && (nowyear < (qiy + y + 10))) {
+				tmpdygz = "<font color=red>" + tmpdygz + "</font>";
+			}
+			dyhs += "<td class=girdall onclick='seldayun(this)'>" + tmpdygz + "<br>" + (qiy + 1) + "<br>" + (qiy + y) +
+				"<br>" + cyclical(qiy + y - 1864) + "</td>";
+			qiy += 10;
+		}
+		document.getElementById("dayun").innerHTML = "<center><table cellSpacing=0 style='font-size:13px;'>" +
+			"<tr><td class=girdall>运<br>岁<br>流<br>年</td>" + dyhs + "<td class='girdall' onclick='chgsex()'><font color=blue>" + (orisex == 1 ? "乾<br>造<br>" :
+				"坤<br>造<br>") + age + "</font></td></tr></table></center>";
+	}
+
+	function savehisr() {
+
+		var val = document.getElementById("years").innerText +
+			document.getElementById("months").innerText +
+			document.getElementById("days").innerText +
+			document.getElementById("hours").innerText +
+			document.getElementById("mins").innerText + "00";
+
+	}
+
+	function procvisible(i) {
+		// var i = document.getElementById("ddate").style.display;
+		if (i == "") {
+			document.getElementById("ddate").style.display = "none";
+			// document.getElementById("dnlhs").style.display = "none";
+			document.getElementById("drst").style.display = "";
+			// document.getElementById("drst1").style.display = "";
+
+
+		} else {
+			document.getElementById("ddate").style.display = "";
+			// document.getElementById("dnlhs").style.display = "";
+			document.getElementById("drst").style.display = "none";
+			// document.getElementById("drst1").style.display = "none";
+			document.getElementById("memo_shi").value = "";
+
+		}
+	}
+
+
+	function paiKepan(zx) {
+		panstyle = "刻盘";
+		zxj = zx;
+		if (zx) {
+			var s = "";
+			var tJu = Math.floor(document.all.item("zxj").value);
+			if (tJu < 9) {
+				s = "阴" + (9 - tJu).toString();
+			} else {
+				s = "阳" + (tJu - 8).toString();
+			}
+			panpan = "刻选" + s + "局";
+		} else
+			panpan = "刻盘";
+
+
+		var s = paipan3(zx, t3d4);
+		if (s != null) {
+			document.getElementById('outboard').innerHTML = s;
+			// 贵人
+			document.getElementById('tgys').innerHTML = document.getElementById('groptval').innerHTML;
+			if(t3d4){
+				guiren(true);
+			}
+
+			var pp = "";
+			for (t = 1; t < 8; t++) {
+				pp += "<p >【顺转" + t + "宫】</p>";
+				RestoreAll();
+				Zhuan();
+				SaveAll();
+
+				pp += DrawPaipan(false, true, t) + "<hr>";
+			}
+
+			document.getElementById('outboard1').innerHTML = pp;
+			//  uexWindow.evaluateScript('','1','displayHOME(true)');
+		}
+		document.getElementById("dayun").innerHTML = "";
+		document.getElementById("nowsg").innerHTML = "";
+		
+		procvisible("");
+	}
+
+	function tdconv() {
+		t3d4 = !t3d4;
+		if (panstyle == "时盘") {
+			paiShipan(zxj)
+		} else {
+			paiKepan(zxj);
+		}
+	}
+
+
+	function ori() {
+		document.getElementById("years").innerText = oriy;
+		document.getElementById("months").innerText = orim;
+		document.getElementById("days").innerText = orid;
+		document.getElementById("hours").innerText = orih;
+		document.getElementById("mins").innerText = orii;
+		document.getElementById("select7").value = oriju;
+		zxj = orizx;
+		tongbudates();
+		if (panstyle == "时盘") {
+			paiShipan(zxj)
+		} else {
+			paiKepan(zxj);
+		}
+
+	}
+
+	function myctog() {
+		ctog();
+		saveorival();
+	}
+
+
+		// 时盘刻盘转换
+	function zhuanh() {
+		if (panstyle == "时盘") {
+			panstyle = "刻盘";
+			paiKepan(zxj);
+		} else {
+			panstyle = "时盘";
+			paiShipan(zxj);
+		}
+	}
+
+
+
+
+	function myselju(val) {
+		if (val == "" || val == -1) {
+			ori();
+			return;
+		}
+		document.getElementById("select7").value = val;
+		if (panstyle == "时盘") {
+			paiShipan(true);
+		} else {
+			paiKepan(true);
+		}
+	}
+
+
+	
+
+	function seldayun(tdobj) {
+		
+	}
+	
+	
+	
+	// 切换性别大运
+	function chgsex(){
+		if(orisex=="0"){
+			orisex="1";
+		}else{
+			orisex="0";
+		}
+		paidayun();
+	}
+	
+	// 排盘按钮
+	function ppbtn(sk){
+		var selju = document.getElementById("select7").value;
+		var zxjflg = false; // 是否自选局
+		if(selju!=-1){
+			zxjflg = true; // 自选局
+		}
+		
+		if(sk===1){ // 时盘
+			saveorival(zxjflg);
+			paiShipan(zxjflg);
+			savehisr();
+		}else if(sk===2){ // 刻盘
+			saveorival(zxjflg);
+			paiKepan(zxjflg);
+			savehisr();
+		}
+	}
+	
+	
+	
+	
+	// 显示当前时间
+	function shownowsg(){
+		// 当前时间
+			var date = new Date();
+			var gz = solar2lunar(date.getFullYear(), date.getMonth()+1,date.getDate(),date.getHours());
+			// 四柱
+			var html = "";
+			html+="<table border=0 style='position:relative;left:0px;'>"+
+			"<tr><td rowspan=2><b>今天:</b>&nbsp;</td><td><b>"+gz.gzYear.substr(0, 1)+"</b>&nbsp;</td><td><b>"+gz.gzMonth.substr(0, 1)+"</b>&nbsp;</td><td><b>"+gz.gzDay.substr(0,1)+"</b>&nbsp;</td><td><b>"+gz.gzHour.substr(0,1)+"</b>&nbsp;</td><td style='color:#aaaaaa;font-size:5px;width:10px;line-height:10px;' rowspan=2>"+gz.yny+"</td><td style='color:#aaaaaa;font-size:5px;width:10px;line-height:10px;' rowspan=2>"+gz.mny+"</td><td style='color:#aaaaaa;font-size:5px;width:10px;line-height:10px;' rowspan=2>"+gz.dny+"</td><td style='color:#aaaaaa;font-size:5px;width:10px;line-height:10px;' rowspan=2>"+gz.hny+"</td><td>&nbsp;"+gz.cYear + "-" + gz.cMonth +
+				"-" + gz.cDay+"</td></tr>"
+			
+		+	"<tr><td><b>"+gz.gzYear.substr(1,1)+"</b></td><td><b>"+gz.gzMonth.substr(1,1)+"</b></td><td><b>"+gz.gzDay.substr(1,1)+"</b></td><td><b>"+gz.gzHour.substr(1,1)+"</b></td><td>&nbsp;"+ gz.lYear + "-" + gz.lMonth +
+				"-" + gz.lDay +"</td></tr>"
+			+"<tr></tr></table>";
+			
+		document.getElementById("nowsg").innerHTML = html;
+	}
+	
+	mui.previewImage();
+</script>

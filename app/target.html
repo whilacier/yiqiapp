@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>目标页面</title>
+		<meta name="viewport"
+			content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h4 id="title" class="mui-title"></h4>
+			<h1 class="mui-title mui-action-back" id="close_page">直接关闭当前页面</h1>
+		</header>
+		
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			var str = window.location.search;
+			var myid = str.substring(str.indexOf('=') + 1)
+			mui.init();
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var baiduWV = plus.webview.create(myid, "book", {
+					top: "44px",
+					bottom: 0
+				});
+				self.append(baiduWV);
+			});
+		</script>
+	</body>
+</html>

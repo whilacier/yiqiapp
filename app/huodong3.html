@@ -1,0 +1,60 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport"
+			content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/image.css" />
+		<script src="../js/mui.min.js"></script>
+	</head>
+
+	<body dir="ltr" style="">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h4 id="title" class="mui-title"></h4>
+			<h1 class="mui-title mui-action-back" id="close_page">开课通知</h1>
+		</header>
+
+	</body>
+</html>
+<script src="../js/mui.min.js"></script>
+<!-- <script src="../js/mui.zoom.js"></script> -->
+<!-- <script src="../js/mui.previewimage.js"></script> -->
+
+<script type="text/javascript">
+	mui.init();
+
+
+
+function openUrl(url) {
+	mui.openWindow({
+		url: "target.html?url=" + url,
+		id: "target"
+	});
+}
+
+var aurl = "http://mm.yitixin.cn/app/latest.html?t="+new Date().getTime();
+var u = navigator.userAgent;
+var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+if(!isiOS && !isAndroid){
+	location.href = aurl;
+}
+
+
+mui.plusReady(function() {
+	
+	// location.href = "target.html?url=" + "https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg2MjA2NTg4Nw==&action=getalbum&album_id=3667183664724213765#wechat_redirect";
+	
+	var self = plus.webview.currentWebview();
+	var baiduWV = plus.webview.create(aurl, "book", {
+		top: "44px",
+		bottom: 0
+	});
+	self.append(baiduWV);
+
+});
+
+	// mui.previewImage();
+</script>
