@@ -1,0 +1,83 @@
+
+@charset "utf-8";
+/* CSS Document */
+
+body {
+	font: 100% Verdana, Arial, Helvetica, sans-serif,"ËÎÌו";
+	background: #002200;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	color: #000000;
+	line-height:150%;
+}
+
+A:link {
+      color:#009900; text-decoration:None
+}
+A:visited {
+       color:#974B00;text-decoration:None
+}
+A:active {
+       color:#D96C00;text-decoration:None
+}
+A:hover {
+       color:#FF8000;text-decoration:None;position: relative;top:1px;
+}
+
+p {
+	text-indent:2em;
+	font-family: Verdana, Arial, Helvetica, sans-serif, "ËÎÌו";
+}
+
+h4 {
+	text-indent:5px;
+}
+
+h1,h2,h3,h4 {
+	text-shadow:0 1px 0 #FFFFFF, 0 -1px 3px #BEBEBE;
+}
+
+tr,td {
+	font-size:14px;
+	text-align:left;
+	vertical-align:top;
+	text-indent:0em;
+}
+
+.oneColLiqCtr #container {
+	width: 99%;
+	background: #f5fafe;
+	margin: 0 auto;
+	border: 1px solid #000000;
+	text-align: left;
+}
+.oneColLiqCtr #mainContent {
+	padding: 3px 20px 0px 20px;
+}
+
+.TuChu {
+	color: #FF8000;
+}
+
+.TuChu1 {
+	color:darkgreen;
+}
+
+.TuChu2 {
+	color: #993300;
+}
+
+.Zhu {
+	font-size: 10pt;
+	color: #663300;
+}
+.KaiTi {
+	font-family: "¿¬Ìו";
+	font-size:17px;
+}
+.zone {
+	font-size:13px;
+	line-height:130%;
+	margin:40px;
+}
