@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>扑克牌预测</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,minimum-scale=0.1,maximum-scale=3,user-scalable=yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	
+	</head>
+	<body>
+		<script>
+			var ua = navigator.userAgent;
+			if(ua.includes('Android')){
+				document.write('<header class="mui-bar mui-bar-nav"><a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a><h4 id="title" class="mui-title">扑克牌预测</h4></header>');
+			}
+		</script>
+
+		<div class="mui-content">
+			
+			<div class="mui-card">
+			<center>
+				<button type="button" onclick="document.getElementById('pockerdiv').innerHTML+=' '+pickcard()">抽牌</button><br><br>
+				<div id="pockerdiv" class="mui-card-content-inner" style="font-size: 26px;">
+			
+				</div>
+				<br><br><br>
+				<button type="button" onclick="document.getElementById('pockerdiv').innerHTML='';">重来</button></center>
+			</div>
+		
+	</div>	
+			
+
+	</body>
+
+</html>
+
+<script src="./pocker.js"></script>
+
