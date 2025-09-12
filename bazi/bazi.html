@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- saved from url=(0022)https://fans.fans/bazi -->
 <html lang="zh-CN"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
 
@@ -8,92 +7,66 @@
 <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"> 
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 
-
+<title>八字排盘</title>
 <link rel="stylesheet" href="css/xcx_lhl_markdown.css">
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/tanchuang.css" /><!--弹窗的css文件-->
 
 <script>
-	var tail=3;
-	function setke(n)
-	{
-	if (tail==3){setke0(3,n);}
-	else {setke0(4,n);}
-	run();
-	}
-	function setke0(leiju,n){ //把当前时间置于屏幕的便入框之中
-	var tY = Math.floor(document.all.item("year").value);
-		var tM = Math.floor(document.all.item("month").value);
-		var tD = Math.floor(document.all.item("day").value);
-		var tH = Math.floor(document.all.item("hour").value);
-		var tMin = Math.floor(document.all.item("minute").value);
-	var Today=new Date(tY,tM-1,tD,tH,tMin,0);
-		var cha=10*60*1000;//刻
-		if (leiju==3)cha=cha*12//时辰
-			Today.setTime(Today.getTime()+n*cha)
-	var current = new Date();
-				document.getElementById('year').value=Today.getFullYear();
-				document.getElementById('month').value=Today.getMonth()+1;
-				document.getElementById('day').value=Today.getDate();
-				document.getElementById('hour').value=Today.getHours();
-				document.getElementById('minute').value=Today.getMinutes();
-	}
-	
-	//重置onclick="resetTime();"
-	function resetTime()
+	function resetTimes()
 	{
 		var current = new Date();
-		document.getElementById('year').value=current.getFullYear();
-		document.getElementById('month').value=current.getMonth()+1;
-		document.getElementById('day').value=current.getDate();
-		document.getElementById('hour').value=current.getHours();
-		document.getElementById('minute').value=current.getMinutes();
-	}
-	//隐藏onclick="hide();" 显示onclick="show();" <div id="shower"></div>
-	function hide() {
-	   let target = document.getElementById("shower");
-	   //target.style.display = "none";
-	}
-	function show() {
-	   let target = document.getElementById("shower");
-	   target.style.display = "block";
+		document.getElementById('now_year').value=current.getFullYear();
+		document.getElementById('now_month').value=current.getMonth()+1;
+		document.getElementById('now_day').value=current.getDate();
+		document.getElementById('now_hour').value=current.getHours();
 	}
 </script>
 <style type="text/css">
+.yi{color: green;}
+.ji{color: red;}
+.yiji{color:#33CC33;}
+	
+	
+	
+.saveimgs {margin-left:239px;height:0rem;display:flex;justify-content:space-around;position:relative;} /**/
+
+	
 .table1{
 	border:1px solid #c7c7c7;
 	
 	}
 
-td{	font-size: 16px;
-	padding: 0% 3.1px;
+td{	font-size: 15px;
+	padding: 0% 0.68px;
 	line-height: 18.6px;}
 .th1{
-	font-size: 16px;
-	padding: 0% 3.1px;
+	font-size: 15px;
+	padding: 0% 0.68px;
 	background-color: #FFFFFF;
 	border:0px solid #FFFFFF;
+	width:15%;
 }
 .td1{
-	font-size: 16px;
-	padding: 0% 3.1px;
+	font-size: 15px;
+	padding: 0% 0.68px;
 	line-height: 18.6px;
 	background-color: #FFFFFF;
 	border:0px solid #FFFFFF;
 }
 th{
-	font-size: 16px;
-	padding: 0% 3.1px;
+	font-size: 15px;
+	padding: 0% 0.68px;
 }
 .th2{
-	font-size: 16px;
-	padding: 0% 3.1px;
+	font-size: 15px;
+	padding: 0% 0.68px;
 	background-color: #F5F5F5;
 	border:0px solid #F5F5F5;
 }
 .td2{
-	font-size: 16px;
-	padding: 0% 3.1px;
+	font-size: 15px;
+	padding: 0% 0.68px;
 	line-height: 18.6px;
 	background-color: #F5F5F5;
 	border:0px solid #F5F5F5;
@@ -101,20 +74,7 @@ th{
 
 
 
-.tanchuang-section {
-  opacity: 0;
-  filter: alpha(opacity=0);
-  display: none;
-  position: absolute;
-  top: 13%;
-  left: 50%;
-  z-index: 9999;
-  padding: 3.1% 2% 3.1% 3.1%;
-  margin-left: 0%;
-  margin-right:  10%;
-  background-color: #FFF;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5); }
-  
+
  common.css  
 *{
  margin:0;
@@ -128,6 +88,7 @@ th{
 }
 
 /*左右拉动条粗细 默认是8px*/
+
 ::-webkit-scrollbar{
   width:0px;
   height:0px;
@@ -146,6 +107,9 @@ th{
   background:transparent;
 }
 
+.invisible-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 
 
 textarea.md{display:none}
@@ -209,7 +173,7 @@ td.active{
 }
 </style>
 </head>
-<body >
+<body oncontextmenu="self.event.returnValue=false" onselectstart="return false">
 	 <link rel="stylesheet" href="css/loading.css">
 		<!-- Start preloader area -->
 		<div class="preloader_area">
@@ -252,46 +216,44 @@ td.active{
 <script src="xcx/bazi/bzxp_16.js"></script> <!--万公论命-->
 <script src="xcx/bazi/bzxp_18.js"></script> <!--八字命宫-->
 <script src="xcx/bazi/bzxp_19.js"></script> <!--称骨算命-->
-
+<script src="xcx/bazi/bzxp_20.js"></script> <!--滴天髓-->
 
  <script src="js/jquery.3.4.1.min.js"></script> 
  <script src="js/xcx_lhl_highlight.min.js"></script>
  <script src="js/xcx_lhl_marked.min.js"></script>
  <script src="js/xcx_lhl_common.js"></script>
  <script src="js/xcx_lhl_lunar.js"></script>
-    	
-
-
- <div class="pp"><div class="wrap"><div class="ipt plr mr br">年</div><div class="pinp"><select id="year" class="tin" type="number" pattern="\d*">
+ 
+ <div class="pp"><div class="wrap"><div class="ipt plr mr br">年</div><div class="pinp"><select id="year" class="tin" type="number" pattern="\d*" onchange="sqsave();">
  
  <script type="text/javascript">
  	var j, k;
  	j = new Date();
  	k = j.getFullYear();
- 	for (i=1801;i<2139;i++) {
+ 	for (i=1901;i<2139;i++) {
  		document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "</option>")
  	}
  </script></select></div>
  
- <div class="ipt plr mr blr">月</div><div class="pinp">	<select  id="month" type="number" pattern="\d*">
+ <div class="ipt plr mr blr">月</div><div class="pinp">	<select  id="month" type="number" pattern="\d*" onchange="sqsave();">
  
  <script type="text/javascript">
  	var j, k;
  	j = new Date();
  	k = j.getMonth()+1;
  	for (i=1;i<=12;i++) {
- 		document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "</option>")
+ 		document.write("<option value=" + i + (i == k ? " >" : ">") + i + "</option>")
  	}
  
  </script></select></div>
  
- <div class="ipt plr mr blr">日</div><div class="pinp">	<select id="day" type="number" pattern="\d*">
+ <div class="ipt plr mr blr">日</div><div class="pinp">	<select id="day" type="number" pattern="\d*" onchange="sqsave();">
  <script type="text/javascript">
  	var j, k;
  	j = new Date();
  	k = j.getDate();
  	for (i=1;i<=31;i++) {
- 		document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "</option>")
+ 		document.write("<option value=" + i + (i == k ? " >" : ">") + i + "</option>")
  	}
  </script></select></div>
  </div></div>
@@ -299,36 +261,36 @@ td.active{
  
  <div class="plr pb"><div class="wrap">
  
- <div class="ipt plr mr br">时</div><div class="pinp">	<select id="hour" type="number" pattern="\d*">
+ <div class="ipt plr mr br">时</div><div class="pinp">	<select id="hour" type="number" pattern="\d*" onchange="sqsave();">
  <script type="text/javascript">
  	var j, k;
  	j = new Date();
  	k = j.getHours();
  	for (i=0;i<=23;i++) {
- 		document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "</option>")
+ 		document.write("<option value=" + i + (i == k ? " >" : ">") + i + "</option>")
  	}
  </script></select></div>
  
- <div class="ipt plr mr blr">分</div><div class="pinp">  <select id="minute" type="number" pattern="\d*">
- <script language="JScript"> var j, k;j = new Date();k=j.getMinutes();for (i=0;i<60;i++){ document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "</option>");}</script></select>
+ <div class="ipt plr mr blr">分</div><div class="pinp br mr">  <select id="minute" type="number" pattern="\d*" onchange="sqsave();">
+ <script language="JScript"> var j, k;j = new Date();k=j.getMinutes();for (i=0;i<60;i++){ document.write("<option value=" + i + (i == k ? " >" : ">") + i + "</option>");}</script></select>
  </div>
- 
- <div class="ipt plr mr blr">性别</div><div class="pinp">
+ <div class="ipt pr mr br">性别</div> 
+
+<div class="pinp">
  <select id="gender"><option value="1">男(乾造)</option><option value="0">女(坤造)</option></select>
  </div>
- 
  </div></div>  
  		
  	
-<div class="plr pb">
-
-<div class="wrap">
+<div class="plr pb"><div class="wrap">
 <div class="br">
 <select id="sect" style="margin-left:8px;width:119px;">
 <option value="1">晚子时按明日</option>
 <option value="2">晚子时按当天</option>
 </select>
 </div>
+
+
 <div class="ipt mr pinp"> 
 <select id="yunSect" style="padding:0px 19px 0px 8px;">
 <option value="1">起运流派1：3天=1年，1天=4月，1时辰=10天</option>
@@ -336,6 +298,7 @@ td.active{
 </select>
 </div>
 </div>
+
 
 <div class="wrap">
 <div class="br">
@@ -345,6 +308,7 @@ td.active{
 <ul id="solars"></ul>
 </div>
 </div>
+
 
 </div>  
 	
@@ -363,45 +327,87 @@ td.active{
  }
  }, 300); 
  </script>
+ 		
+ 
+ <div style='display:none;' id='neirongzj'>
+ <table style="margin:0px 2% 0px 2%"> <tr><th style="padding:0px 1%;width:49px;">用时</th>
+ <td class="pinp br">
+ <select name="year" id="now_year" type="number" style="margin-left:3.1px;height:31px;"><script type="text/javascript">	var j, k;	j = new Date();	k = j.getFullYear();	for (i=1900;i<2100;i++) {		document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "年</option>")	}
+ </script></select></td>
+ 
+<td class="pinp br">	
+ <select  name=month id="now_month" type="number" style="margin-left:3.1px;height:31px;"><script type="text/javascript">	var j, k;	j = new Date();	k = j.getMonth()+1;	for (i=1;i<=12;i++) {		document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "月</option>")	}
+ </script></select></td>
+ 
+<td class="pinp br">	<select  name=day id="now_day" type="number" style="margin-left:3.1px;height:31px;">
+ <script type="text/javascript">	var j, k;	j = new Date();	k = j.getDate();	for (i=1;i<=31;i++) {		document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "日</option>")	}
+ </script></select></td>
+ 
+<td class="pinp">
+ <select name=hour id="now_hour" type="number" style="margin-left:3.1px;height:31px;"><script type="text/javascript">	var j, k;	j = new Date();	k = j.getHours();	for (i=0;i<=23;i++) {		document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "时</option>")	}
+ </script></select></td>
+ 
+  <div style="display: none;">
+ <div class="ipt plr mr blr">分</div><div class="pinp br">
+ <select type="number" id="now_minute" style="margin-left:3.1px;"><script language="JScript">var j, k;j = new Date();k=j.getMinutes();for(i=0;i<60;i++){ document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "</option>");}</script></select></div>
+ 
+ </tr>
+ </table>
+ 
+  
+ <script type="text/javascript">
+ //使用showContent方法把content显示在id是target的元素中。
+ function showContent(content,target){
+ document.getElementById(target).innerHTML=content;
+ }
+ </script>
+ </div>
 
 
- <div id="shower">
 
- <div style="width:100%;">
+<div id="shower">
+  <div style="width:100%;">
   <div id="result"></div>
   <div id="shensha"></div>
   <div id="qiyun"></div>
   </div>
-  
-<div style="overflow-x:auto;white-space:nowrap;">
-<table id="yun" style="margin: 7px 2% 3px 2%;">
-<tbody>
-<tr><td style="color:#000;font-weight:900;background-color:#FFFFFF;" class="active"></td><td valign="top"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 
-<tr><td style="color:#000;font-weight:900;background-color:#FFFFFF;" class="active"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-<tr><td style="color:#000;font-weight:900;background-color:#FFFFFF;"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table>
+ <style>
+ 	.ttd{width: 9.5%;padding-bottom:1.9px;}
+	.tdy{padding-top:0px;padding-bottom:0px;}
+ </style>
+
+<div id="yun" style="overflow-x:auto;white-space:nowrap;">
+<table style="margin:4.1px 2% 4.1px 2%;">
+<tr><td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:1.9px;" class="active"></td><td valign="top"></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd style=display:none></td></tr>
+<tr><td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:2.6px;" class="active"></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td></tr>
+<tr><td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:2.6px;"></td><td class=ttd style="padding-top:1.9px;"></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td></tr></table>
 </div> 
 
+
 <div style="overflow-x:auto;white-space:nowrap;">
-<table id="liu-yue" style="margin: 3px 2% 3px 2%;"><tbody>
-<tr><td style="color:#000;font-weight:900;background-color:#FFFFFF;" rowspan="2"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+<table id="liu-yue" style="margin:1.1px 2% 1.1px 2%;"><tbody>
+<tr><td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:2.6px;" rowspan="2"></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td></tr>
+<tr><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td></td></tr></tbody></table></div>
+
+
+
 
 <div id="wangxiang" style="margin-top:3px;"></div><!--旺相休囚-->
 <table class="table1" style="border-top:0px;border-bottom:0px;">
-<tr><th class="th1" width="15%">四柱</th><td class="td1" style="text-align: left;"><span id="sizhu"></span></td></tr><!--四柱-->
+<!--tr><th class="th1" width="15%">四柱</th><td class="td1" style="text-align: left;"><span id="sizhu"></span></td></tr><四柱-->
 
-<tr><th class="th2">天干</th><td class="td2" style="text-align: left;"><span id="tianganch"></span></td></tr> <!--天干冲合-->
-<tr><th class="th1">地支</th><td class="td1" style="text-align: left;"><span id="dizhich"></span></td></tr> <!--地支冲合-->
-<tr><th class="th2">喜用</th><td class="td2" style="text-align: left;"><span id="text3"></span></td></tr> <!--喜用神 [仅供参考]-->
-<tr><th class="th1">婚配</th><td class="td1" style="text-align: left;"><span id="hunpei"></span></td></tr> <!--婚配-->
-<tr><th class="th2">太岁</th><td class="td2" style="text-align: left;"><span id="fantaisui"></span></td></tr> <!--太岁-->
+<tr><th class="th1">天干</th><td class="td1" style="text-align: left;"><span id="tianganch"></span></td></tr> <!--天干冲合-->
+<tr><th class="th2">地支</th><td class="td2" style="text-align: left;"><span id="dizhich"></span></td></tr> <!--地支冲合-->
+<tr><th class="th1">喜用</th><td class="td1" style="text-align: left;"><span id="text3"></span></td></tr> <!--喜用神 [仅供参考]-->
+<tr><th class="th2">婚配</th><td class="td2" style="text-align: left;"><span id="hunpei"></span></td></tr> <!--婚配-->
+<!--tr><th class="th2">太岁</th><td class="td2" style="text-align: left;"><span id="fantaisui"></span></td></tr--> <!--太岁-->
 <!--tr><th class="th1">三垣</th><td class="td1" style="text-align: left;"><span id="sanyuan"></span></td></tr--> <!--三垣yuán-->
 <!--tr><th class="th2">胎息</th><td class="td2" style="text-align: left;"><span id="taixi"></span></td></tr--> <!--胎息-->
 </table>
 
 <table class="table1" style="border-top:0px;">
-<tr><th class="th1">三垣</th><th class="th1">胎元</th><th class="th1">命宫</th><th class="th1">身宫</th><th class="th1">胎息</th></tr>
+<tr><th class="th1" style="width:10%;">三垣</th><th class="th1">胎元</th><th class="th1">命宫</th><th class="th1">身宫</th><th class="th1">胎息</th></tr>
 <tr><td class="td1"></td><td class="td1"><span id="taiyuan"></span></td><td class="td1"><span id="minggong"></span></td><td class="td1"><span id="shengong"></span></td><td class="td1"><span id="taixi"></span></td></tr> <!--胎息-->
 </table>
 
@@ -411,11 +417,11 @@ td.active{
  <table><tr><tr><th colspan="7" style="padding:5px 0px;">命盘详细解析</th> </tr>
  <td id="lyb" onclick="lyb()" style="padding:7px 0px;">三命<br>通会</td>
  <td id="qtbj" onclick="qtbj()" style="padding:7px 0px;">穷通<br>宝鉴</td>
- <td id="fdzj" onclick="fdzj1()" style="padding:7px 0px;">分定<br>真经</td>
+ <td id="cgsm" onclick="cgsm()" style="padding:7px 0px;">滴天<br>髓论</td>
+ <td id="fdzj" onclick="fdzj1()" style="padding:7px 0px;">鬼谷<br>神卦</td>
  <td id="gwzy" onclick="gwzy()" style="padding:7px 0px;">格物<br>至言</td>
  <td id="wglm" onclick="wglm1()" style="padding:7px 0px;">万公<br>论命</td>
  <td id="bzmg" onclick="bzmg()" style="padding:7px 0px;">八字<br>命宫</td>
- <td id="cgsm" onclick="cgsm()" style="padding:7px 0px;">称骨<br>算命</td>
  </tr></table>
  
  <table style="border:0px;">
@@ -430,13 +436,17 @@ td.active{
  </table>
  <div style="padding:3px;"></div>
 	 
-  
- </div>
  
 
+ 
+ 
+ </div>
+ 
+ 
 <div style="padding:3px;"></div>
-  
-<script src="js/xcx_bazi_zd.js"></script><!--八字js文件-->
+ 
+ 
+<script src="js/xcx_bazi_ct.js"></script><!--八字js文件-->
 
 
 <style>
@@ -627,7 +637,6 @@ jiazilm癸亥:before{content:'天门悬彩日。临帝旺。支坐伤官。劫�
 
 <script src="js/jquery_tanchuang.js"></script><!--弹窗的js文件-->
 
-<script type="text/javascript">var btn = document.getElementById("loading");btn.click();</script><!--自动点击一次-->
 
 <script>
 	// 时辰对应时间
@@ -760,5 +769,5 @@ var scarr = {
 	urlpara();
 	
 	</script>
- 
-</body></html>
+	 
+	 </body></html>
