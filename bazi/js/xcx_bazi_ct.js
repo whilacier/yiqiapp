@@ -120,7 +120,7 @@ var p = lunar.getPrevJieQi(),n = lunar.getNextJieQi();
 var jq = {'大寒':'中气', '立春':'节气', '冬至':'中气', '小寒':'节气', '小雪':'中气', '大雪':'节气', '霜降':'中气', '立冬':'节气', '秋分':'中气', '寒露':'节气', '处暑':'中气', '白露':'节气', '大暑':'中气', '立秋':'节气', '夏至':'中气', '小暑':'节气', '小满':'中气', '芒种':'节气', '谷雨':'中气', '立夏':'节气', '春分':'中气', '清明':'节气', '雨水':'中气', '惊蛰':'节气'	 };     	   	
 var bmf = {'鼠':'千手观音', '牛':'虚空藏菩萨', '虎':'虚空藏菩萨', '兔':'文殊菩萨', '龙':'普贤菩萨', '蛇':'普贤菩萨', '马':'大势至菩萨', '羊':'大日如来', '猴':'大日如来', '鸡':'不动尊菩萨', '狗':'阿弥陀佛', '猪':'阿弥陀佛', 	 };
 	  
-
+/**
 	var bztg = {'甲':'<span style="color:#228B22;" class=fonts>甲</span>', '乙':'<span style="color:#228B22;" class=fonts>乙</span>', 
 				'丙':'<span style="color:#FF0000;" class=fonts>丙</span>', '丁':'<span style="color:#FF0000;" class=fonts>丁</span>', 
 				'戊':'<span style="color:#715a15;" class=fonts>戊</span>', '己':'<span style="color:#715a15;" class=fonts>己</span>', 
@@ -133,7 +133,8 @@ var bmf = {'鼠':'千手观音', '牛':'虚空藏菩萨', '虎':'虚空藏菩萨
 				'午':'<span style="color:#FF0000;" class=fonts>午</span>', '未':'<span style="color:#715a15;" class=fonts>未</span>', 
 				'申':'<span style="color:#ef9113;" class=fonts>申</span>', '酉':'<span style="color:#ef9113;" class=fonts>酉</span>', 
 				'戌':'<span style="color:#715a15;" class=fonts>戌</span>', '亥':'<span style="color:#185fac;" class=fonts>亥</span>'		      };
-	/*
+	**/
+	
 	var bztg = {'甲':'<span style="color:#228B22;" class=fonts>甲</span><span style="color:#228B22;">木</span>', '乙':'<span style="color:#228B22;" class=fonts>乙</span><span style="color:#228B22;">木</span>', 
 				'丙':'<span style="color:#FF0000;" class=fonts>丙</span><span style="color:#FF0000;">火</span>', '丁':'<span style="color:#FF0000;" class=fonts>丁</span><span style="color:#FF0000;">火</span>', 
 				'戊':'<span style="color:#715a15;" class=fonts>戊</span><span style="color:#715a15;">土</span>', '己':'<span style="color:#715a15;" class=fonts>己</span><span style="color:#715a15;">土</span>', 
@@ -146,7 +147,7 @@ var bmf = {'鼠':'千手观音', '牛':'虚空藏菩萨', '虎':'虚空藏菩萨
 				'午':'<span style="color:#FF0000;" class=fonts>午</span><span style="color:#FF0000;">火</span>', '未':'<span style="color:#715a15;" class=fonts>未</span><span style="color:#715a15;">土</span>', 
 				'申':'<span style="color:#ef9113;" class=fonts>申</span><span style="color:#ef9113;">金</span>', '酉':'<span style="color:#ef9113;" class=fonts>酉</span><span style="color:#ef9113;">金</span>', 
 				'戌':'<span style="color:#715a15;" class=fonts>戌</span><span style="color:#715a15;">土</span>', '亥':'<span style="color:#185fac;" class=fonts>亥</span><span style="color:#185fac;">水</span>'		      };
-*/
+
 
 
 
@@ -407,6 +408,7 @@ var xusui=Number(ddxs.next(1))-Number(lunar.getYear());
       s += '<td style="text-align:right;border-right:0;padding-right:0px;" valign="top" id="rizhi1" class="td2">'+bazi.getDayHideGans()+'</td><td style="text-align:left;border-left:0;white-space:nowrap;padding-left:0px;" valign="top" id="rizhi2" class="td2">'+lunar.getBaZiShiShenDayZhi()+'</td>';
       s += '<td style="text-align:right;border-right:0;padding-right:0px;" valign="top" id="shizhi1" class="td2">'+bazi.getTimeHideGans()+'</td><td style="text-align:left;border-left:0;white-space:nowrap;padding-left:0px;" valign="top" id="shizhi2" class="td2">'+lunar.getBaZiShiShenTimeZhi()+'</td>';
       s += '</tr>';
+      
       s += '<!--tr>';
       s += '<th>地支</th>';
       s += '<td>'+bazi.getYearShiShenZhi()[0]+'</td>';
@@ -414,7 +416,6 @@ var xusui=Number(ddxs.next(1))-Number(lunar.getYear());
       s += '<td>'+bazi.getDayShiShenZhi()[0]+'</td>';
       s += '<td>'+bazi.getTimeShiShenZhi()[0]+'</td>';
       s += '</tr>';
-
       s += '<tr>';
       s += '<th>五行</th>';
       s += '<td colspan="2">('+bazi.getYearWuXing()+')<br>'+tiandiwuxing(bazi.getYear().substr(0,1))+'<br>'+tiandiwuxing(bazi.getYear().substr(-1))+'</td>';
@@ -472,17 +473,7 @@ var xusui=Number(ddxs.next(1))-Number(lunar.getYear());
       //s += '<td colspan="2">'+bazi.getTimeWuXing()+'</td>';
       //s += '</tr>';
 	  
-	  
-
-
-
-
-
-
-
-	  
-	  
-	  
+		  
 	  // 年柱神煞
 	  var shenShaYear = [];
 	  // 月柱神煞
@@ -1803,7 +1794,7 @@ var ctmss = {
 
   var ctmscount=Number(ctms[bazi.getYear()])+Number(ctms[bazi.getMonth()])+Number(ctms[bazi.getDay()])+Number(ctms[bazi.getTime()]);
 
-  $('#text666').html('<p style="color:#FF0000;text-align:center;">点击按钮↑查看八字解析(仅供娱乐参考)<p>【冲天妙數】'+ctmscount+' '+ctmss[ctmscount]+'<p>【'+bazi.getDay()+'论命】<jiazilm'+bazi.getDay()+'>');
+  $('#text666').html('<p>【冲天妙數】'+ctmscount+' '+ctmss[ctmscount]+'<br>【'+bazi.getDay()+'论命】<jiazilm'+bazi.getDay()+'>');
 
       
 
