@@ -377,6 +377,10 @@ var xusui=Number(ddxs.next(1))-Number(lunar.getYear());
 	s += '后起运 '+yun.getStartSolar().toYmd()+'</td>';
 	s += '</tr>';
 
+	  s += '<tr>';
+	  s += '<th class="th1" valign="top">卦数</th>';
+	  s += '<td colspan="8" style="line-height:22.68px;" class="td1" id="">'+ (lunar.getYearZhiIndex()+1)+'-'+lunar.getMonth() +'-'+ lunar.getDay()+'-'+(lunar.getTimeZhiIndex()+1)+'</td>';
+	  s += '</tr>';
 	  
       s += '<tr>';
       s += '<th style="width:16%" class="th2">主星</th>';
@@ -401,15 +405,7 @@ var xusui=Number(ddxs.next(1))-Number(lunar.getYear());
       s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="tgxyri">'+bztg[bazi.getDayGan()]+'<br>'+bzdz[bazi.getDayZhi()]+'</td>';
       s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="tgxyshi">'+bztg[bazi.getTimeGan()]+'<br>'+bzdz[bazi.getTimeZhi()]+'</td>';
       s += '</tr>';
-	  
-	  s += '<tr>';
-	  s += '<th class="th1" valign="top">卦数</th>';
-	  s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="tgxynian">'+ (lunar.getYearZhiIndex()+1)+ '</td>';
-	  s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="tgxyyue">'+lunar.getMonth() +'</td>';
-	  s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="tgxyri">'+ lunar.getDay()+'</td>';
-	  s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="tgxyshi">'+(lunar.getTimeZhiIndex()+1)+'</td>';
-	  s += '</tr>';
-	  
+
       s += '<tr>';
       s += '<th class="th2" valign="top">藏干</th>';
       s += '<td style="text-align:right;border-right:0;padding-right:0px;" valign="top" id="nianzhi1" class="td2">'+bazi.getYearHideGans()+'</td><td style="text-align:left;border-left:0;white-space:nowrap;padding-left:0px;" valign="top" id="nianzhi2" class="td2">'+lunar.getBaZiShiShenYearZhi()+'</td>';
