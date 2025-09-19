@@ -1,773 +1,1594 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
+<html lang="zh-CN">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<meta name="renderer" content="webkit">
-<meta name="force-rendering" content="webkit">
-<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"> 
-<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta name="renderer" content="webkit">
+		<meta name="force-rendering" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 
-<title>八字排盘</title>
-<link rel="stylesheet" href="css/xcx_lhl_markdown.css">
-<link rel="stylesheet" type="text/css" href="css/style.css" />
-<link rel="stylesheet" type="text/css" href="css/tanchuang.css" /><!--弹窗的css文件-->
+		<title>八字排盘</title>
+		<link rel="stylesheet" href="css/xcx_lhl_markdown.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/tanchuang.css" /><!--弹窗的css文件-->
 
-<script>
-	function resetTimes()
-	{
-		var current = new Date();
-		document.getElementById('now_year').value=current.getFullYear();
-		document.getElementById('now_month').value=current.getMonth()+1;
-		document.getElementById('now_day').value=current.getDate();
-		document.getElementById('now_hour').value=current.getHours();
-	}
-</script>
-<style type="text/css">
-.yi{color: green;}
-.ji{color: red;}
-.yiji{color:#33CC33;}
-	
-	
-	
-.saveimgs {margin-left:239px;height:0rem;display:flex;justify-content:space-around;position:relative;} /**/
+		<script>
+			function resetTimes() {
+				var current = new Date();
+				document.getElementById('now_year').value = current.getFullYear();
+				document.getElementById('now_month').value = current.getMonth() + 1;
+				document.getElementById('now_day').value = current.getDate();
+				document.getElementById('now_hour').value = current.getHours();
+			}
+		</script>
+		<style type="text/css">
+			.yi {
+				color: green;
+			}
 
-	
-.table1{
-	border:1px solid #c7c7c7;
-	
-	}
+			.ji {
+				color: red;
+			}
 
-td{	font-size: 15px;
-	padding: 0% 0.68px;
-	line-height: 18.6px;}
-.th1{
-	font-size: 15px;
-	padding: 0% 0.68px;
-	background-color: #FFFFFF;
-	border:0px solid #FFFFFF;
-	width:15%;
-}
-.td1{
-	font-size: 15px;
-	padding: 0% 0.68px;
-	line-height: 18.6px;
-	background-color: #FFFFFF;
-	border:0px solid #FFFFFF;
-}
-th{
-	font-size: 15px;
-	padding: 0% 0.68px;
-}
-.th2{
-	font-size: 15px;
-	padding: 0% 0.68px;
-	background-color: #F5F5F5;
-	border:0px solid #F5F5F5;
-}
-.td2{
-	font-size: 15px;
-	padding: 0% 0.68px;
-	line-height: 18.6px;
-	background-color: #F5F5F5;
-	border:0px solid #F5F5F5;
-}
+			.yiji {
+				color: #33CC33;
+			}
 
 
 
+			.saveimgs {
+				margin-left: 239px;
+				height: 0rem;
+				display: flex;
+				justify-content: space-around;
+				position: relative;
+			}
 
- common.css  
-*{
- margin:0;
- padding:0;
- outline:none;
- -webkit-box-sizing:border-box;
- -moz-box-sizing:border-box;
- -ms-box-sizing:border-box;
- -o-box-sizing:border-box;
- box-sizing:border-box;
-}
-
-/*左右拉动条粗细 默认是8px*/
-
-::-webkit-scrollbar{
-  width:0px;
-  height:0px;
-}
-::-webkit-scrollbar-track{
-  background:transparent;
-}
-::-webkit-scrollbar-thumb{
-  background:rgba(0,0,0,.2);
-  border-radius:3px;
-}
-::-webkit-scrollbar-thumb:hover{
-  background:#666;
-}
-::-webkit-scrollbar-corner{
-  background:transparent;
-}
-
-.invisible-scrollbar::-webkit-scrollbar {
-  display: none;
-}
+			/**/
 
 
-textarea.md{display:none}
-#output{
-  padding:20px;
-  background:#000;
-  color:#fff;
-  font-size:13px;
-  display:none;
-}
+			.table1 {
+				border: 1px solid #c7c7c7;
+
+			}
+
+			td {
+				font-size: 15px;
+				padding: 0% 0.68px;
+				line-height: 18.6px;
+			}
+
+			.th1 {
+				font-size: 15px;
+				padding: 0% 0.68px;
+				background-color: #FFFFFF;
+				border: 0px solid #FFFFFF;
+				width: 15%;
+			}
+
+			.td1 {
+				font-size: 15px;
+				padding: 0% 0.68px;
+				line-height: 18.6px;
+				background-color: #FFFFFF;
+				border: 0px solid #FFFFFF;
+			}
+
+			th {
+				font-size: 15px;
+				padding: 0% 0.68px;
+			}
+
+			.th2 {
+				font-size: 15px;
+				padding: 0% 0.68px;
+				background-color: #F5F5F5;
+				border: 0px solid #F5F5F5;
+			}
+
+			.td2 {
+				font-size: 15px;
+				padding: 0% 0.68px;
+				line-height: 18.6px;
+				background-color: #F5F5F5;
+				border: 0px solid #F5F5F5;
+			}
 
 
-/* highlight.min.css  */
-.hljs{display:block;overflow-x:auto;padding:0.5em;background:#F0F0F0}.hljs,.hljs-subst{color:#444}.hljs-comment{color:#888888}.hljs-keyword,.hljs-attribute,.hljs-selector-tag,.hljs-meta-keyword,.hljs-doctag,.hljs-name{font-weight:bold}.hljs-type,.hljs-string,.hljs-number,.hljs-selector-id,.hljs-selector-class,.hljs-quote,.hljs-template-tag,.hljs-deletion{color:#880000}.hljs-title,.hljs-section{color:#880000;font-weight:bold}.hljs-regexp,.hljs-symbol,.hljs-variable,.hljs-template-variable,.hljs-link,.hljs-selector-attr,.hljs-selector-pseudo{color:#BC6060}.hljs-literal{color:#78A960}.hljs-built_in,.hljs-bullet,.hljs-code,.hljs-addition{color:#397300}.hljs-meta{color:#1f7199}.hljs-meta-string{color:#4d99bf}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}
 
 
-/* style  */
+			common.css * {
+				margin: 0;
+				padding: 0;
+				outline: none;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				-ms-box-sizing: border-box;
+				-o-box-sizing: border-box;
+				box-sizing: border-box;
+			}
 
-.line{
-  margin:0px;
-}
-.line input,.line select{
-  padding:5px;
-}
-.line .title{
-  margin-top:20px;
-  margin-bottom:5px;
-}
-td.active{
-  background:#eee;
-}
+			/*左右拉动条粗细 默认是8px*/
+
+			::-webkit-scrollbar {
+				width: 0px;
+				height: 0px;
+			}
+
+			::-webkit-scrollbar-track {
+				background: transparent;
+			}
+
+			::-webkit-scrollbar-thumb {
+				background: rgba(0, 0, 0, .2);
+				border-radius: 3px;
+			}
+
+			::-webkit-scrollbar-thumb:hover {
+				background: #666;
+			}
+
+			::-webkit-scrollbar-corner {
+				background: transparent;
+			}
+
+			.invisible-scrollbar::-webkit-scrollbar {
+				display: none;
+			}
 
 
-/* page.css */
+			textarea.md {
+				display: none
+			}
 
-.markdown-body {
-  margin:2%;
-  padding:0px;
-  background:#FFF;
-}
-.codes{
-  padding-left:0px;
-}
-.codes a{
-  text-decoration:none;
-  padding:2px 10px;
-}
-.codes a:hover, .codes a.active{
-  background:#000;
-  color:#fff;
-  text-decoration:none;
-  -webkit-border-top-right-radius:3px;
-  -moz-border-radius-topright:3px;
-  border-top-right-radius:3px;
-  -webkit-border-top-left-radius:3px;
-  -moz-border-radius-topleft:3px;
-  border-top-left-radius:3px;
-}
-.markdown-body pre{
-  border:1px solid #000;
-}
-</style>
-</head>
-<body>
-	 <link rel="stylesheet" href="css/loading.css">
+			#output {
+				padding: 20px;
+				background: #000;
+				color: #fff;
+				font-size: 13px;
+				display: none;
+			}
+
+
+			/* highlight.min.css  */
+			.hljs {
+				display: block;
+				overflow-x: auto;
+				padding: 0.5em;
+				background: #F0F0F0
+			}
+
+			.hljs,
+			.hljs-subst {
+				color: #444
+			}
+
+			.hljs-comment {
+				color: #888888
+			}
+
+			.hljs-keyword,
+			.hljs-attribute,
+			.hljs-selector-tag,
+			.hljs-meta-keyword,
+			.hljs-doctag,
+			.hljs-name {
+				font-weight: bold
+			}
+
+			.hljs-type,
+			.hljs-string,
+			.hljs-number,
+			.hljs-selector-id,
+			.hljs-selector-class,
+			.hljs-quote,
+			.hljs-template-tag,
+			.hljs-deletion {
+				color: #880000
+			}
+
+			.hljs-title,
+			.hljs-section {
+				color: #880000;
+				font-weight: bold
+			}
+
+			.hljs-regexp,
+			.hljs-symbol,
+			.hljs-variable,
+			.hljs-template-variable,
+			.hljs-link,
+			.hljs-selector-attr,
+			.hljs-selector-pseudo {
+				color: #BC6060
+			}
+
+			.hljs-literal {
+				color: #78A960
+			}
+
+			.hljs-built_in,
+			.hljs-bullet,
+			.hljs-code,
+			.hljs-addition {
+				color: #397300
+			}
+
+			.hljs-meta {
+				color: #1f7199
+			}
+
+			.hljs-meta-string {
+				color: #4d99bf
+			}
+
+			.hljs-emphasis {
+				font-style: italic
+			}
+
+			.hljs-strong {
+				font-weight: bold
+			}
+
+
+			/* style  */
+
+			.line {
+				margin: 0px;
+			}
+
+			.line input,
+			.line select {
+				padding: 5px;
+			}
+
+			.line .title {
+				margin-top: 20px;
+				margin-bottom: 5px;
+			}
+
+			td.active {
+				background: #eee;
+			}
+
+
+			/* page.css */
+
+			.markdown-body {
+				margin: 2%;
+				padding: 0px;
+				background: #FFF;
+			}
+
+			.codes {
+				padding-left: 0px;
+			}
+
+			.codes a {
+				text-decoration: none;
+				padding: 2px 10px;
+			}
+
+			.codes a:hover,
+			.codes a.active {
+				background: #000;
+				color: #fff;
+				text-decoration: none;
+				-webkit-border-top-right-radius: 3px;
+				-moz-border-radius-topright: 3px;
+				border-top-right-radius: 3px;
+				-webkit-border-top-left-radius: 3px;
+				-moz-border-radius-topleft: 3px;
+				border-top-left-radius: 3px;
+			}
+
+			.markdown-body pre {
+				border: 1px solid #000;
+			}
+		</style>
+	</head>
+	<body>
+		<link rel="stylesheet" href="css/loading.css">
 		<!-- Start preloader area -->
 		<div class="preloader_area">
 			<div class="spinner">
-			  	<div class="line1"></div>
-			  	<div class="line2"></div>
-			  	<div class="line3"></div>
-			  	<div class="line4"></div>
-			  	<div class="line5"></div>
-			  	<div class="line6"></div>
-			  	<div class="line7"></div>
-				</div><div class="spinner2">
+				<div class="line1"></div>
+				<div class="line2"></div>
+				<div class="line3"></div>
+				<div class="line4"></div>
+				<div class="line5"></div>
+				<div class="line6"></div>
+				<div class="line7"></div>
+			</div>
+			<div class="spinner2">
 			</div>
 		</div>
 		<!-- End preloader area -->
 		<!-- jquery  -->
-        <script src="js/jquery-1.12.4.min.js"></script>
-	    <!-- main js -->
-	    <script src="js/loading.js"></script>			 
+		<script src="js/jquery-1.12.4.min.js"></script>
+		<!-- main js -->
+		<script src="js/loading.js"></script>
 
-<script src="js/xcx_bazi_1.js"></script> 
-<script src="js/xcx_bazi_2.js"></script> 
-<script src="js/xcx_bazi_4.js"></script> 
-<script src="js/xcx_bazi_5.js"></script> 
-<script src="js/xcx_bazi_6.js"></script> 
-<script src="js/xcx_bazi_7.js"></script> 
-<script src="js/xcx_bazi_8.js"></script> 
-<script src="js/xcx_bazi_9.js"></script> 
+		<script src="js/xcx_bazi_1.js"></script>
+		<script src="js/xcx_bazi_2.js"></script>
+		<script src="js/xcx_bazi_4.js"></script>
+		<script src="js/xcx_bazi_5.js"></script>
+		<script src="js/xcx_bazi_6.js"></script>
+		<script src="js/xcx_bazi_7.js"></script>
+		<script src="js/xcx_bazi_8.js"></script>
+		<script src="js/xcx_bazi_9.js"></script>
 
-<script src="xcx/bazi/bzxp_01.js"></script> <!--点击参数-->
-<script src="xcx/bazi/bzxp_12.js"></script> <!--点击设置-->
-<script src="xcx/bazi/bzxp_05.js"></script> <!--分定真经-->
-<script src="xcx/bazi/bzxp_09.js"></script> <!--分定真经2-->
-<script src="xcx/bazi/bzxp_08.js"></script> <!--穷通宝鉴-->
-<script src="xcx/bazi/bzxp_10.js"></script> <!--前世今生1福禄缘份-->
-<script src="xcx/bazi/bzxp_13.js"></script> <!--前世今生2福禄缘份-->
-<script src="xcx/bazi/bzxp_14.js"></script> <!--前世今生3福禄缘份-->
-<script src="xcx/bazi/bzxp_15.js"></script> <!--前世今生4福禄缘份-->
-<script src="xcx/bazi/bzxp_11.js"></script> <!--格物至言-->
-<script src="xcx/bazi/bzxp_16.js"></script> <!--万公论命-->
-<script src="xcx/bazi/bzxp_18.js"></script> <!--八字命宫-->
-<script src="xcx/bazi/bzxp_19.js"></script> <!--称骨算命-->
-<script src="xcx/bazi/bzxp_20.js"></script> <!--滴天髓-->
+		<script src="xcx/bazi/bzxp_01.js"></script> <!--点击参数-->
+		<script src="xcx/bazi/bzxp_12.js"></script> <!--点击设置-->
+		<script src="xcx/bazi/bzxp_05.js"></script> <!--分定真经-->
+		<script src="xcx/bazi/bzxp_09.js"></script> <!--分定真经2-->
+		<script src="xcx/bazi/bzxp_08.js"></script> <!--穷通宝鉴-->
+		<script src="xcx/bazi/bzxp_10.js"></script> <!--前世今生1福禄缘份-->
+		<script src="xcx/bazi/bzxp_13.js"></script> <!--前世今生2福禄缘份-->
+		<script src="xcx/bazi/bzxp_14.js"></script> <!--前世今生3福禄缘份-->
+		<script src="xcx/bazi/bzxp_15.js"></script> <!--前世今生4福禄缘份-->
+		<script src="xcx/bazi/bzxp_11.js"></script> <!--格物至言-->
+		<script src="xcx/bazi/bzxp_16.js"></script> <!--万公论命-->
+		<script src="xcx/bazi/bzxp_18.js"></script> <!--八字命宫-->
+		<script src="xcx/bazi/bzxp_19.js"></script> <!--称骨算命-->
+		<script src="xcx/bazi/bzxp_20.js"></script> <!--滴天髓-->
 
- <script src="js/jquery.3.4.1.min.js"></script> 
- <script src="js/xcx_lhl_highlight.min.js"></script>
- <script src="js/xcx_lhl_marked.min.js"></script>
- <script src="js/xcx_lhl_common.js"></script>
- <script src="js/xcx_lhl_lunar.js"></script>
- 
- <div class="pp"><div class="wrap"><div class="ipt plr mr br">年</div><div class="pinp"><select id="year" class="tin" type="number" pattern="\d*" onchange="sqsave();">
- 
- <script type="text/javascript">
- 	var j, k;
- 	j = new Date();
- 	k = j.getFullYear();
- 	for (i=1901;i<2139;i++) {
- 		document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "</option>")
- 	}
- </script></select></div>
- 
- <div class="ipt plr mr blr">月</div><div class="pinp">	<select  id="month" type="number" pattern="\d*" onchange="sqsave();">
- 
- <script type="text/javascript">
- 	var j, k;
- 	j = new Date();
- 	k = j.getMonth()+1;
- 	for (i=1;i<=12;i++) {
- 		document.write("<option value=" + i + (i == k ? " >" : ">") + i + "</option>")
- 	}
- 
- </script></select></div>
- 
- <div class="ipt plr mr blr">日</div><div class="pinp">	<select id="day" type="number" pattern="\d*" onchange="sqsave();">
- <script type="text/javascript">
- 	var j, k;
- 	j = new Date();
- 	k = j.getDate();
- 	for (i=1;i<=31;i++) {
- 		document.write("<option value=" + i + (i == k ? " >" : ">") + i + "</option>")
- 	}
- </script></select></div>
- </div></div>
- 
- 
- <div class="plr pb"><div class="wrap">
- 
- <div class="ipt plr mr br">时</div><div class="pinp">	<select id="hour" type="number" pattern="\d*" onchange="sqsave();">
- <script type="text/javascript">
- 	var j, k;
- 	j = new Date();
- 	k = j.getHours();
- 	for (i=0;i<=23;i++) {
- 		document.write("<option value=" + i + (i == k ? " >" : ">") + i + "</option>")
- 	}
- </script></select></div>
- 
- <div class="ipt plr mr blr">分</div><div class="pinp br mr">  <select id="minute" type="number" pattern="\d*" onchange="sqsave();">
- <script language="JScript"> var j, k;j = new Date();k=j.getMinutes();for (i=0;i<60;i++){ document.write("<option value=" + i + (i == k ? " >" : ">") + i + "</option>");}</script></select>
- </div>
- <div class="ipt pr mr br">性别</div> 
+		<script src="js/jquery.3.4.1.min.js"></script>
+		<script src="js/xcx_lhl_highlight.min.js"></script>
+		<script src="js/xcx_lhl_marked.min.js"></script>
+		<script src="js/xcx_lhl_common.js"></script>
+		<script src="js/xcx_lhl_lunar.js"></script>
 
-<div class="pinp">
- <select id="gender"><option value="1">男(乾造)</option><option value="0">女(坤造)</option></select>
- </div>
- </div></div>  
- 		
- 	
-<div class="plr pb"><div class="wrap">
-<div class="br">
-<select id="sect" style="margin-left:8px;width:119px;">
-<option value="1">晚子时按明日</option>
-<option value="2">晚子时按当天</option>
-</select>
-</div>
+		<div class="pp">
+			<div class="wrap">
+				<div class="ipt plr mr br">年</div>
+				<div class="pinp"><select id="year" class="tin" type="number" pattern="\d*" onchange="sqsave();">
+
+						<script type="text/javascript">
+							var j, k;
+							j = new Date();
+							k = j.getFullYear();
+							for (i = 1801; i < 2139; i++) {
+								document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "</option>")
+							}
+						</script>
+					</select></div>
+
+				<div class="ipt plr mr blr">月</div>
+				<div class="pinp"> <select id="month" type="number" pattern="\d*" onchange="sqsave();">
+
+						<script type="text/javascript">
+							var j, k;
+							j = new Date();
+							k = j.getMonth() + 1;
+							for (i = 1; i <= 12; i++) {
+								document.write("<option value=" + i + (i == k ? " >" : ">") + i + "</option>")
+							}
+						</script>
+					</select></div>
+
+				<div class="ipt plr mr blr">日</div>
+				<div class="pinp"> <select id="day" type="number" pattern="\d*" onchange="sqsave();">
+						<script type="text/javascript">
+							var j, k;
+							j = new Date();
+							k = j.getDate();
+							for (i = 1; i <= 31; i++) {
+								document.write("<option value=" + i + (i == k ? " >" : ">") + i + "</option>")
+							}
+						</script>
+					</select></div>
+					
+					
+				<div class="ipt plr mr br">时</div>
+				<div class="pinp"> <select id="hour" type="number" pattern="\d*" onchange="sqsave();">
+						<script type="text/javascript">
+							var j, k;
+							j = new Date();
+							k = j.getHours();
+							for (i = 0; i <= 23; i++) {
+								document.write("<option value=" + i + (i == k ? " >" : ">") + i + "</option>")
+							}
+						</script>
+					</select></div>	
+					
+			</div>
+		</div>
 
 
-<div class="ipt mr pinp"> 
-<select id="yunSect" style="padding:0px 19px 0px 8px;">
-<option value="1">起运流派1：3天=1年，1天=4月，1时辰=10天</option>
-<option value="2">起运流派2：4320分=1年，360分=1月，12分=1天，1分=2小时</option>
-</select>
-</div>
-</div>
+		<div class="plr pb">
+			<div class="wrap">
+
+				<div class="ipt plr mr blr">分</div>
+				<div class="pinp br mr"> <select id="minute" type="number" pattern="\d*" onchange="sqsave();">
+						<script language="JScript">
+							var j, k;
+							j = new Date();
+							k = j.getMinutes();
+							for (i = 0; i < 60; i++) {
+								document.write("<option value=" + i + (i == k ? " >" : ">") + i + "</option>");
+							}
+						</script>
+					</select>
+				</div>
+				<div class="pinp">
+					<select id="gender">
+						<option value="1">男</option>
+						<option value="0">女</option>
+					</select>
+				</div>
+				
+				<!-- <div class="ipt pr mr br">直输</div> -->
+				<div class="pinp">
+					<input id="dateinput" onchange="chgdate(this.value)" placeholder="出生日期202509190920" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:96%;height:37px;font-size:16px;border:1px solid #c6c6c6;'  type="text"/>
+				</div>
+				
+			</div>
+		</div>
 
 
-<div class="wrap">
-<div class="br">
-<input type="text" style="margin-left:8px;margin-top:8px;width:119px;" onchange="fcbz(this.value)" placeholder="反查八字"/>
-</div>
-<div class="ipt mr pinp"> 
-<ul id="solars"></ul>
-</div>
-</div>
+		<div class="plr pb">
+			<div class="wrap">
+				<div class="br">
+					<select id="sect" style="margin-left:8px;width:119px;">
+						<option value="1">晚子时按明日</option>
+						<option value="2">晚子时按当天</option>
+					</select>
+				</div>
 
 
-</div>  
-	
-
-<script type="text/javascript">
- setTimeout(function() {
- // IE
- if(document.all) {
- document.getElementById("btn").click();
- }
- // 其它浏览器
- else {
- var e = document.createEvent("MouseEvents");
- e.initEvent("click", true, true);
- document.getElementById("btn").dispatchEvent(e);
- }
- }, 300); 
- </script>
- 		
- 
- <div style='display:none;' id='neirongzj'>
- <table style="margin:0px 2% 0px 2%"> <tr><th style="padding:0px 1%;width:49px;">用时</th>
- <td class="pinp br">
- <select name="year" id="now_year" type="number" style="margin-left:3.1px;height:31px;"><script type="text/javascript">	var j, k;	j = new Date();	k = j.getFullYear();	for (i=1900;i<2100;i++) {		document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "年</option>")	}
- </script></select></td>
- 
-<td class="pinp br">	
- <select  name=month id="now_month" type="number" style="margin-left:3.1px;height:31px;"><script type="text/javascript">	var j, k;	j = new Date();	k = j.getMonth()+1;	for (i=1;i<=12;i++) {		document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "月</option>")	}
- </script></select></td>
- 
-<td class="pinp br">	<select  name=day id="now_day" type="number" style="margin-left:3.1px;height:31px;">
- <script type="text/javascript">	var j, k;	j = new Date();	k = j.getDate();	for (i=1;i<=31;i++) {		document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "日</option>")	}
- </script></select></td>
- 
-<td class="pinp">
- <select name=hour id="now_hour" type="number" style="margin-left:3.1px;height:31px;"><script type="text/javascript">	var j, k;	j = new Date();	k = j.getHours();	for (i=0;i<=23;i++) {		document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "时</option>")	}
- </script></select></td>
- 
-  <div style="display: none;">
- <div class="ipt plr mr blr">分</div><div class="pinp br">
- <select type="number" id="now_minute" style="margin-left:3.1px;"><script language="JScript">var j, k;j = new Date();k=j.getMinutes();for(i=0;i<60;i++){ document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "</option>");}</script></select></div>
- 
- </tr>
- </table>
- 
-  
- <script type="text/javascript">
- //使用showContent方法把content显示在id是target的元素中。
- function showContent(content,target){
- document.getElementById(target).innerHTML=content;
- }
- </script>
- </div>
+				<div class="ipt mr pinp">
+					<select id="yunSect" style="padding:0px 19px 0px 8px;">
+						<option value="1">起运流派1：3天=1年，1天=4月，1时辰=10天</option>
+						<option value="2">起运流派2：4320分=1年，360分=1月，12分=1天，1分=2小时</option>
+					</select>
+				</div>
+			</div>
 
 
-
-<div id="shower">
-  <div style="width:100%;">
-  <div id="result"></div>
-  <div id="shensha"></div>
-  <div id="qiyun"></div>
-  </div>
-
- <style>
- 	.ttd{width: 9.5%;padding-bottom:1.9px;}
-	.tdy{padding-top:0px;padding-bottom:0px;}
- </style>
-
-<div id="yun" style="overflow-x:auto;white-space:nowrap;">
-<table style="margin:4.1px 2% 4.1px 2%;">
-<tr><td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:1.9px;" class="active"></td><td valign="top"></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd style=display:none></td></tr>
-<tr><td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:2.6px;" class="active"></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td></tr>
-<tr><td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:2.6px;"></td><td class=ttd style="padding-top:1.9px;"></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td></tr></table>
-</div> 
+			<div class="wrap">
+				<div class="br">					
+					<input placeholder="反查八字" onchange="fcbz(this.value)" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:96%;height:37px;font-size:16px;border:1px solid #c6c6c6;'  type="text"/>						
+				</div>
+				<div class="br">
+					<ul id="solars"></ul>
+				</div>
+			</div>
 
 
-<div style="overflow-x:auto;white-space:nowrap;">
-<table id="liu-yue" style="margin:1.1px 2% 1.1px 2%;"><tbody>
-<tr><td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:2.6px;" rowspan="2"></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td><td class=tdy></td></tr>
-<tr><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td class=ttd></td><td></td></tr></tbody></table></div>
+		</div>
 
 
+		<script type="text/javascript">
+			setTimeout(function() {
+				// IE
+				if (document.all) {
+					document.getElementById("btn").click();
+				}
+				// 其它浏览器
+				else {
+					var e = document.createEvent("MouseEvents");
+					e.initEvent("click", true, true);
+					document.getElementById("btn").dispatchEvent(e);
+				}
+			}, 300);
+		</script>
 
 
-<div id="wangxiang" style="margin-top:3px;"></div><!--旺相休囚-->
-<table class="table1" style="border-top:0px;border-bottom:0px;">
-<!--tr><th class="th1" width="15%">四柱</th><td class="td1" style="text-align: left;"><span id="sizhu"></span></td></tr><四柱-->
+		<div style='display:none;' id='neirongzj'>
+			<table style="margin:0px 2% 0px 2%">
+				<tr>
+					<th style="padding:0px 1%;width:49px;">用时</th>
+					<td class="pinp br">
+						<select name="year" id="now_year" type="number" style="margin-left:3.1px;height:31px;">
+							<script type="text/javascript">
+								var j, k;
+								j = new Date();
+								k = j.getFullYear();
+								for (i = 1900; i < 2100; i++) {
+									document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "年</option>")
+								}
+							</script>
+						</select>
+					</td>
 
-<tr><th class="th1">天干</th><td class="td1" style="text-align: left;"><span id="tianganch"></span></td></tr> <!--天干冲合-->
-<tr><th class="th2">地支</th><td class="td2" style="text-align: left;"><span id="dizhich"></span></td></tr> <!--地支冲合-->
-<tr><th class="th1">喜用</th><td class="td1" style="text-align: left;"><span id="text3"></span></td></tr> <!--喜用神 [仅供参考]-->
-<tr><th class="th2">婚配</th><td class="td2" style="text-align: left;"><span id="hunpei"></span></td></tr> <!--婚配-->
-<!--tr><th class="th2">太岁</th><td class="td2" style="text-align: left;"><span id="fantaisui"></span></td></tr--> <!--太岁-->
-<!--tr><th class="th1">三垣</th><td class="td1" style="text-align: left;"><span id="sanyuan"></span></td></tr--> <!--三垣yuán-->
-<!--tr><th class="th2">胎息</th><td class="td2" style="text-align: left;"><span id="taixi"></span></td></tr--> <!--胎息-->
-</table>
+					<td class="pinp br">
+						<select name=month id="now_month" type="number" style="margin-left:3.1px;height:31px;">
+							<script type="text/javascript">
+								var j, k;
+								j = new Date();
+								k = j.getMonth() + 1;
+								for (i = 1; i <= 12; i++) {
+									document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "月</option>")
+								}
+							</script>
+						</select>
+					</td>
 
-<table class="table1" style="border-top:0px;">
-<tr><th class="th1" style="width:10%;">三垣</th><th class="th1">胎元</th><th class="th1">命宫</th><th class="th1">身宫</th><th class="th1">胎息</th></tr>
-<tr><td class="td1"></td><td class="td1"><span id="taiyuan"></span></td><td class="td1"><span id="minggong"></span></td><td class="td1"><span id="shengong"></span></td><td class="td1"><span id="taixi"></span></td></tr> <!--胎息-->
-</table>
+					<td class="pinp br"> <select name=day id="now_day" type="number"
+							style="margin-left:3.1px;height:31px;">
+							<script type="text/javascript">
+								var j, k;
+								j = new Date();
+								k = j.getDate();
+								for (i = 1; i <= 31; i++) {
+									document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "日</option>")
+								}
+							</script>
+						</select></td>
 
-<div style="padding:3px;"></div>
- 
- 
- <table><tr><tr><th colspan="7" style="padding:5px 0px;">命盘详细解析</th> </tr>
- <td id="lyb" onclick="lyb()" style="padding:7px 0px;">三命<br>通会</td>
- <td id="qtbj" onclick="qtbj()" style="padding:7px 0px;">穷通<br>宝鉴</td>
- <td id="cgsm" onclick="cgsm()" style="padding:7px 0px;">滴天<br>髓论</td>
- <td id="fdzj" onclick="fdzj1()" style="padding:7px 0px;">鬼谷<br>神卦</td>
- <td id="gwzy" onclick="gwzy()" style="padding:7px 0px;">格物<br>至言</td>
- <td id="wglm" onclick="wglm1()" style="padding:7px 0px;">万公<br>论命</td>
- <td id="bzmg" onclick="bzmg()" style="padding:7px 0px;">八字<br>命宫</td>
- </tr></table>
- 
- <table style="border:0px;">
- <tr><td id="xsys" style="text-align:left;padding:1.5%;border-top:0px;"><div id="text666"></div></td></tr>
- <tr style="display: none;"><td id="dtss" onclick="dtss()"></td></tr>
- <tr style="display: none;"><td id="smth" onclick="smth()"></td></tr>
- <tr style="display: none;"><td id="bzty" onclick="bzty()"></td></tr>
- <tr style="display: none;"><td id="sftk" onclick="sftk()"></td></tr>
- <tr style="display: none;"><td id="twwx" onclick="twwx()"></td></tr>
- <tr style="display: none;"><td id="wxjj" onclick="wxjj()"></td></tr>
- <tr style="display: none;"><td id="xzms" onclick="xzms()"></td></tr>
- </table>
- <div style="padding:3px;"></div>
-	 
- 
+					<td class="pinp">
+						<select name=hour id="now_hour" type="number" style="margin-left:3.1px;height:31px;">
+							<script type="text/javascript">
+								var j, k;
+								j = new Date();
+								k = j.getHours();
+								for (i = 0; i <= 23; i++) {
+									document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "时</option>")
+								}
+							</script>
+						</select>
+					</td>
 
- 
- 
- </div>
- 
- 
-<div style="padding:3px;"></div>
- 
- 
-<script src="js/xcx_bazi_ct.js"></script><!--八字js文件-->
+					<div style="display: none;">
+						<div class="ipt plr mr blr">分</div>
+						<div class="pinp br">
+							<select type="number" id="now_minute" style="margin-left:3.1px;">
+								<script language="JScript">
+									var j, k;
+									j = new Date();
+									k = j.getMinutes();
+									for (i = 0; i < 60; i++) {
+										document.write("<option value=" + i + (i == k ? " selected>" : ">") + i + "</option>");
+									}
+								</script>
+							</select>
+						</div>
+
+				</tr>
+			</table>
 
 
-<style>
-	p{border-top:1px dashed #fff;padding:3% 1%;}
-	
-changsheng长生:before{content:"【长生】表示婴儿刚出世，或新事物刚产生。"}
-changsheng沐浴:before{content:"【沐浴】又称“败”婴儿降生或新事物初现，略显稚嫩。"}
-changsheng冠带:before{content:"【冠带】人到青年，或新事物进入了华秀的阶段。"}
-changsheng临官:before{content:"【临官】又称“进禄”人可出仕做官，或挣钱养家；新事物也已成熟，地位日益巩固。"}
-changsheng帝旺:before{content:"【帝旺】人到壮年或新事物完善，被世所公认，旺极必衰是自然规律。"}
-changsheng衰:before{content:"【衰】质的变化期，人力不从心；新事物成旧事物，要面临其他新事物的挑战。"}
-changsheng病:before{content:"【病】人逐渐衰老，便要百病丛生；旧事物千疮百孔，积重难返。"}
-changsheng死:before{content:"【死】人衰老之后，肉体的死亡。"}
-changsheng墓:before{content:"【墓】旧事物送进博物馆，或被收于仓 库，又叫“库”"}
-changsheng绝:before{content:"【绝】又被称“受气”“胞”。人未受孕时或万物未产生前，无形无象。"}
-changsheng胎:before{content:"【胎】即受胎，指人受孕，或万物在地中萌芽时。"}
-changsheng养:before{content:"【养】就是成形，人在母腹中成形，万物在地成形。"}
-
-changsheng2长生:before{content:"《长生》长生管取命长荣，时日重临主性灵；更得吉时相会遇，少年及第入王庭。长生若也得相逢，生下须招祖业隆；父母妻儿无克陷，安然享福保初终。"}
-changsheng2沐浴:before{content:"《沐浴》沐浴凶神切忌之，多成多败少人知；男人值此应孤独，女命逢之定别离。沐浴那堪吉位逢，更兼引从在其中；读书必定登科甲，莫比诸神例作凶。桃花沐浴不堪闻，叔伯姑姨合共婚；日月时胎如犯此，定知无义乱人伦。咸池无禄号桃花，酒色多因败坏家；更被凶神来克破，瘠羸病死莫咨嗟。女命若还逢沐浴，破败两三家不足；父母离乡寿不长，头男长女须防哭。"}
-changsheng2冠带:before{content:"《冠带》命逢冠带少人知，初主贫寒中主宜；更得贵人加本位，功成名遂又何疑。人命若还逢冠带，兄弟妻孥无陷害；因何接祖绍箕裘，只为胎中有冠盖。"}
-changsheng2临官:before{content:"《临官》临官帝旺最为奇，禄贵同宫仔细推；若不状元登上第，直须黄甲脱麻衣。"}
-changsheng2帝旺:before{content:"《帝旺》临官帝旺两相逢，业绍箕裘显祖宗；失位纵然居世上，也须名姓达天聪。"}
-changsheng2衰:before{content:"《衰》纳音衰病死重逢，成败之中见吉凶；若得吉神来救助，变灾为福始亨通。衰病两逢兼值死，世人至老无妻子；不惟衣食不丰隆，灾病绵绵终损己。"}
-changsheng2病:before{content:"《病》纳音衰病死重逢，成败之中见吉凶；若得吉神来救助，变灾为福始亨通。衰病两逢兼值死，世人至老无妻子；不惟衣食不丰隆，灾病绵绵终损己。"}
-changsheng2死:before{content:"《死》纳音衰病死重逢，成败之中见吉凶；若得吉神来救助，变灾为福始亨通。衰病两逢兼值死，世人至老无妻子；不惟衣食不丰隆，灾病绵绵终损己。"}
-changsheng2墓:before{content:"《墓》墓库原来是葬神，一为正印细推论；相生相顺无相克，富贵之中次第分。人命若还逢墓库，积谷堆财难计数；悭贪不使一文钱，至老人呼守钱虏。"}
-changsheng2绝:before{content:"《绝》绝中逢旺少人知，却去当生命里推；反本还元宜细辩，忽然迍否莫猜疑。胎神一位难为绝，克陷妻孥家道劣；不惟朝暮走忙忙，羊狠狼贪无以别。"}
-changsheng2胎:before{content:"《胎》绝中逢旺少人知，却去当生命里推；反本还元宜细辩，忽然迍否莫猜疑。胎神一位难为绝，克陷妻孥家道劣；不惟朝暮走忙忙，羊狠狼贪无以别。"}
-changsheng2养:before{content:"《养》胎养须宜细审详，半凶半吉两相当；贵神相会应为福，恶杀重逢见祸殃。"}
-
-nayin海中金:before{content:"【海中金】深不可测，城府很深。"}
-nayin炉中火:before{content:"【炉中火】热情奔波，积极向上。"}
-nayin大林木:before{content:"【大林木】仁义好善，能团结人。"}
-nayin路旁土:before{content:"【路旁土】心胸狭窄，自私自利。"}
-nayin剑锋金:before{content:"【剑锋金】孤刚斗狠，一针见血。"}
-nayin山头火:before{content:"【山头火】疯狂奔放，激情热烈。"}
-nayin涧下水:before{content:"【涧下水】温文尔雅，清新自然。"}
-nayin城头土:before{content:"【城头土】固执呆板，不通活变。"}
-nayin白蜡金:before{content:"【白蜡金】吝啬小气，胸怀狭窄。"}
-nayin杨柳木:before{content:"【杨柳木】随风倒，善变通。"}	
-nayin泉中水:before{content:"【泉中水】心地宽广，胸怀博大。"}
-nayin屋上土:before{content:"【屋上土】诚实守信，喜欢表现。"}
-nayin霹雳火:before{content:"【霹雳火】脾气急躁，雷厉风行。"}
-nayin松柏木:before{content:"【松柏木】心平气和，善良仁义。"}
-nayin长流水:before{content:"【长流水】喜动不喜静，喜游玩。"}
-nayin沙中金:before{content:"【沙中金】高贵典雅，谨慎小心。"}
-nayin山下火:before{content:"【山下火】脾气火躁，积极向上。"}
-nayin平地木:before{content:"【平地木】谨慎小心，惹是非。"}
-nayin壁上土:before{content:"【壁上土】个性散漫，不合群。"}
-nayin金箔金:before{content:"【金箔金】虚假不实，华而不实。"}
-nayin覆灯火:before{content:"【覆灯火】喜神秘，聪明善良。"}
-nayin天河水:before{content:"【天河水】心高气傲，婚姻不顺。"}
-nayin大驿土:before{content:"【大驿土】胸怀博大，心胸宽厚。"}
-nayin钗钏金:before{content:"【钗钏金】高贵典雅，孤芳自赏。"}
-nayin桑柘木:before{content:"【桑柘木】威武不曲，刚强好胜。"}
-nayin大溪水:before{content:"【大溪水】奔波劳碌，积极向上。"}
-nayin沙中土:before{content:"【沙中土】孤独无助，不合群。"}
-nayin天上火:before{content:"【天上火】性急而躁，热情向上。"}
-nayin石榴木:before{content:"【石榴木】心机多，多谋少成。"}
-nayin大海水:before{content:"【大海水】心胸宽广，宽容忍耐。"}
+			<script type="text/javascript">
+				//使用showContent方法把content显示在id是target的元素中。
+				function showContent(content, target) {
+					document.getElementById(target).innerHTML = content;
+				}
+			</script>
+		</div>
 
 
 
-xx正官:before{content:"【正官心性】为喜：自律、做事稳健、善于思考、有管理能力、遵守规矩、为人公道、责任心强、利于仕途公职发展。为忌：容易悲观、多虑、虚伪、不善变通、胆小怕事、意志不坚。"}
-qx正官:before{content:"【正官取象】为喜：工作、名声、地位、事业。为忌：官非、压力、疾病、贫困。"}
-gj正官:before{content:"【古决】克日主，抑日主者为官杀。异性-正官。"}
-gn1正官:before{content:"【十神功能】正官之能力：引财，生印，拘身，制劫。"}
-gn2正官:before{content:"引财：身强财弱爱正官，既见官，喜财旺以生之。财多身弱怕正官，既见官，喜印旺以泄之。生印：身强印弱爱正官，既见官，喜官旺生印身弱印强怕正官，既见官，喜食财以两制之。拘身：日干强，爱正官，既见官，喜财旺以生之。日干弱，怕正官，既见官，喜印旺以解之。制劫：身强有劫，爱正官，即见官，喜财旺以生之。身弱赖劫，怕正官，既见官，喜印以生身。"}
+		<div id="shower">
+			<div style="width:100%;">
+				<div id="result"></div>
+				<div id="shensha"></div>
+				<div id="qiyun"></div>
+			</div>
 
-xx伤官:before{content:"【伤官心性】为喜：聪明、悟性高、表现欲强、才华横溢、创新能力极强、追求完美、向往自由、个人魅力。为忌：恃才傲物、争强好胜、不服管束、爱出风头、三分钟热度、自律性差、多情纵欲。"}
-qx伤官:before{content:"【伤官取象】为喜：才华横溢、升职创业、技术成果、商业头脑。为忌：失业、降职、官灾、退学、疾病、官非纠纷。"}
-gj伤官:before{content:"【古决】日主生、泄日主者为食伤。异性-伤官。"}
-gn1伤官:before{content:"【十神功能】伤官之能力：泄身，生财，敌杀，损官。"}
-gn2伤官:before{content:"泄身：日干强，受伤官，既见伤，喜见财以流通之。日干弱。怕伤官。既见伤，喜印绶以制伏之。生财：身强则弱，爱伤官，既见伤，喜财多以生发之。身弱财多，所伤官，既见伤，喜印绶以制之。敌杀：杀重身轻，爱伤官，既见伤，喜比劫食伤以生助之。身强杀浅，怕伤官，即见伤，喜见财以和解之。损官：官重身轻，爱伤官，既见伤，喜比劫食神以生助之。身强官弱，怕伤官，既见伤，喜见财以和解之。"}
+			<style>
+				.ttd {
+					width: 9.5%;
+					padding-bottom: 1.9px;
+				}
 
-xx正印:before{content:"【正印心性】为喜：仁慈、心地善良、安静平和、有同情心、有爱心、有修养、有智慧、注重内涵、有精神追求。为忌：懒惰、行动力差、依赖性强、不思进取、优柔寡断、抑郁。"}
-qx正印:before{content:"【正印取象】为喜：学历、荣誉、证书、靠山、贵人、房子、地位。为忌：休学、失业、名声损毁、贫穷、懒惰。"}
-gj正印:before{content:"【古决】生日主、扶日主者为印星，异性-正印。"}
-gn1正印:before{content:"【十神功能】偏正印之能力：生身，泄官杀，御伤，挫食。"}
-gn2正印:before{content:"生身：日干弱，有印绶生身，最喜官星生印。日干强，又有印绶生身，即喜财以制之。泄官杀：日干弱，官杀强，有印绶泄官杀。喜印身两旺。日干强，官杀弱，又有印绶泄官杀，喜堸扶官杀。御伤：日干弱，伤官强，有印绶驾御伤官。喜印旺御伤助身。日干强，伤官弱，又有印绶驾御伤官。喜 财旺克印以制之。挫食：日干弱，食神强，有印绶合食，喜印旺助身去食。日干强，食神弱，又有印之挫食，喜财旺克印以制之。"}
+				.tdy {
+					padding-top: 0px;
+					padding-bottom: 0px;
+				}
+			</style>
 
-xx偏印:before{content:"【偏印心性】为喜：精明、领悟力强、善于观察、警觉性高、创造力强、好钻研、思想独特、喜怒不形于色、看透本质、天生的心理学家。为忌：孤独、不合群、心机重、内向多疑、旁门左道、想事情总往坏处想、钻牛角尖、缺少人情味。"}
-qx偏印:before{content:"【偏印取象】为喜：偏业、学术、荣誉、思想成就、宗教、哲学、地位。为忌：病灾、休学、失业、心理问题、偏印夺食会导致伤克子女。"}
-gj偏印:before{content:"【古决】生日主、扶日主者为印星，同性-偏印。"}
-gn1偏印:before{content:"【十神功能】偏正印之能力：生身，泄官杀，御伤，挫食。"}
-gn2偏印:before{content:"生身：日干弱，有印绶生身，最喜官星生印。日干强，又有印绶生身，即喜财以制之。泄官杀：日干弱，官杀强，有印绶泄官杀。喜印身两旺。日干强，官杀弱，又有印绶泄官杀，喜堸扶官杀。御伤：日干弱，伤官强，有印绶驾御伤官。喜印旺御伤助身。日干强，伤官弱，又有印绶驾御伤官。喜 财旺克印以制之。挫食：日干弱，食神强，有印绶合食，喜印旺助身去食。日干强，食神弱，又有印之挫食，喜财旺克印以制之。"}
-
-xx食神:before{content:"【食神心性】为喜：温和斯文，思维细腻，宽容、善良、乐于奉献、人缘好、有福气、人文情怀。为忌：爱幻想、想得多做得少、自尊心强、多情纵欲、纵情人间烟火、好逸恶劳。"}
-qx食神:before{content:"【食神取象】为喜：平安、福气、口福、多才多艺、生活富裕。为忌：贫困、劳累、疾病、抑郁。"}
-gj食神:before{content:"【古决】日主生、泄日主者为食伤。同性-食神。"}
-gn1食神:before{content:"【十神功能】食神之能力：泄身，生财，制杀，损官。"}
-gn2食神:before{content:"泄身：日干强，爱食神，既见食，喜财以流通之。日干弱，怕食神，既见食，喜印以合制之。生财：身强财弱，爱食神，既见食，喜财多生发。身弱财强，怕食神，既见食，喜印助身旺。制杀：杀重身轻，爱食神，既见食，喜比劫食伤生助。身强杀浅，怕食神，既见食，喜见财以和解之。损官：官多身弱，爱食神，既见食，喜比劫食伤生助。身重官轻，怕食神，既见食，喜见财以和解之。"}
-
-xx比肩:before{content:"【比肩心性】为喜：刚健、果断、有毅力、不服输、勤奋努力、执行力强、自我意识强。为忌：爱面子、自尊心强、据理力争、虚荣、死板、多疑、信口开河。"}
-qx比肩:before{content:"【比肩取象】为喜：得同辈帮助、竞争中取得名利、身体精力。为忌：竞争、破财、官非口舌、病灾、婚灾。"}
-gj比肩:before{content:"【古决】同日主、助日主者为比劫。同性-比肩。"}
-gn1比肩:before{content:"【十神功能】比劫禄刃之能力：帮身，任官杀，代泄，夺财。"}
-gn2比肩:before{content:"帮身：日干弱，有比劫禄刃帮身，喜身旺生发。日干弱，有比劫禄刃帮身，喜官杀以制之。任官杀：日干弱，有比劫禄刃敌官杀，喜身杀两相停。（停者，平均也）日干强，又有比劫禄刃敌官杀，喜财量生官杀。代泄：日干弱，伤食多，有比劫禄刃代为受泄，喜印制伤食而生身。日干强，又有比劫禄刃代受伤食之泄，喜财官两旺。制财：日干弱，有比劫禄刃制财，喜印生身。日干强，又有比劫禄刃制财，喜官杀制之。"}
-
-xx七杀:before{content:"【七杀心性】为喜：有魄力、机警伶俐、目标感强、思维缜密、敢想敢干、善于权谋、做事有手段、务实主义。为忌：多疑多虑、胆大妄为、走捷径、冲动、好斗、七杀克身太重可能反过来胆小懦弱。"}
-qx七杀:before{content:"【七杀取象】为喜：名声、权力、地位、影响力、事业。为忌：小人、伤灾、黑社会、被人欺、牢狱、贫贱。"}
-gj七杀:before{content:"【古决】克日主，抑日主者为官杀。同性-偏官。"}
-gn1七杀:before{content:"【十神功能】七杀之能力：耗财，生印，攻身，制劫。"}
-gn2七杀:before{content:"耗财：身弱印轻财重，爱七杀，既见杀，喜印比之帮身。身强印重财轻，怕七杀，既见杀，喜伤食以制煞生财。生印：身印并衰，爱七杀，既见杀，喜杀重生印。日弱印强性七杀，既见杀，喜食财以两制之。攻身：日干强。爱七杀，既见杀，喜财旺以生之。日干弱，怕七杀，既见杀，喜印旺以解之。制劫：身强有劫，爱七杀，既见杀，喜财旺以生之。身弱赖劫，怕七杀，既见杀，喜食伤以制之。"}
-
-xx正财:before{content:"【正财心性】为喜：勤俭持家、脚踏实地、感情专一、守本分、不惹事、情绪感知能力强、注重细节、现实主义、善理财。为忌：抠门、保守、小气、缺乏进取、过于计较和敏感。"}
-qx正财:before{content:"【正财取象】为喜：钱财、事业、富裕、健康。为忌：破财、贫困、疾病、婚灾。"}
-gj正财:before{content:"【古决】日主克、耗日主者为财星，异性为正财。"}
-gn1正财:before{content:"【十神功能】偏正财之能力：生官杀，泄伤食，制枭，坏印。"}
-gn2正财:before{content:"生官杀：日干强，有财生官杀，喜官杀旺则成功。日干弱，有财生官杀，喜印生比劫以制之。泄伤食：日干强，伤食重，有财泄伤食，喜财旺生发。日干弱，伤食轻，有财泄伤食，喜比劫以制财。制枭：日干强，不须枭神生身，喜财来制枭。日干弱，有财星制枭，喜比劫以解之。坏印：日干强，不劳印绶再助身，喜伤食生财，助财破印。日干弱，有财坏印，喜比劫克去财星以存印。"}
-
-xx偏财:before{content:"【偏财心性】为喜：热情、大方、豁达、情商高、重情重义、善于交际、处事灵活、拿得起放得下。为忌：欲望强、不克制、放纵情欲、风流、用心不专、不负责任、拜金主义。"}
-qx偏财:before{content:"【偏财取象】为喜：财运好、事业成功、生活富裕、多才多艺。为忌：破财、贫困、疾病、婚灾、玩世不恭、铺张浪费。"}
-gj偏财:before{content:"【古决】日主克、耗日主者为财星，同性为偏财。"}
-gn1偏财:before{content:"【十神功能】偏正财之能力：生官杀，泄伤食，制枭，坏印。"}
-gn2偏财:before{content:"生官杀：日干强，有财生官杀，喜官杀旺则成功。日干弱，有财生官杀，喜印生比劫以制之。泄伤食：日干强，伤食重，有财泄伤食，喜财旺生发。日干弱，伤食轻，有财泄伤食，喜比劫以制财。制枭：日干强，不须枭神生身，喜财来制枭。日干弱，有财星制枭，喜比劫以解之。坏印：日干强，不劳印绶再助身，喜伤食生财，助财破印。日干弱，有财坏印，喜比劫克去财星以存印。"}
-
-xx劫财:before{content:"【劫财心性】为喜：自信、豪爽大方、热情直率、不怕困难、勇于竞争、口才好、朋友兄弟多。为忌：冲动、霸道、争斗、自我、说话直、不顾他人感受。"}
-qx劫财:before{content:"【劫财取象】为喜：意志坚强、功成名就、事业有成、竞争得利。为忌：打架斗殴、官非惹祸、克妻克父、贫困、病灾。"}
-gj劫财:before{content:"【古决】同日主、助日主者为比劫。异性-劫财。"}
-gn1劫财:before{content:"【十神功能】比劫禄刃之能力：帮身，任官杀，代泄，夺财。"}
-gn2劫财:before{content:"帮身：日干弱，有比劫禄刃帮身，喜身旺生发。日干弱，有比劫禄刃帮身，喜官杀以制之。任官杀：日干弱，有比劫禄刃敌官杀，喜身杀两相停。（停者，平均也）日干强，又有比劫禄刃敌官杀，喜财量生官杀。代泄：日干弱，伤食多，有比劫禄刃代为受泄，喜印制伤食而生身。日干强，又有比劫禄刃代受伤食之泄，喜财官两旺。制财：日干弱，有比劫禄刃制财，喜印生身。日干强，又有比劫禄刃制财，喜官杀制之。"}
-
-
-
-jiazilm甲子:before{content:'天德贵人日。坐子、沐浴，逢官临桃花。白玉仙子捧印来，一举成名天门开。贵人不向西方去，烽火空负旷世才。'} 
-jiazilm甲寅:before{content:'天禄贵人日。坐比肩，食神，临官禄。禄到人间最为奇，千秋功业酬白帝。田园风光好福气，春江月夜柳丝垂。'} 
-jiazilm甲辰:before{content:'龙守财库日。坐偏财库，临衰。身坐财库一世荣，慷慨风流人多情。财团公司善交际，官星透显管万民。'} 
-jiazilm甲戌:before{content:'青龙献艺日。坐养，临偏财，伤官。一世荣华走他乡，千般艺技样样强。官星印星来捧上，风流多情歌舞场。'} 
-jiazilm甲午:before{content:'龙马奔驰日。坐死、伤官、财地、进贵日。龙马交弛好福气，娇妻美女喜北地。八月桂花香千里，春风丽日相依依。'} 
-jiazilm乙丑:before{content:'玉女佩珠日。丁为玉女，丑为珠。临衰，坐枭与偏财，将星。身坐金库财福秀，衣禄荣华样样有。金水相涵好文章，东方西方对面谈。'} 
-jiazilm乙卯:before{content:'风云相会日。坐禄，临比肩，爵位，天乙贵人。身坐爵位人称羡，功名显达列朝班。苍海珠玉会雨露，青山白云流水远。'} 
-jiazilm乙巳:before{content:'木火生辉日。交贵，驿马，正财，成名。刚愎自用又聪明，财官同见公候命。文才武略怕青龙，兴旺成败一刻中。'} 
-jiazilm乙未:before{content:'财福日。临财，坐养。也叫福贵目。天元坐福人聪颖，得官逢比赛富翁。丝绸路上愁石榴，春色秋花雨蒙蒙。'} 
-jiazilm乙酉:before{content:'龙凤呈祥日。生于酉月为贵为蒙难日，坐绝，将星。春花江水落凤霞，南北扬名匡天下。南方一去坐金殿，玉石翡翠泪花花。'} 
-jiazilm乙亥:before{content:'名利双成日。坐死，临正印，劫财，文星贵人。玉兔月桂喜官星，亲姻朋辈重友情。青竹流水郁葱葱，太阳投江重复行。'} 
-jiazilm丙子:before{content:'漓江照彩日。临胎，正官，喻文曲星，天官贵人。彩照山川凤呈祥，年少成名坐华堂。日落江河人堪伤，东彩西虹任君想。'} 
-jiazilm丙寅:before{content:'红日东升日。坐长生，枭印，食神。山川秀丽柳丝青，人生最喜烟霞景。莫向离情虎山行，西南一去幽幽命。'} 
-jiazilm丙辰:before{content:'火照龙潭日。临官，食神旺，正印。日坐福神受皇恩，高官厚禄子孙兴。平生享尽人间福，女命穿金又戴银。'} 
-jiazilm丙午:before{content:'天河落彩日。坐劫地，伤官，羊刃。人逢帝座爵士身，功名仕途显达人。苍龙水火多有厄，细雨蒙蒙入燕门。'} 
-jiazilm丙申:before{content:'火照金城日。病地，偏财，临杀。身临财官显声名，且防比刃杀伤临。马逢帝旺临官处，堆金积玉立大功。'} 
-jiazilm丙戌:before{content:'天厨贵人日。坐墓，福神财地。玉堂厚禄寒门出，金银珠宝西方路。日落深潭闯险门，金榜题名显双亲。'} 
-jiazilm丁丑:before{content:'玉女守库日。坐墓，临财。一轮满月彩画鲜，金银满库禄高迁。丽人不行东南地，洁肤玉身受熬煎。'} 
-jiazilm丁卯:before{content:'月照蟾宫日。临偏印，坐病。（虚名虚利）日坐偏印身自强，西风不吹日惆怅。驿马交驰到财乡，山斗文章盖一方。'} 
-jiazilm丁巳:before{content:'朱雀跃辉日。坐帝旺，劫财，伤官，正财。谢女才高满词馆，等闲平步出少年。旌旗蔽日入凤阕，火焰马疲怨高山。'} 
-jiazilm丁未:before{content:'人立画桥日。坐冠带，食神，比肩，偏印。食神生旺胜财官，天河画桥拜金殿。巽风相伴云雨水，太阳夺辉苦贫寒。'} 
-jiazilm丁酉:before{content:'玉女乘凤日。坐长生，临偏财。朱雀乘凤显英豪，金车玉凤福寿高。贵人龙马东方起，太阳升时漫徒劳。'} 
-jiazilm丁亥:before{content:'月照天门日。坐胎，临正印，正官。词馆文章早荣身，驿马七杀风尘人。最喜荷花并蒂开，金水文章佐朝君。'} 
-jiazilm甲申:before{content:'龙虎夺魁日。坐绝，临杀化印。跃马横戈驰天涯，秦山楚国帅府家。儿女手足喜相逢，斩将夺关壮士夸。'} 
-jiazilm戊子:before{content:'山环水抱日。临胎，坐正财。水绕山环明月光，烟花影中福高享。勿贪关城槐山梦，江海浮云一空束。'} 
-jiazilm戊寅:before{content:'虎啸山谷日。临长生，坐杀，偏印。将星入命立武功，猛虎纵风显英雄。印绶财官悬天门，南征北战旅马行。'} 
-jiazilm戊辰:before{content:'苍龙出海日。临冠带，正才，比肩，正官。月洒高山江山秀，平生最喜东南游。一生辛勤贵不显，为人热心福气厚。'} 
-jiazilm戊午:before{content:'马奔午门日。临羊刃，正印。日月分秀福气隆，杀官相见主武功。平川一去前程远，戎马西洲比陶公。'} 
-jiazilm戊申:before{content:'霞落花簇日。临病，食神，偏财。日坐福星声名显，万卷诗书朝天关。骑驴走马炉中火，风云雷雨步金殿。'} 
-jiazilm戊戌:before{content:'溪绕画亭日。坐墓，临正印，比劫。热情憨厚心似海，白帝玉女捧印来。溪绕画亭芳香名，田园平川云天外。'} 
-jiazilm己丑:before{content:'金牛拜金殿。临墓，坐比肩，食神，偏财。一柱佛香拜金殿，艮山流水芳名显。金匙开得丑戈库，富贵荣华醉管弦。'} 
-jiazilm己卯:before{content:'武跨将坛日。临衰，坐七杀将星。将士佩弓跨战马，暮雨风月渡年华。文星福禄若有情，北国回首似到家。'} 
-jiazilm己巳:before{content:'马跃平川日。临帝旺，坐偏印，比劫。南朝天子绶玉印，千里长江醉游人。雪山草地马难行，春风得意座上宾。'} 
-jiazilm己未:before{content:'丹桂漂香日。临冠带，坐比肩，枭印。月中桂子秋飘香，江河日月交相映，莫道高山芳气散，二月春风论短长。'} 
-jiazilm己酉:before{content:'凤飞绿洲日。临长生，坐支食神。一轮满月出苍海，金凤展翅飞天外，秦山昆仑雪皑皑，龙凤呈祥玉珠来。'} 
-jiazilm己亥:before{content:'平川流水日。临胎，坐支正财，正官。禄马同乡拜玉堂，天堑通途文星扬。沉影不随流水去，杀星冲动马无疆。'} 
-jiazilm庚子:before{content:'金玉出海日。临死，坐支，伤官。能歌善舞笔和墨，犹如白虎戏江水。冲在禄马登科甲，斑竹细雨伤情泪。'} 
-jiazilm庚寅:before{content:'白虎镇山日。临绝，坐支偏财，七杀，偏印。平川猛虎归山林，秋风落叶时不宁。最喜大雪封山时，三夏浓荫卧孔明。'} 
-jiazilm庚辰:before{content:'福德贵人日。临养，坐支偏印，食神。命带魁罡性刚强，不信鬼神在身旁。玉佩娇阳入命来，执戈跨马佐高皇。'} 
-jiazilm庚午:before{content:'火铸金印日。临沐浴，支坐正官印。铁笔一只水为墨，淡彩浓云笔下绘。学苑将士两般命，山野朱雀衔玉翠。'} 
-jiazilm庚申:before{content:'双虎奔驰日。临官禄，坐支比肩，食神，偏印，又叫虎恋玉女日。白虎交驰向南行，雀跃江河早成名。禄到长生官得地，九重露雨沐朱衣。'} 
-jiazilm庚戌:before{content:'禄马贵人日。临衰，坐支正官，偏印。将军百战不论功，高山流水又出征。西去阳关知音少，前禄后福两三重。'} 
-jiazilm辛丑:before{content:'白玉生辉日。临养，支坐偏印，食神，比肩。白玉生辉金门客，高山得贵子为墨。身入平川多愁叹，干弋影里勋业垂。'} 
-jiazilm辛卯:before{content:'凤阙早步日。临绝，支坐财，伤官，驿马，冲禄。高山起程水流长，边塞迢迢雪满霜。佛山玉女岂有情，雪山日照花海棠。'} 
-jiazilm辛巳:before{content:'金马登殿日。临死，坐支正官，正印，劫财，驿马。金马临官号嘶风，玉堂拜相翰苑名。最喜高山水环绕，娇阳日出漫消魂。'} 
-jiazilm辛未:before{content:'冰河解冻日。临衰，支坐枭印，偏官，多情忘义。身入西国佛香地，漫歌轻舞管弦醉。玉女传送风流人，高山日出彩画新。'} 
-jiazilm辛酉:before{content:'凤卧金山日。临禄，支坐比肩，天乙贵人。禄马贵人世少有，凤卧金山将帅候。日出朝阳横天行，月圆金门寻石榴。'} 
-jiazilm辛亥:before{content:'虎行天门日。临沐浴，支坐伤官，正财，驿马。一去天门遥遥远，长亭驿路关山寒。倒骑毛驴东行去，高山丽日花团团。'} 
-jiazilm壬子:before{content:'马奔天河日。临帝旺。支坐劫财。壬水浩浩漫天下，行入东方福到家。江南平川鱼米乡，云雨湖海镜中花。'} 
-jiazilm壬寅:before{content:'福禄日。临病，支坐食神，偏财偏官。虎跃天河威名扬，犹如箕豹出山岗。禄到长生官得地，九重雨露沐朱衣。'} 
-jiazilm壬辰:before{content:'山流水长日。临墓，支坐偏官，劫财，库地，虚名虚利。江水流芳美如画，杜鹃啼血巫山峡。月下骑马走平川，一日尝尽牡丹花。'} 
-jiazilm壬午:before{content:'花红柳绿日。临胎，支坐财，正官，驿马。禄马相邀入帝乡，花红柳绿掩高堂。出阕最喜函玉关，千里迢迢雁北上。'} 
-jiazilm壬申:before{content:'白虎渡江日。临长生。支坐偏印，偏官，劫财，驿马。命似白虎渡长江，最怕风雨江水涨。丽日跨入平川地，金枝玉叶陪身旁。'} 
-jiazilm壬戌:before{content:'龙出苍海日。临冠带，支坐正财，偏官，正印，火库。身坐火库水得福，西行东邀人间苦。壮士难酬青云志，醉看少女漫歌舞。'} 
-jiazilm癸丑:before{content:'桑柳成荫日。临冠带，支坐偏官，印，比肩。池塘桑柳满园色，二月春风柳絮飞。莫怨高山运来迟，干戈影里是翡翠。'} 
-jiazilm癸卯:before{content:'天姿文秀日。临长生，支坐食神。学堂词馆贵人命，天姿文秀人多情。最喜三星相拱照，诗琴歌乐官弦声。'} 
-jiazilm癸巳:before{content:'彩霞佩玉日。临胎，支坐正财正官，驿马，文星。贵人玉堂来拜相，墨池泉涌好文章。武士跨马走天下，王公皇候似平常。'} 
-jiazilm癸未:before{content:'贵人佩玉日。临墓，支坐偏官，偏财。日临官库将相命，男子英勇女贵荣。西方一去福禄地，花园翠亭马不行。'} 
-jiazilm癸酉:before{content:'天福日。临病，支坐偏印。潇洒功名起一方，一冲一合异寻常。江湖花洒安享福。南去高山势莫档。'} 
-jiazilm癸亥:before{content:'天门悬彩日。临帝旺。支坐伤官。劫财，驿马。九华山上天门开，日行东方花似海。若去西方昆仑地，边塞将士恋故国。'} 
-</style>
-
-<script src="js/jquery_tanchuang.js"></script><!--弹窗的js文件-->
+			<div id="yun" style="overflow-x:auto;white-space:nowrap;">
+				<table style="margin:4.1px 2% 4.1px 2%;">
+					<tr>
+						<td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:1.9px;"
+							class="active"></td>
+						<td valign="top"></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd style=display:none></td>
+					</tr>
+					<tr>
+						<td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:2.6px;"
+							class="active"></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+					</tr>
+					<tr>
+						<td
+							style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:2.6px;">
+						</td>
+						<td class=ttd style="padding-top:1.9px;"></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+						<td class=ttd></td>
+					</tr>
+				</table>
+			</div>
 
 
-<script>
-	// 时辰对应时间
-var scarr = {
-	"子": "00:00",
-	"丑": "02:00",
-	"寅": "04:00",
-	"卯": "06:00",
-	"辰": "08:00",
-	"巳": "10:00",
-	"午": "12:00",
-	"未": "14:00",
-	"申": "16:00",
-	"酉": "18:00",
-	"戌": "20:00",
-	"亥": "22:00"
-};
+			<div style="overflow-x:auto;white-space:nowrap;">
+				<table id="liu-yue" style="margin:1.1px 2% 1.1px 2%;">
+					<tbody>
+						<tr>
+							<td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:2.6px;"
+								rowspan="2"></td>
+							<td class=tdy></td>
+							<td class=tdy></td>
+							<td class=tdy></td>
+							<td class=tdy></td>
+							<td class=tdy></td>
+							<td class=tdy></td>
+							<td class=tdy></td>
+							<td class=tdy></td>
+							<td class=tdy></td>
+							<td class=tdy></td>
+							<td class=tdy></td>
+							<td class=tdy></td>
+						</tr>
+						<tr>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 
-  var fcbz = function(bzstr){
-    var rtn = new Array();
-    var pattern1 = /[甲乙丙丁戊己庚辛壬癸][子丑寅卯辰巳午未申酉戌亥]+/g;
-	  bzstr = bzstr.replace(/[^甲乙丙丁戊己庚辛壬癸子丑寅卯辰巳午未申酉戌亥]+/g, '')
-	  var bzarr = bzstr.match(pattern1);
-	// console.debug(bzarr);
-	if (bzarr.length < 1) return "";
-	var ngz = bzarr[0]; // 年干支
-	var ng = ngz.substr(0, 1); // 年干
-	var nz = ngz.substr(1, 1); // 年支
-	var mgz = ""; // 月干支
-	var mg = ""; // 月干
-	var mz = ""; // 月支
-	if (bzarr.length > 1) {
-		mgz = bzarr[1]; // 月干支
-		mg = mgz.substr(0, 1); // 月干
-		mz = mgz.substr(1, 1); // 月支
-	}
-	var rgz = ""; // 日干支
-	var rg = ""; // 日干
-	var rz = ""; // 日支
-	if (bzarr.length > 2) {
-		rgz = bzarr[2]; // 日干支
-		rg = rgz.substr(0, 1); // 日干
-		rz = rgz.substr(1, 1); // 日支
-	}
-	var sgz = "" // 时干支
-	var sg = "";
-	var sz = "";
-	var hours = "";
-	if (bzarr.length > 3) {
-		sgz = bzarr[3];
-		sg = sgz.substr(0, 1); // 时干
-		sz = sgz.substr(1, 1); // 时支
-		hours = scarr[sz];
-		hours = hours ? hours : "";
-	}
-     
-    $('#solars').html('<li>计算中...</li>');
-    try{
-      var year = ngz; //$('#year').val();
-      var month = mgz;  // $('#month').val();
-      var day = rgz;// $('#day').val();
-      var time = sgz; //$('#time').val();
-      var sect =2; // parseInt($('#sect').val());
-      var baseYear = 1800; // parseInt($('#baseYear').val());
-      var solars = Solar.fromBaZi(year, month, day, time, sect, baseYear);
-      var size = solars.length;
-      if (size < 1) {
-        $('#solars').html('<li>没有这个八字哦，看看是否有误</li>');
-      } else {
-        $('#solars').html('');
-        for (var i=0; i<size; i++) {
-          var solar = solars[i];
-          $('<a onclick="setymds(this.innerHTML)">' + solar.toYmdHms() + '　</a>').appendTo($('#solars'));
-        }
-      }
-    }catch(e){
-      $('#solars').html('<li>出错了！</li>');
-    }
-  };
-  
-   var setymds = function(bzstr){
-    //console.log(bzstr)
-     var y=parseInt(bzstr.substr(0, 4));
-     var m=parseInt(bzstr.substr(5, 2));
-     var d=parseInt(bzstr.substr(8, 2));
-     var h=parseInt(bzstr.substr(11, 2));
-     var mi=parseInt(bzstr.substr(14, 2));
-      // $('#year').val(y);
-      //$('#month').val(m);
-      //$('#day').val(d);
-      //$('#hour').val(h);
-      //$('#minute').val(mi);
 
-    document.getElementById('year').value=y;
-		document.getElementById('month').value=m;
-		document.getElementById('day').value=d;
-		document.getElementById('hour').value=h;
-		document.getElementById('minute').value=mi;
-		
-		$('#yun td').click();
-    };
-    
-    function getParameterByName(name, url = window.location.href) {
-			name = name.replace(/[\[\]]/g, '\\$&');
-			var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+
+
+			<div id="wangxiang" style="margin-top:3px;"></div><!--旺相休囚-->
+			<table class="table1" style="border-top:0px;border-bottom:0px;">
+				<!--tr><th class="th1" width="15%">四柱</th><td class="td1" style="text-align: left;"><span id="sizhu"></span></td></tr><四柱-->
+
+				<tr>
+					<th class="th1">天干</th>
+					<td class="td1" style="text-align: left;"><span id="tianganch"></span></td>
+				</tr> <!--天干冲合-->
+				<tr>
+					<th class="th2">地支</th>
+					<td class="td2" style="text-align: left;"><span id="dizhich"></span></td>
+				</tr> <!--地支冲合-->
+				<tr>
+					<th class="th1">喜用</th>
+					<td class="td1" style="text-align: left;"><span id="text3"></span></td>
+				</tr> <!--喜用神 [仅供参考]-->
+				<tr>
+					<th class="th2">婚配</th>
+					<td class="td2" style="text-align: left;"><span id="hunpei"></span></td>
+				</tr> <!--婚配-->
+				<!--tr><th class="th2">太岁</th><td class="td2" style="text-align: left;"><span id="fantaisui"></span></td></tr-->
+				<!--太岁-->
+				<!--tr><th class="th1">三垣</th><td class="td1" style="text-align: left;"><span id="sanyuan"></span></td></tr-->
+				<!--三垣yuán-->
+				<!--tr><th class="th2">胎息</th><td class="td2" style="text-align: left;"><span id="taixi"></span></td></tr-->
+				<!--胎息-->
+			</table>
+
+			<table class="table1" style="border-top:0px;">
+				<tr>
+					<th class="th1" style="width:10%;">三垣</th>
+					<th class="th1">胎元</th>
+					<th class="th1">命宫</th>
+					<th class="th1">身宫</th>
+					<th class="th1">胎息</th>
+				</tr>
+				<tr>
+					<td class="td1"></td>
+					<td class="td1"><span id="taiyuan"></span></td>
+					<td class="td1"><span id="minggong"></span></td>
+					<td class="td1"><span id="shengong"></span></td>
+					<td class="td1"><span id="taixi"></span></td>
+				</tr> <!--胎息-->
+			</table>
+
+			<div style="padding:3px;"></div>
+
+
+			<table>
+				<tr>
+				<tr>
+					<th colspan="7" style="padding:5px 0px;">命盘详细解析</th>
+				</tr>
+				<td id="lyb" onclick="lyb()" style="padding:7px 0px;">三命<br>通会</td>
+				<td id="qtbj" onclick="qtbj()" style="padding:7px 0px;">穷通<br>宝鉴</td>
+				<td id="cgsm" onclick="cgsm()" style="padding:7px 0px;">滴天<br>髓论</td>
+				<td id="fdzj" onclick="fdzj1()" style="padding:7px 0px;">鬼谷<br>神卦</td>
+				<td id="gwzy" onclick="gwzy()" style="padding:7px 0px;">格物<br>至言</td>
+				<td id="wglm" onclick="wglm1()" style="padding:7px 0px;">万公<br>论命</td>
+				<td id="bzmg" onclick="bzmg()" style="padding:7px 0px;">八字<br>命宫</td>
+				</tr>
+			</table>
+
+			<table style="border:0px;">
+				<tr>
+					<td id="xsys" style="text-align:left;padding:1.5%;border-top:0px;">
+						<div id="text666"></div>
+					</td>
+				</tr>
+				<tr style="display: none;">
+					<td id="dtss" onclick="dtss()"></td>
+				</tr>
+				<tr style="display: none;">
+					<td id="smth" onclick="smth()"></td>
+				</tr>
+				<tr style="display: none;">
+					<td id="bzty" onclick="bzty()"></td>
+				</tr>
+				<tr style="display: none;">
+					<td id="sftk" onclick="sftk()"></td>
+				</tr>
+				<tr style="display: none;">
+					<td id="twwx" onclick="twwx()"></td>
+				</tr>
+				<tr style="display: none;">
+					<td id="wxjj" onclick="wxjj()"></td>
+				</tr>
+				<tr style="display: none;">
+					<td id="xzms" onclick="xzms()"></td>
+				</tr>
+			</table>
+			<div style="padding:3px;"></div>
+
+
+
+
+
+		</div>
+
+
+		<div style="padding:3px;"></div>
+
+
+		<script src="js/xcx_bazi_ct.js"></script><!--八字js文件-->
+
+
+		<style>
+			p {
+				border-top: 1px dashed #fff;
+				padding: 3% 1%;
+			}
+
+			changsheng长生:before {
+				content: "【长生】表示婴儿刚出世，或新事物刚产生。"
+			}
+
+			changsheng沐浴:before {
+				content: "【沐浴】又称“败”婴儿降生或新事物初现，略显稚嫩。"
+			}
+
+			changsheng冠带:before {
+				content: "【冠带】人到青年，或新事物进入了华秀的阶段。"
+			}
+
+			changsheng临官:before {
+				content: "【临官】又称“进禄”人可出仕做官，或挣钱养家；新事物也已成熟，地位日益巩固。"
+			}
+
+			changsheng帝旺:before {
+				content: "【帝旺】人到壮年或新事物完善，被世所公认，旺极必衰是自然规律。"
+			}
+
+			changsheng衰:before {
+				content: "【衰】质的变化期，人力不从心；新事物成旧事物，要面临其他新事物的挑战。"
+			}
+
+			changsheng病:before {
+				content: "【病】人逐渐衰老，便要百病丛生；旧事物千疮百孔，积重难返。"
+			}
+
+			changsheng死:before {
+				content: "【死】人衰老之后，肉体的死亡。"
+			}
+
+			changsheng墓:before {
+				content: "【墓】旧事物送进博物馆，或被收于仓 库，又叫“库”"
+			}
+
+			changsheng绝:before {
+				content: "【绝】又被称“受气”“胞”。人未受孕时或万物未产生前，无形无象。"
+			}
+
+			changsheng胎:before {
+				content: "【胎】即受胎，指人受孕，或万物在地中萌芽时。"
+			}
+
+			changsheng养:before {
+				content: "【养】就是成形，人在母腹中成形，万物在地成形。"
+			}
+
+			changsheng2长生:before {
+				content: "《长生》长生管取命长荣，时日重临主性灵；更得吉时相会遇，少年及第入王庭。长生若也得相逢，生下须招祖业隆；父母妻儿无克陷，安然享福保初终。"
+			}
+
+			changsheng2沐浴:before {
+				content: "《沐浴》沐浴凶神切忌之，多成多败少人知；男人值此应孤独，女命逢之定别离。沐浴那堪吉位逢，更兼引从在其中；读书必定登科甲，莫比诸神例作凶。桃花沐浴不堪闻，叔伯姑姨合共婚；日月时胎如犯此，定知无义乱人伦。咸池无禄号桃花，酒色多因败坏家；更被凶神来克破，瘠羸病死莫咨嗟。女命若还逢沐浴，破败两三家不足；父母离乡寿不长，头男长女须防哭。"
+			}
+
+			changsheng2冠带:before {
+				content: "《冠带》命逢冠带少人知，初主贫寒中主宜；更得贵人加本位，功成名遂又何疑。人命若还逢冠带，兄弟妻孥无陷害；因何接祖绍箕裘，只为胎中有冠盖。"
+			}
+
+			changsheng2临官:before {
+				content: "《临官》临官帝旺最为奇，禄贵同宫仔细推；若不状元登上第，直须黄甲脱麻衣。"
+			}
+
+			changsheng2帝旺:before {
+				content: "《帝旺》临官帝旺两相逢，业绍箕裘显祖宗；失位纵然居世上，也须名姓达天聪。"
+			}
+
+			changsheng2衰:before {
+				content: "《衰》纳音衰病死重逢，成败之中见吉凶；若得吉神来救助，变灾为福始亨通。衰病两逢兼值死，世人至老无妻子；不惟衣食不丰隆，灾病绵绵终损己。"
+			}
+
+			changsheng2病:before {
+				content: "《病》纳音衰病死重逢，成败之中见吉凶；若得吉神来救助，变灾为福始亨通。衰病两逢兼值死，世人至老无妻子；不惟衣食不丰隆，灾病绵绵终损己。"
+			}
+
+			changsheng2死:before {
+				content: "《死》纳音衰病死重逢，成败之中见吉凶；若得吉神来救助，变灾为福始亨通。衰病两逢兼值死，世人至老无妻子；不惟衣食不丰隆，灾病绵绵终损己。"
+			}
+
+			changsheng2墓:before {
+				content: "《墓》墓库原来是葬神，一为正印细推论；相生相顺无相克，富贵之中次第分。人命若还逢墓库，积谷堆财难计数；悭贪不使一文钱，至老人呼守钱虏。"
+			}
+
+			changsheng2绝:before {
+				content: "《绝》绝中逢旺少人知，却去当生命里推；反本还元宜细辩，忽然迍否莫猜疑。胎神一位难为绝，克陷妻孥家道劣；不惟朝暮走忙忙，羊狠狼贪无以别。"
+			}
+
+			changsheng2胎:before {
+				content: "《胎》绝中逢旺少人知，却去当生命里推；反本还元宜细辩，忽然迍否莫猜疑。胎神一位难为绝，克陷妻孥家道劣；不惟朝暮走忙忙，羊狠狼贪无以别。"
+			}
+
+			changsheng2养:before {
+				content: "《养》胎养须宜细审详，半凶半吉两相当；贵神相会应为福，恶杀重逢见祸殃。"
+			}
+
+			nayin海中金:before {
+				content: "【海中金】深不可测，城府很深。"
+			}
+
+			nayin炉中火:before {
+				content: "【炉中火】热情奔波，积极向上。"
+			}
+
+			nayin大林木:before {
+				content: "【大林木】仁义好善，能团结人。"
+			}
+
+			nayin路旁土:before {
+				content: "【路旁土】心胸狭窄，自私自利。"
+			}
+
+			nayin剑锋金:before {
+				content: "【剑锋金】孤刚斗狠，一针见血。"
+			}
+
+			nayin山头火:before {
+				content: "【山头火】疯狂奔放，激情热烈。"
+			}
+
+			nayin涧下水:before {
+				content: "【涧下水】温文尔雅，清新自然。"
+			}
+
+			nayin城头土:before {
+				content: "【城头土】固执呆板，不通活变。"
+			}
+
+			nayin白蜡金:before {
+				content: "【白蜡金】吝啬小气，胸怀狭窄。"
+			}
+
+			nayin杨柳木:before {
+				content: "【杨柳木】随风倒，善变通。"
+			}
+
+			nayin泉中水:before {
+				content: "【泉中水】心地宽广，胸怀博大。"
+			}
+
+			nayin屋上土:before {
+				content: "【屋上土】诚实守信，喜欢表现。"
+			}
+
+			nayin霹雳火:before {
+				content: "【霹雳火】脾气急躁，雷厉风行。"
+			}
+
+			nayin松柏木:before {
+				content: "【松柏木】心平气和，善良仁义。"
+			}
+
+			nayin长流水:before {
+				content: "【长流水】喜动不喜静，喜游玩。"
+			}
+
+			nayin沙中金:before {
+				content: "【沙中金】高贵典雅，谨慎小心。"
+			}
+
+			nayin山下火:before {
+				content: "【山下火】脾气火躁，积极向上。"
+			}
+
+			nayin平地木:before {
+				content: "【平地木】谨慎小心，惹是非。"
+			}
+
+			nayin壁上土:before {
+				content: "【壁上土】个性散漫，不合群。"
+			}
+
+			nayin金箔金:before {
+				content: "【金箔金】虚假不实，华而不实。"
+			}
+
+			nayin覆灯火:before {
+				content: "【覆灯火】喜神秘，聪明善良。"
+			}
+
+			nayin天河水:before {
+				content: "【天河水】心高气傲，婚姻不顺。"
+			}
+
+			nayin大驿土:before {
+				content: "【大驿土】胸怀博大，心胸宽厚。"
+			}
+
+			nayin钗钏金:before {
+				content: "【钗钏金】高贵典雅，孤芳自赏。"
+			}
+
+			nayin桑柘木:before {
+				content: "【桑柘木】威武不曲，刚强好胜。"
+			}
+
+			nayin大溪水:before {
+				content: "【大溪水】奔波劳碌，积极向上。"
+			}
+
+			nayin沙中土:before {
+				content: "【沙中土】孤独无助，不合群。"
+			}
+
+			nayin天上火:before {
+				content: "【天上火】性急而躁，热情向上。"
+			}
+
+			nayin石榴木:before {
+				content: "【石榴木】心机多，多谋少成。"
+			}
+
+			nayin大海水:before {
+				content: "【大海水】心胸宽广，宽容忍耐。"
+			}
+
+
+
+			xx正官:before {
+				content: "【正官心性】为喜：自律、做事稳健、善于思考、有管理能力、遵守规矩、为人公道、责任心强、利于仕途公职发展。为忌：容易悲观、多虑、虚伪、不善变通、胆小怕事、意志不坚。"
+			}
+
+			qx正官:before {
+				content: "【正官取象】为喜：工作、名声、地位、事业。为忌：官非、压力、疾病、贫困。"
+			}
+
+			gj正官:before {
+				content: "【古决】克日主，抑日主者为官杀。异性-正官。"
+			}
+
+			gn1正官:before {
+				content: "【十神功能】正官之能力：引财，生印，拘身，制劫。"
+			}
+
+			gn2正官:before {
+				content: "引财：身强财弱爱正官，既见官，喜财旺以生之。财多身弱怕正官，既见官，喜印旺以泄之。生印：身强印弱爱正官，既见官，喜官旺生印身弱印强怕正官，既见官，喜食财以两制之。拘身：日干强，爱正官，既见官，喜财旺以生之。日干弱，怕正官，既见官，喜印旺以解之。制劫：身强有劫，爱正官，即见官，喜财旺以生之。身弱赖劫，怕正官，既见官，喜印以生身。"
+			}
+
+			xx伤官:before {
+				content: "【伤官心性】为喜：聪明、悟性高、表现欲强、才华横溢、创新能力极强、追求完美、向往自由、个人魅力。为忌：恃才傲物、争强好胜、不服管束、爱出风头、三分钟热度、自律性差、多情纵欲。"
+			}
+
+			qx伤官:before {
+				content: "【伤官取象】为喜：才华横溢、升职创业、技术成果、商业头脑。为忌：失业、降职、官灾、退学、疾病、官非纠纷。"
+			}
+
+			gj伤官:before {
+				content: "【古决】日主生、泄日主者为食伤。异性-伤官。"
+			}
+
+			gn1伤官:before {
+				content: "【十神功能】伤官之能力：泄身，生财，敌杀，损官。"
+			}
+
+			gn2伤官:before {
+				content: "泄身：日干强，受伤官，既见伤，喜见财以流通之。日干弱。怕伤官。既见伤，喜印绶以制伏之。生财：身强则弱，爱伤官，既见伤，喜财多以生发之。身弱财多，所伤官，既见伤，喜印绶以制之。敌杀：杀重身轻，爱伤官，既见伤，喜比劫食伤以生助之。身强杀浅，怕伤官，即见伤，喜见财以和解之。损官：官重身轻，爱伤官，既见伤，喜比劫食神以生助之。身强官弱，怕伤官，既见伤，喜见财以和解之。"
+			}
+
+			xx正印:before {
+				content: "【正印心性】为喜：仁慈、心地善良、安静平和、有同情心、有爱心、有修养、有智慧、注重内涵、有精神追求。为忌：懒惰、行动力差、依赖性强、不思进取、优柔寡断、抑郁。"
+			}
+
+			qx正印:before {
+				content: "【正印取象】为喜：学历、荣誉、证书、靠山、贵人、房子、地位。为忌：休学、失业、名声损毁、贫穷、懒惰。"
+			}
+
+			gj正印:before {
+				content: "【古决】生日主、扶日主者为印星，异性-正印。"
+			}
+
+			gn1正印:before {
+				content: "【十神功能】偏正印之能力：生身，泄官杀，御伤，挫食。"
+			}
+
+			gn2正印:before {
+				content: "生身：日干弱，有印绶生身，最喜官星生印。日干强，又有印绶生身，即喜财以制之。泄官杀：日干弱，官杀强，有印绶泄官杀。喜印身两旺。日干强，官杀弱，又有印绶泄官杀，喜堸扶官杀。御伤：日干弱，伤官强，有印绶驾御伤官。喜印旺御伤助身。日干强，伤官弱，又有印绶驾御伤官。喜 财旺克印以制之。挫食：日干弱，食神强，有印绶合食，喜印旺助身去食。日干强，食神弱，又有印之挫食，喜财旺克印以制之。"
+			}
+
+			xx偏印:before {
+				content: "【偏印心性】为喜：精明、领悟力强、善于观察、警觉性高、创造力强、好钻研、思想独特、喜怒不形于色、看透本质、天生的心理学家。为忌：孤独、不合群、心机重、内向多疑、旁门左道、想事情总往坏处想、钻牛角尖、缺少人情味。"
+			}
+
+			qx偏印:before {
+				content: "【偏印取象】为喜：偏业、学术、荣誉、思想成就、宗教、哲学、地位。为忌：病灾、休学、失业、心理问题、偏印夺食会导致伤克子女。"
+			}
+
+			gj偏印:before {
+				content: "【古决】生日主、扶日主者为印星，同性-偏印。"
+			}
+
+			gn1偏印:before {
+				content: "【十神功能】偏正印之能力：生身，泄官杀，御伤，挫食。"
+			}
+
+			gn2偏印:before {
+				content: "生身：日干弱，有印绶生身，最喜官星生印。日干强，又有印绶生身，即喜财以制之。泄官杀：日干弱，官杀强，有印绶泄官杀。喜印身两旺。日干强，官杀弱，又有印绶泄官杀，喜堸扶官杀。御伤：日干弱，伤官强，有印绶驾御伤官。喜印旺御伤助身。日干强，伤官弱，又有印绶驾御伤官。喜 财旺克印以制之。挫食：日干弱，食神强，有印绶合食，喜印旺助身去食。日干强，食神弱，又有印之挫食，喜财旺克印以制之。"
+			}
+
+			xx食神:before {
+				content: "【食神心性】为喜：温和斯文，思维细腻，宽容、善良、乐于奉献、人缘好、有福气、人文情怀。为忌：爱幻想、想得多做得少、自尊心强、多情纵欲、纵情人间烟火、好逸恶劳。"
+			}
+
+			qx食神:before {
+				content: "【食神取象】为喜：平安、福气、口福、多才多艺、生活富裕。为忌：贫困、劳累、疾病、抑郁。"
+			}
+
+			gj食神:before {
+				content: "【古决】日主生、泄日主者为食伤。同性-食神。"
+			}
+
+			gn1食神:before {
+				content: "【十神功能】食神之能力：泄身，生财，制杀，损官。"
+			}
+
+			gn2食神:before {
+				content: "泄身：日干强，爱食神，既见食，喜财以流通之。日干弱，怕食神，既见食，喜印以合制之。生财：身强财弱，爱食神，既见食，喜财多生发。身弱财强，怕食神，既见食，喜印助身旺。制杀：杀重身轻，爱食神，既见食，喜比劫食伤生助。身强杀浅，怕食神，既见食，喜见财以和解之。损官：官多身弱，爱食神，既见食，喜比劫食伤生助。身重官轻，怕食神，既见食，喜见财以和解之。"
+			}
+
+			xx比肩:before {
+				content: "【比肩心性】为喜：刚健、果断、有毅力、不服输、勤奋努力、执行力强、自我意识强。为忌：爱面子、自尊心强、据理力争、虚荣、死板、多疑、信口开河。"
+			}
+
+			qx比肩:before {
+				content: "【比肩取象】为喜：得同辈帮助、竞争中取得名利、身体精力。为忌：竞争、破财、官非口舌、病灾、婚灾。"
+			}
+
+			gj比肩:before {
+				content: "【古决】同日主、助日主者为比劫。同性-比肩。"
+			}
+
+			gn1比肩:before {
+				content: "【十神功能】比劫禄刃之能力：帮身，任官杀，代泄，夺财。"
+			}
+
+			gn2比肩:before {
+				content: "帮身：日干弱，有比劫禄刃帮身，喜身旺生发。日干弱，有比劫禄刃帮身，喜官杀以制之。任官杀：日干弱，有比劫禄刃敌官杀，喜身杀两相停。（停者，平均也）日干强，又有比劫禄刃敌官杀，喜财量生官杀。代泄：日干弱，伤食多，有比劫禄刃代为受泄，喜印制伤食而生身。日干强，又有比劫禄刃代受伤食之泄，喜财官两旺。制财：日干弱，有比劫禄刃制财，喜印生身。日干强，又有比劫禄刃制财，喜官杀制之。"
+			}
+
+			xx七杀:before {
+				content: "【七杀心性】为喜：有魄力、机警伶俐、目标感强、思维缜密、敢想敢干、善于权谋、做事有手段、务实主义。为忌：多疑多虑、胆大妄为、走捷径、冲动、好斗、七杀克身太重可能反过来胆小懦弱。"
+			}
+
+			qx七杀:before {
+				content: "【七杀取象】为喜：名声、权力、地位、影响力、事业。为忌：小人、伤灾、黑社会、被人欺、牢狱、贫贱。"
+			}
+
+			gj七杀:before {
+				content: "【古决】克日主，抑日主者为官杀。同性-偏官。"
+			}
+
+			gn1七杀:before {
+				content: "【十神功能】七杀之能力：耗财，生印，攻身，制劫。"
+			}
+
+			gn2七杀:before {
+				content: "耗财：身弱印轻财重，爱七杀，既见杀，喜印比之帮身。身强印重财轻，怕七杀，既见杀，喜伤食以制煞生财。生印：身印并衰，爱七杀，既见杀，喜杀重生印。日弱印强性七杀，既见杀，喜食财以两制之。攻身：日干强。爱七杀，既见杀，喜财旺以生之。日干弱，怕七杀，既见杀，喜印旺以解之。制劫：身强有劫，爱七杀，既见杀，喜财旺以生之。身弱赖劫，怕七杀，既见杀，喜食伤以制之。"
+			}
+
+			xx正财:before {
+				content: "【正财心性】为喜：勤俭持家、脚踏实地、感情专一、守本分、不惹事、情绪感知能力强、注重细节、现实主义、善理财。为忌：抠门、保守、小气、缺乏进取、过于计较和敏感。"
+			}
+
+			qx正财:before {
+				content: "【正财取象】为喜：钱财、事业、富裕、健康。为忌：破财、贫困、疾病、婚灾。"
+			}
+
+			gj正财:before {
+				content: "【古决】日主克、耗日主者为财星，异性为正财。"
+			}
+
+			gn1正财:before {
+				content: "【十神功能】偏正财之能力：生官杀，泄伤食，制枭，坏印。"
+			}
+
+			gn2正财:before {
+				content: "生官杀：日干强，有财生官杀，喜官杀旺则成功。日干弱，有财生官杀，喜印生比劫以制之。泄伤食：日干强，伤食重，有财泄伤食，喜财旺生发。日干弱，伤食轻，有财泄伤食，喜比劫以制财。制枭：日干强，不须枭神生身，喜财来制枭。日干弱，有财星制枭，喜比劫以解之。坏印：日干强，不劳印绶再助身，喜伤食生财，助财破印。日干弱，有财坏印，喜比劫克去财星以存印。"
+			}
+
+			xx偏财:before {
+				content: "【偏财心性】为喜：热情、大方、豁达、情商高、重情重义、善于交际、处事灵活、拿得起放得下。为忌：欲望强、不克制、放纵情欲、风流、用心不专、不负责任、拜金主义。"
+			}
+
+			qx偏财:before {
+				content: "【偏财取象】为喜：财运好、事业成功、生活富裕、多才多艺。为忌：破财、贫困、疾病、婚灾、玩世不恭、铺张浪费。"
+			}
+
+			gj偏财:before {
+				content: "【古决】日主克、耗日主者为财星，同性为偏财。"
+			}
+
+			gn1偏财:before {
+				content: "【十神功能】偏正财之能力：生官杀，泄伤食，制枭，坏印。"
+			}
+
+			gn2偏财:before {
+				content: "生官杀：日干强，有财生官杀，喜官杀旺则成功。日干弱，有财生官杀，喜印生比劫以制之。泄伤食：日干强，伤食重，有财泄伤食，喜财旺生发。日干弱，伤食轻，有财泄伤食，喜比劫以制财。制枭：日干强，不须枭神生身，喜财来制枭。日干弱，有财星制枭，喜比劫以解之。坏印：日干强，不劳印绶再助身，喜伤食生财，助财破印。日干弱，有财坏印，喜比劫克去财星以存印。"
+			}
+
+			xx劫财:before {
+				content: "【劫财心性】为喜：自信、豪爽大方、热情直率、不怕困难、勇于竞争、口才好、朋友兄弟多。为忌：冲动、霸道、争斗、自我、说话直、不顾他人感受。"
+			}
+
+			qx劫财:before {
+				content: "【劫财取象】为喜：意志坚强、功成名就、事业有成、竞争得利。为忌：打架斗殴、官非惹祸、克妻克父、贫困、病灾。"
+			}
+
+			gj劫财:before {
+				content: "【古决】同日主、助日主者为比劫。异性-劫财。"
+			}
+
+			gn1劫财:before {
+				content: "【十神功能】比劫禄刃之能力：帮身，任官杀，代泄，夺财。"
+			}
+
+			gn2劫财:before {
+				content: "帮身：日干弱，有比劫禄刃帮身，喜身旺生发。日干弱，有比劫禄刃帮身，喜官杀以制之。任官杀：日干弱，有比劫禄刃敌官杀，喜身杀两相停。（停者，平均也）日干强，又有比劫禄刃敌官杀，喜财量生官杀。代泄：日干弱，伤食多，有比劫禄刃代为受泄，喜印制伤食而生身。日干强，又有比劫禄刃代受伤食之泄，喜财官两旺。制财：日干弱，有比劫禄刃制财，喜印生身。日干强，又有比劫禄刃制财，喜官杀制之。"
+			}
+
+
+
+			jiazilm甲子:before {
+				content: '天德贵人日。坐子、沐浴，逢官临桃花。白玉仙子捧印来，一举成名天门开。贵人不向西方去，烽火空负旷世才。'
+			}
+
+			jiazilm甲寅:before {
+				content: '天禄贵人日。坐比肩，食神，临官禄。禄到人间最为奇，千秋功业酬白帝。田园风光好福气，春江月夜柳丝垂。'
+			}
+
+			jiazilm甲辰:before {
+				content: '龙守财库日。坐偏财库，临衰。身坐财库一世荣，慷慨风流人多情。财团公司善交际，官星透显管万民。'
+			}
+
+			jiazilm甲戌:before {
+				content: '青龙献艺日。坐养，临偏财，伤官。一世荣华走他乡，千般艺技样样强。官星印星来捧上，风流多情歌舞场。'
+			}
+
+			jiazilm甲午:before {
+				content: '龙马奔驰日。坐死、伤官、财地、进贵日。龙马交弛好福气，娇妻美女喜北地。八月桂花香千里，春风丽日相依依。'
+			}
+
+			jiazilm乙丑:before {
+				content: '玉女佩珠日。丁为玉女，丑为珠。临衰，坐枭与偏财，将星。身坐金库财福秀，衣禄荣华样样有。金水相涵好文章，东方西方对面谈。'
+			}
+
+			jiazilm乙卯:before {
+				content: '风云相会日。坐禄，临比肩，爵位，天乙贵人。身坐爵位人称羡，功名显达列朝班。苍海珠玉会雨露，青山白云流水远。'
+			}
+
+			jiazilm乙巳:before {
+				content: '木火生辉日。交贵，驿马，正财，成名。刚愎自用又聪明，财官同见公候命。文才武略怕青龙，兴旺成败一刻中。'
+			}
+
+			jiazilm乙未:before {
+				content: '财福日。临财，坐养。也叫福贵目。天元坐福人聪颖，得官逢比赛富翁。丝绸路上愁石榴，春色秋花雨蒙蒙。'
+			}
+
+			jiazilm乙酉:before {
+				content: '龙凤呈祥日。生于酉月为贵为蒙难日，坐绝，将星。春花江水落凤霞，南北扬名匡天下。南方一去坐金殿，玉石翡翠泪花花。'
+			}
+
+			jiazilm乙亥:before {
+				content: '名利双成日。坐死，临正印，劫财，文星贵人。玉兔月桂喜官星，亲姻朋辈重友情。青竹流水郁葱葱，太阳投江重复行。'
+			}
+
+			jiazilm丙子:before {
+				content: '漓江照彩日。临胎，正官，喻文曲星，天官贵人。彩照山川凤呈祥，年少成名坐华堂。日落江河人堪伤，东彩西虹任君想。'
+			}
+
+			jiazilm丙寅:before {
+				content: '红日东升日。坐长生，枭印，食神。山川秀丽柳丝青，人生最喜烟霞景。莫向离情虎山行，西南一去幽幽命。'
+			}
+
+			jiazilm丙辰:before {
+				content: '火照龙潭日。临官，食神旺，正印。日坐福神受皇恩，高官厚禄子孙兴。平生享尽人间福，女命穿金又戴银。'
+			}
+
+			jiazilm丙午:before {
+				content: '天河落彩日。坐劫地，伤官，羊刃。人逢帝座爵士身，功名仕途显达人。苍龙水火多有厄，细雨蒙蒙入燕门。'
+			}
+
+			jiazilm丙申:before {
+				content: '火照金城日。病地，偏财，临杀。身临财官显声名，且防比刃杀伤临。马逢帝旺临官处，堆金积玉立大功。'
+			}
+
+			jiazilm丙戌:before {
+				content: '天厨贵人日。坐墓，福神财地。玉堂厚禄寒门出，金银珠宝西方路。日落深潭闯险门，金榜题名显双亲。'
+			}
+
+			jiazilm丁丑:before {
+				content: '玉女守库日。坐墓，临财。一轮满月彩画鲜，金银满库禄高迁。丽人不行东南地，洁肤玉身受熬煎。'
+			}
+
+			jiazilm丁卯:before {
+				content: '月照蟾宫日。临偏印，坐病。（虚名虚利）日坐偏印身自强，西风不吹日惆怅。驿马交驰到财乡，山斗文章盖一方。'
+			}
+
+			jiazilm丁巳:before {
+				content: '朱雀跃辉日。坐帝旺，劫财，伤官，正财。谢女才高满词馆，等闲平步出少年。旌旗蔽日入凤阕，火焰马疲怨高山。'
+			}
+
+			jiazilm丁未:before {
+				content: '人立画桥日。坐冠带，食神，比肩，偏印。食神生旺胜财官，天河画桥拜金殿。巽风相伴云雨水，太阳夺辉苦贫寒。'
+			}
+
+			jiazilm丁酉:before {
+				content: '玉女乘凤日。坐长生，临偏财。朱雀乘凤显英豪，金车玉凤福寿高。贵人龙马东方起，太阳升时漫徒劳。'
+			}
+
+			jiazilm丁亥:before {
+				content: '月照天门日。坐胎，临正印，正官。词馆文章早荣身，驿马七杀风尘人。最喜荷花并蒂开，金水文章佐朝君。'
+			}
+
+			jiazilm甲申:before {
+				content: '龙虎夺魁日。坐绝，临杀化印。跃马横戈驰天涯，秦山楚国帅府家。儿女手足喜相逢，斩将夺关壮士夸。'
+			}
+
+			jiazilm戊子:before {
+				content: '山环水抱日。临胎，坐正财。水绕山环明月光，烟花影中福高享。勿贪关城槐山梦，江海浮云一空束。'
+			}
+
+			jiazilm戊寅:before {
+				content: '虎啸山谷日。临长生，坐杀，偏印。将星入命立武功，猛虎纵风显英雄。印绶财官悬天门，南征北战旅马行。'
+			}
+
+			jiazilm戊辰:before {
+				content: '苍龙出海日。临冠带，正才，比肩，正官。月洒高山江山秀，平生最喜东南游。一生辛勤贵不显，为人热心福气厚。'
+			}
+
+			jiazilm戊午:before {
+				content: '马奔午门日。临羊刃，正印。日月分秀福气隆，杀官相见主武功。平川一去前程远，戎马西洲比陶公。'
+			}
+
+			jiazilm戊申:before {
+				content: '霞落花簇日。临病，食神，偏财。日坐福星声名显，万卷诗书朝天关。骑驴走马炉中火，风云雷雨步金殿。'
+			}
+
+			jiazilm戊戌:before {
+				content: '溪绕画亭日。坐墓，临正印，比劫。热情憨厚心似海，白帝玉女捧印来。溪绕画亭芳香名，田园平川云天外。'
+			}
+
+			jiazilm己丑:before {
+				content: '金牛拜金殿。临墓，坐比肩，食神，偏财。一柱佛香拜金殿，艮山流水芳名显。金匙开得丑戈库，富贵荣华醉管弦。'
+			}
+
+			jiazilm己卯:before {
+				content: '武跨将坛日。临衰，坐七杀将星。将士佩弓跨战马，暮雨风月渡年华。文星福禄若有情，北国回首似到家。'
+			}
+
+			jiazilm己巳:before {
+				content: '马跃平川日。临帝旺，坐偏印，比劫。南朝天子绶玉印，千里长江醉游人。雪山草地马难行，春风得意座上宾。'
+			}
+
+			jiazilm己未:before {
+				content: '丹桂漂香日。临冠带，坐比肩，枭印。月中桂子秋飘香，江河日月交相映，莫道高山芳气散，二月春风论短长。'
+			}
+
+			jiazilm己酉:before {
+				content: '凤飞绿洲日。临长生，坐支食神。一轮满月出苍海，金凤展翅飞天外，秦山昆仑雪皑皑，龙凤呈祥玉珠来。'
+			}
+
+			jiazilm己亥:before {
+				content: '平川流水日。临胎，坐支正财，正官。禄马同乡拜玉堂，天堑通途文星扬。沉影不随流水去，杀星冲动马无疆。'
+			}
+
+			jiazilm庚子:before {
+				content: '金玉出海日。临死，坐支，伤官。能歌善舞笔和墨，犹如白虎戏江水。冲在禄马登科甲，斑竹细雨伤情泪。'
+			}
+
+			jiazilm庚寅:before {
+				content: '白虎镇山日。临绝，坐支偏财，七杀，偏印。平川猛虎归山林，秋风落叶时不宁。最喜大雪封山时，三夏浓荫卧孔明。'
+			}
+
+			jiazilm庚辰:before {
+				content: '福德贵人日。临养，坐支偏印，食神。命带魁罡性刚强，不信鬼神在身旁。玉佩娇阳入命来，执戈跨马佐高皇。'
+			}
+
+			jiazilm庚午:before {
+				content: '火铸金印日。临沐浴，支坐正官印。铁笔一只水为墨，淡彩浓云笔下绘。学苑将士两般命，山野朱雀衔玉翠。'
+			}
+
+			jiazilm庚申:before {
+				content: '双虎奔驰日。临官禄，坐支比肩，食神，偏印，又叫虎恋玉女日。白虎交驰向南行，雀跃江河早成名。禄到长生官得地，九重露雨沐朱衣。'
+			}
+
+			jiazilm庚戌:before {
+				content: '禄马贵人日。临衰，坐支正官，偏印。将军百战不论功，高山流水又出征。西去阳关知音少，前禄后福两三重。'
+			}
+
+			jiazilm辛丑:before {
+				content: '白玉生辉日。临养，支坐偏印，食神，比肩。白玉生辉金门客，高山得贵子为墨。身入平川多愁叹，干弋影里勋业垂。'
+			}
+
+			jiazilm辛卯:before {
+				content: '凤阙早步日。临绝，支坐财，伤官，驿马，冲禄。高山起程水流长，边塞迢迢雪满霜。佛山玉女岂有情，雪山日照花海棠。'
+			}
+
+			jiazilm辛巳:before {
+				content: '金马登殿日。临死，坐支正官，正印，劫财，驿马。金马临官号嘶风，玉堂拜相翰苑名。最喜高山水环绕，娇阳日出漫消魂。'
+			}
+
+			jiazilm辛未:before {
+				content: '冰河解冻日。临衰，支坐枭印，偏官，多情忘义。身入西国佛香地，漫歌轻舞管弦醉。玉女传送风流人，高山日出彩画新。'
+			}
+
+			jiazilm辛酉:before {
+				content: '凤卧金山日。临禄，支坐比肩，天乙贵人。禄马贵人世少有，凤卧金山将帅候。日出朝阳横天行，月圆金门寻石榴。'
+			}
+
+			jiazilm辛亥:before {
+				content: '虎行天门日。临沐浴，支坐伤官，正财，驿马。一去天门遥遥远，长亭驿路关山寒。倒骑毛驴东行去，高山丽日花团团。'
+			}
+
+			jiazilm壬子:before {
+				content: '马奔天河日。临帝旺。支坐劫财。壬水浩浩漫天下，行入东方福到家。江南平川鱼米乡，云雨湖海镜中花。'
+			}
+
+			jiazilm壬寅:before {
+				content: '福禄日。临病，支坐食神，偏财偏官。虎跃天河威名扬，犹如箕豹出山岗。禄到长生官得地，九重雨露沐朱衣。'
+			}
+
+			jiazilm壬辰:before {
+				content: '山流水长日。临墓，支坐偏官，劫财，库地，虚名虚利。江水流芳美如画，杜鹃啼血巫山峡。月下骑马走平川，一日尝尽牡丹花。'
+			}
+
+			jiazilm壬午:before {
+				content: '花红柳绿日。临胎，支坐财，正官，驿马。禄马相邀入帝乡，花红柳绿掩高堂。出阕最喜函玉关，千里迢迢雁北上。'
+			}
+
+			jiazilm壬申:before {
+				content: '白虎渡江日。临长生。支坐偏印，偏官，劫财，驿马。命似白虎渡长江，最怕风雨江水涨。丽日跨入平川地，金枝玉叶陪身旁。'
+			}
+
+			jiazilm壬戌:before {
+				content: '龙出苍海日。临冠带，支坐正财，偏官，正印，火库。身坐火库水得福，西行东邀人间苦。壮士难酬青云志，醉看少女漫歌舞。'
+			}
+
+			jiazilm癸丑:before {
+				content: '桑柳成荫日。临冠带，支坐偏官，印，比肩。池塘桑柳满园色，二月春风柳絮飞。莫怨高山运来迟，干戈影里是翡翠。'
+			}
+
+			jiazilm癸卯:before {
+				content: '天姿文秀日。临长生，支坐食神。学堂词馆贵人命，天姿文秀人多情。最喜三星相拱照，诗琴歌乐官弦声。'
+			}
+
+			jiazilm癸巳:before {
+				content: '彩霞佩玉日。临胎，支坐正财正官，驿马，文星。贵人玉堂来拜相，墨池泉涌好文章。武士跨马走天下，王公皇候似平常。'
+			}
+
+			jiazilm癸未:before {
+				content: '贵人佩玉日。临墓，支坐偏官，偏财。日临官库将相命，男子英勇女贵荣。西方一去福禄地，花园翠亭马不行。'
+			}
+
+			jiazilm癸酉:before {
+				content: '天福日。临病，支坐偏印。潇洒功名起一方，一冲一合异寻常。江湖花洒安享福。南去高山势莫档。'
+			}
+
+			jiazilm癸亥:before {
+				content: '天门悬彩日。临帝旺。支坐伤官。劫财，驿马。九华山上天门开，日行东方花似海。若去西方昆仑地，边塞将士恋故国。'
+			}
+		</style>
+
+		<script src="js/jquery_tanchuang.js"></script><!--弹窗的js文件-->
+
+
+		<script>
+			// 时辰对应时间
+			var scarr = {
+				"子": "00:00",
+				"丑": "02:00",
+				"寅": "04:00",
+				"卯": "06:00",
+				"辰": "08:00",
+				"巳": "10:00",
+				"午": "12:00",
+				"未": "14:00",
+				"申": "16:00",
+				"酉": "18:00",
+				"戌": "20:00",
+				"亥": "22:00"
+			};
+
+			var fcbz = function(bzstr) {
+				var rtn = new Array();
+				var pattern1 = /[甲乙丙丁戊己庚辛壬癸][子丑寅卯辰巳午未申酉戌亥]+/g;
+				bzstr = bzstr.replace(/[^甲乙丙丁戊己庚辛壬癸子丑寅卯辰巳午未申酉戌亥]+/g, '')
+				var bzarr = bzstr.match(pattern1);
+				// console.debug(bzarr);
+				if (bzarr.length < 1) return "";
+				var ngz = bzarr[0]; // 年干支
+				var ng = ngz.substr(0, 1); // 年干
+				var nz = ngz.substr(1, 1); // 年支
+				var mgz = ""; // 月干支
+				var mg = ""; // 月干
+				var mz = ""; // 月支
+				if (bzarr.length > 1) {
+					mgz = bzarr[1]; // 月干支
+					mg = mgz.substr(0, 1); // 月干
+					mz = mgz.substr(1, 1); // 月支
+				}
+				var rgz = ""; // 日干支
+				var rg = ""; // 日干
+				var rz = ""; // 日支
+				if (bzarr.length > 2) {
+					rgz = bzarr[2]; // 日干支
+					rg = rgz.substr(0, 1); // 日干
+					rz = rgz.substr(1, 1); // 日支
+				}
+				var sgz = "" // 时干支
+				var sg = "";
+				var sz = "";
+				var hours = "";
+				if (bzarr.length > 3) {
+					sgz = bzarr[3];
+					sg = sgz.substr(0, 1); // 时干
+					sz = sgz.substr(1, 1); // 时支
+					hours = scarr[sz];
+					hours = hours ? hours : "";
+				}
+
+				$('#solars').html('<li>计算中...</li>');
+				try {
+					var year = ngz; //$('#year').val();
+					var month = mgz; // $('#month').val();
+					var day = rgz; // $('#day').val();
+					var time = sgz; //$('#time').val();
+					var sect = 2; // parseInt($('#sect').val());
+					var baseYear = 1800; // parseInt($('#baseYear').val());
+					var solars = Solar.fromBaZi(year, month, day, time, sect, baseYear);
+					var size = solars.length;
+					if (size < 1) {
+						$('#solars').html('<li>没有这个八字哦，看看是否有误</li>');
+					} else {
+						$('#solars').html('');
+						for (var i = 0; i < size; i++) {
+							var solar = solars[i];
+							$('<a onclick="setymds(this.innerHTML)">' + solar.toYmdHms().substr(0,16) + '　</a>').appendTo($('#solars'));
+						}
+					}
+				} catch (e) {
+					$('#solars').html('<li>出错了！</li>');
+				}
+			};
+			
+			var chgdate = function(datestr){
+				var y = parseInt(datestr.substr(0, 4));
+				var m = parseInt(datestr.substr(4, 2));
+				var d = parseInt(datestr.substr(6, 2));
+				var h = parseInt(datestr.substr(8, 2));
+				
+				var mi = parseInt(datestr.substr(10, 2));
+				mi=isNaN(mi)?0:mi;
+
+				document.getElementById('year').value = y;
+				document.getElementById('month').value = m;
+				document.getElementById('day').value = d;
+				document.getElementById('hour').value = h;
+				document.getElementById('minute').value = mi;
+
+				$('#yun td').click();				
+			};
+			
+			var setdateinput = function(datestr){
+				var y = (datestr.substr(0, 4));
+				var m = (datestr.substr(5, 2));
+				var d = (datestr.substr(8, 2));
+				var h = (datestr.substr(11, 2));
+				var mi = (datestr.substr(14, 2));
+				
+				document.getElementById("dateinput").value = y+m+d+h+mi;
+				chgdate(y+m+d+h+mi)
+			};
+
+			var setymds = function(bzstr) {
+				setdateinput(bzstr);
+				//console.log(bzstr)
+
+			};
+
+			function getParameterByName(name, url = window.location.href) {
+				name = name.replace(/[\[\]]/g, '\\$&');
+				var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
 					results = regex.exec(url);
-			if (!results) return null;
-			if (!results[2]) return '';
-			return decodeURIComponent(results[2].replace(/\+/g, ' '));
-	}
-    function urlpara(){
-    	var queryString = window.location.search;
-    	if(queryString=="")return;
-		var y = getParameterByName('y');
-		var m = getParameterByName('m');
-		var d = getParameterByName('d');
-		var h = getParameterByName('h');
-		var mi = getParameterByName('mi');
-		
-        document.getElementById('year').value=y;
-		document.getElementById('month').value=m;
-		document.getElementById('day').value=d;
-		document.getElementById('hour').value=h;
-		document.getElementById('minute').value=mi;
-		show();
-		$('#yun td').click();
-		
-    }
-    
-	urlpara();
-	
-	</script>
-	 
-	 </body></html>
+				if (!results) return null;
+				if (!results[2]) return '';
+				return decodeURIComponent(results[2].replace(/\+/g, ' '));
+			}
+
+			function urlpara() {
+				var queryString = window.location.search;
+				if (queryString == "") return;
+				var y = getParameterByName('y');
+				var m = getParameterByName('m');
+				var d = getParameterByName('d');
+				var h = getParameterByName('h');
+				var mi = getParameterByName('mi');
+
+				document.getElementById('year').value = y;
+				document.getElementById('month').value = m;
+				document.getElementById('day').value = d;
+				document.getElementById('hour').value = h;
+				document.getElementById('minute').value = mi;
+				show();
+				$('#yun td').click();
+
+			}
+
+			urlpara();
+		</script>
+
+	</body>
+</html>
