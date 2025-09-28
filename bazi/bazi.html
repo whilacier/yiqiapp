@@ -343,7 +343,7 @@
 		<div class="pp">
 			<div class="wrap">
 				<div class="ipt plr mr br">年</div>
-				<div class="pinp"><select id="year" class="tin" type="number" pattern="\d*" onchange="sqsave();">
+				<div class="pinp"><select id="year" class="tin" type="number" pattern="\d*">
 
 						<script type="text/javascript">
 							var j, k;
@@ -421,7 +421,7 @@
 				
 				<!-- <div class="ipt pr mr br">直输</div> -->
 				<div class="pinp">
-					<input id="dateinput" onchange="chgdate(this.value)" placeholder="出生日期202509190920" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:96%;height:37px;font-size:16px;border:1px solid #c6c6c6;'  type="text"/>
+					<input id="dateinput" placeholder="出生日期202509190920" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:96%;height:37px;font-size:16px;border:1px solid #c6c6c6;'  type="text"/>
 				</div>
 				
 			</div>
@@ -1524,23 +1524,7 @@
 				}
 			};
 			
-			var chgdate = function(datestr){
-				var y = parseInt(datestr.substr(0, 4));
-				var m = parseInt(datestr.substr(4, 2));
-				var d = parseInt(datestr.substr(6, 2));
-				var h = parseInt(datestr.substr(8, 2));
-				
-				var mi = parseInt(datestr.substr(10, 2));
-				mi=isNaN(mi)?0:mi;
-
-				document.getElementById('year').value = y;
-				document.getElementById('month').value = m;
-				document.getElementById('day').value = d;
-				document.getElementById('hour').value = h;
-				document.getElementById('minute').value = mi;
-
-				$('#yun td').click();				
-			};
+	
 			
 			var setdateinput = function(datestr){
 				var y = (datestr.substr(0, 4));
@@ -1549,8 +1533,9 @@
 				var h = (datestr.substr(11, 2));
 				var mi = (datestr.substr(14, 2));
 				
-				document.getElementById("dateinput").value = y+m+d+h+mi;
-				chgdate(y+m+d+h+mi)
+				$('#dateinput').val(y+m+d+h+mi).change()
+				
+				//chgdate(y+m+d+h+mi)
 			};
 
 			var setymds = function(bzstr) {
@@ -1583,7 +1568,7 @@
 				document.getElementById('hour').value = h;
 				document.getElementById('minute').value = mi;
 				show();
-				$('#yun td').click();
+				// $('#yun td').click();
 
 			}
 
