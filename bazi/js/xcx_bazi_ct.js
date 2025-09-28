@@ -2,7 +2,7 @@
 
 (function(){
   var INDEX = {
-    daYun: 0,
+    daYun: -1,
     liuNian: 0
   };
   var today = Solar.fromDate(new Date());
@@ -41,7 +41,14 @@
     compute();
   },20,50);
   
-  
+  var getShishenZhiLiuqin=function(dayGan,zhi){
+    var hideGan = LunarUtil.ZHI_HIDE_GAN[zhi];
+    var l = [];
+    for(var i=0,j=hideGan.length;i<j;i++){
+      l.push(LunarUtil.SHI_SHEN_ZHI[dayGan+zhi+hideGan[i]]);
+    }
+    return l;
+  };
   
   var compute = function(){
     try{
@@ -66,10 +73,6 @@
 	var nownl = Lunar.fromYmdHms(lunar.getYear(),lunar.getMonth(),lunar.getDay());//固定农历初一 的干支'+nownl.getDayInGanZhiExact()+'
 	var nowbz = lunar.getEightChar();//'+nowbz.getDay()+'八字 run范围内都可以
 /*保障另外一组选择器独立运行 finish*/
-	
-
-	  
-	  
 	  
 	  var year = $('#year').val();
       var month = $('#month').val();
@@ -120,38 +123,20 @@ var p = lunar.getPrevJieQi(),n = lunar.getNextJieQi();
 var jq = {'大寒':'中气', '立春':'节气', '冬至':'中气', '小寒':'节气', '小雪':'中气', '大雪':'节气', '霜降':'中气', '立冬':'节气', '秋分':'中气', '寒露':'节气', '处暑':'中气', '白露':'节气', '大暑':'中气', '立秋':'节气', '夏至':'中气', '小暑':'节气', '小满':'中气', '芒种':'节气', '谷雨':'中气', '立夏':'节气', '春分':'中气', '清明':'节气', '雨水':'中气', '惊蛰':'节气'	 };     	   	
 var bmf = {'鼠':'千手观音', '牛':'虚空藏菩萨', '虎':'虚空藏菩萨', '兔':'文殊菩萨', '龙':'普贤菩萨', '蛇':'普贤菩萨', '马':'大势至菩萨', '羊':'大日如来', '猴':'大日如来', '鸡':'不动尊菩萨', '狗':'阿弥陀佛', '猪':'阿弥陀佛', 	 };
 	  
-/**
+
 	var bztg = {'甲':'<span style="color:#228B22;" class=fonts>甲</span>', '乙':'<span style="color:#228B22;" class=fonts>乙</span>', 
 				'丙':'<span style="color:#FF0000;" class=fonts>丙</span>', '丁':'<span style="color:#FF0000;" class=fonts>丁</span>', 
-				'戊':'<span style="color:#715a15;" class=fonts>戊</span>', '己':'<span style="color:#715a15;" class=fonts>己</span>', 
-				'庚':'<span style="color:#ef9113;" class=fonts>庚</span>', '辛':'<span style="color:#ef9113;" class=fonts>辛</span>', 
-				'壬':'<span style="color:#185fac;" class=fonts>壬</span>', '癸':'<span style="color:#185fac;" class=fonts>癸</span>'		      };
+				'戊':'<span style="color:#c38200;" class=fonts>戊</span>', '己':'<span style="color:#c38200;" class=fonts>己</span>', 
+				'庚':'<span style="color:#0000ff;" class=fonts>庚</span>', '辛':'<span style="color:#0000ff;" class=fonts>辛</span>', 
+				'壬':'<span style="color:#000000;" class=fonts>壬</span>', '癸':'<span style="color:#000000;" class=fonts>癸</span>'		      };
 
-	var bzdz = {'子':'<span style="color:#185fac;" class=fonts>子</span>', '丑':'<span style="color:#715a15;" class=fonts>丑</span>', 
+	var bzdz = {'子':'<span style="color:#000000;" class=fonts>子</span>', '丑':'<span style="color:#c38200;" class=fonts>丑</span>', 
 				'寅':'<span style="color:#228B22;" class=fonts>寅</span>', '卯':'<span style="color:#228B22;" class=fonts>卯</span>', 
-				'辰':'<span style="color:#715a15;" class=fonts>辰</span>', '巳':'<span style="color:#FF0000;" class=fonts>巳</span>', 
-				'午':'<span style="color:#FF0000;" class=fonts>午</span>', '未':'<span style="color:#715a15;" class=fonts>未</span>', 
-				'申':'<span style="color:#ef9113;" class=fonts>申</span>', '酉':'<span style="color:#ef9113;" class=fonts>酉</span>', 
-				'戌':'<span style="color:#715a15;" class=fonts>戌</span>', '亥':'<span style="color:#185fac;" class=fonts>亥</span>'		      };
-	**/
+				'辰':'<span style="color:#c38200;" class=fonts>辰</span>', '巳':'<span style="color:#FF0000;" class=fonts>巳</span>', 
+				'午':'<span style="color:#FF0000;" class=fonts>午</span>', '未':'<span style="color:#c38200;" class=fonts>未</span>', 
+				'申':'<span style="color:#0000ff;" class=fonts>申</span>', '酉':'<span style="color:#0000ff;" class=fonts>酉</span>', 
+				'戌':'<span style="color:#c38200;" class=fonts>戌</span>', '亥':'<span style="color:#000000;" class=fonts>亥</span>'		      };
 	
-	var bztg = {'甲':'<span style="color:#228B22;" class=fonts>甲</span><span style="color:#228B22;">木</span>', '乙':'<span style="color:#228B22;" class=fonts>乙</span><span style="color:#228B22;">木</span>', 
-				'丙':'<span style="color:#FF0000;" class=fonts>丙</span><span style="color:#FF0000;">火</span>', '丁':'<span style="color:#FF0000;" class=fonts>丁</span><span style="color:#FF0000;">火</span>', 
-				'戊':'<span style="color:#715a15;" class=fonts>戊</span><span style="color:#715a15;">土</span>', '己':'<span style="color:#715a15;" class=fonts>己</span><span style="color:#715a15;">土</span>', 
-				'庚':'<span style="color:#ef9113;" class=fonts>庚</span><span style="color:#ef9113;">金</span>', '辛':'<span style="color:#ef9113;" class=fonts>辛</span><span style="color:#ef9113;">金</span>', 
-				'壬':'<span style="color:#185fac;" class=fonts>壬</span><span style="color:#185fac;">水</span>', '癸':'<span style="color:#185fac;" class=fonts>癸</span><span style="color:#185fac;">水</span>'		      };
-
-	var bzdz = {'子':'<span style="color:#185fac;" class=fonts>子</span><span style="color:#185fac;">水</span>', '丑':'<span style="color:#715a15;" class=fonts>丑</span><span style="color:#715a15;">土</span>', 
-				'寅':'<span style="color:#228B22;" class=fonts>寅</span><span style="color:#228B22;">木</span>', '卯':'<span style="color:#228B22;" class=fonts>卯</span><span style="color:#228B22;">木</span>', 
-				'辰':'<span style="color:#715a15;" class=fonts>辰</span><span style="color:#715a15;">土</span>', '巳':'<span style="color:#FF0000;" class=fonts>巳</span><span style="color:#FF0000;">火</span>', 
-				'午':'<span style="color:#FF0000;" class=fonts>午</span><span style="color:#FF0000;">火</span>', '未':'<span style="color:#715a15;" class=fonts>未</span><span style="color:#715a15;">土</span>', 
-				'申':'<span style="color:#ef9113;" class=fonts>申</span><span style="color:#ef9113;">金</span>', '酉':'<span style="color:#ef9113;" class=fonts>酉</span><span style="color:#ef9113;">金</span>', 
-				'戌':'<span style="color:#715a15;" class=fonts>戌</span><span style="color:#715a15;">土</span>', '亥':'<span style="color:#185fac;" class=fonts>亥</span><span style="color:#185fac;">水</span>'		      };
-
-
-
-
-
 	var tianganxy = {
 	'甲':'<p>甲木在十天干里排行第一位，属阳木，主仁。<br>自然属性：参天大树<br>甲木性格：仁慈，上进，永不屈服</p><p>仁慈/助人<br>甲木是参天大树，能够遮风挡雨，因此甲木出生的人，注定是一个仁慈的人，总喜欢帮身边的朋友解决问题，乐于助人。</p><p>上进<br>甲木扎根土地，一生不断向上生长，枝繁叶茂，因此甲木的人有上进心，有着积极的人生态度，躺平是不可能的，只要甲木活着就一直向上生长。</p><p>不屈服<br>甲木一生最大的理想是成为栋梁之材，因此甲木不怕庚金的砍伐，为了能成材，能抗压，勇于挑战生活中的挫折和压力，永不屈服。</p><p>甲木日主人的正面性格<br>富有上进心、恒心，正直，不马虎，有责任感，不轻浮，能助人，能体谅人。</p><p>甲木日主人的负面性格<br>不知妥协变通，欠缺敏捷性和灵活性，会过于主观会过度干涉别人，给自己造成负面的影响。</p><p>诗诀<br>甲木生人最聪明，深谋远虑是英雄。<br>别人若有为难事，舍已为人也现成。<br>（性格气质需要综合命局的五行、十神、用神等特质综合评判，此处仅提供甲木日主维度的特质参考，需知甲木越旺，则甲木特性越明显）</p><p>甲木名人<br>李小龙、吴京、岳飞、古天乐、宋庆龄、武则天</p><p>甲木类象<br>大树、森林、元首、统帅、火星、雷电、大路、桥梁、胆囊、头面、脑神经、政治、农林、松柏、猫、虎、电线杆</p><p>《滴天髓》论甲木<br>甲木参天，脱胎要火。春不容金，秋不容土；<br>火炽乘龙，水宕骑虎。地润天和，植立千古。</p><p>《渊海子平》论甲木<br>甲木天干作首排，原无枝叶与根荄；<br>欲存天地千年久，直向沙泥万丈埋；<br>断就栋梁金得用，化成灰炭火为灾；<br>蠢然块物无机事，一任春秋自往来。</p>', 
 	'乙':'<p>乙木在十天干里排行第二位，属阴木，主仁。<br>自然属性：苗圃花草<br>乙木性格：柔和、敏感、适应力强、有谋略</p><p>柔和<br>乙木是花草和藤本，具有柔软的身躯，正如“乙”字结构，九曲回肠，花草默默地伏在低处生长，不与它人争高。这注定了乙木人是柔和而谦卑的，从不会直接拒接别人，懂得去迁就别人，照顾他人的感受，如柔弱的女子。</p><p>敏感<br>乙木是小花小草，不同于甲木参天大树，乙木身形弱小而柔软，缺乏安全感，因此也带有敏感、心思细腻的性格。乙木人注重细节，天生有超强的观察力，能敏感体察别人的情绪变化，但人多面前会把自己的情绪隐藏得很好。</p><p>适应力强<br>狂风可以把大树连根拔起，但乙木的枝条可以迎风摆柳，具有极好的韧性。乙木可以生长在树荫下、田埂上、悬崖峭壁上，只要风把种子散播在适合的地方，乙木就可以生根发芽，这代表着它生存能力很强，对环境的适应很快，正所谓“藤萝系甲，可春可秋”。</p><p>有谋略<br>善于谋略和逻辑分析，懂得忍耐、随机应变、顺势而为，喜暗斗不喜明争，适合做幕后大佬。国内很多顶尖的幕后智囊团、顾问、策划者都是乙木出生。</p><p>乙木日主人的正面性格<br>柔顺、温和、有绝佳的情绪管理能力，不会坚持己见，做事灵活变通，善于沟通；有丰富的表现力，反应敏捷，富有协调性，韧性超强，适应环境能力强。</p><p>乙木日主人的负面性格<br>敏感，情绪多变，易见风转舵、三心二意，心软，没主见、怯懦；非常现实，内心占有欲强，有心机，容易经不起诱惑而受骗。</p><p>诗诀<br>乙木生人最耿直，心实见景有心机。<br>今日吃他一杯酒，不到明天就还席。<br>为人办事多公道，从来不会占便宜。<br>通情达理多尊让，能忍能让心最慈。<br>（性格气质需要综合命局的五行、十神、用神等特质综合评判，此处仅提供乙木日主维度的特质参考，需知乙木越旺，则乙木特性越明显。）</p><p>乙木名人<br>李鸿章、欧阳修、齐白石、金庸、麦当娜 、戴安娜、林青霞、王祖贤、霍建华</p><p>乙木类象<br>花草、苗圃、文人、僧道、肝脏、毛发、神经系统、丝绸、香料、冥王星</p><p>《滴天髓》论乙木<br>乙木虽柔，刲羊解牛，怀丁抱丙，跨凤乘猴；<br>虚湿之地，骑马亦忧，藤罗系甲，可春可秋。</p><p>《渊海子平》论乙木<br>乙木根荄种得深，只宜阳地不宜阴；<br>漂浮最怕多逢水，刻斫何须苦用金；<br>南去火炎灾不浅，西行土重祸犹侵；<br>栋梁不是连根木，辨别工夫好用心。</p>', 
@@ -181,155 +166,11 @@ var bmf = {'鼠':'千手观音', '牛':'虚空藏菩萨', '虎':'虚空藏菩萨
   var nangs = {'1':'☵','2':'☷','3':'☳','4':'☴','5':'☷','6':'☰','7':'☱','8':'☶','9':'☲'};
   var nvgs  = {'1':'☵','2':'☷','3':'☳','4':'☴','5':'☶','6':'☰','7':'☱','8':'☶','9':'☲'};
   var xwgw  = {'申脉':'坎','照海':'坤','外关':'震','临泣':'巽','公孙':'乾','后溪':'兑','内关':'艮','列缺':'离'};
-  var xwxx  = {
-  '申脉':'[人体] 肾脏、膀肢、泌尿系统、性器官、血液、血液循环系统、耳、背、腰、背脊骨。<br>[疾病] 肾、膀胱、泌尿系统疾病、肾冷、水泻、消渴症、血液病、出血症、兔疫系统疾病、性病、遗精、阳萎、生殖器疾病、中毒、病毒性疾病、耳痛、腰背疾病、心脏病、水肿病。',
-  '照海':'[人体] 腹部、胃、消化器、肉、右肩。<br>[疾病] 腹部、肠胃、消化道之疾、饮食停滞、湿重浮肿、皮肤、肌肤病、湿疹、疣、晕病、中气虚弱、劳累疲乏、慢性病、癌症。',
-  '外关':'[人体] 足、腿部、肝脏、神经、筋、左肋、右肩臂、头发。<br>[疾病] 足疾、肝经之疾、肝火旺、肝炎、精神病、狂躁病、多动症、神经衰弱、歇斯底理症、羊癫病、神经过敏、惊吓病、妇科病、疼痛性症状、剧烈性症状、咳嗽、声带咽喉病症。',
-  '临泣':'[人体] 头发、神经、气管、胆经、肱股、呼吸器官、食道、肠道、左肩、淋巴系统、血管。<br>[疾病] 胆疾、股肱之疾、中风、肠疾胀气、伤风、感冒、受凤、风湿、传染、坐骨神经痛、神经痛、神经炎、寒痹症、抽筋、胯股病、支气管炎、哮喘、左肩痛、淋巴疾病、优郁症、血管症。病情不稳定。',
-  '公孙':'[人体] 头、首、胸部，大肠、肺、右足、右下腹、精液、男性生殖器、身体健壮、体寒骨瘦之人。<br>[疾病] 头面之疾、筋骨疾、肺疾、骨病、寒症、硬性疾病、老病、急性病、变化异常之病、结肠病、便塞壅结。',
-  '后溪':'[人体] 口、舌，肺、痰、涎、气管、口角、咽喉、颊骨、牙齿、右肋、肛门、右肩臂。<br>[疾病] 口、舌、喉、牙齿之疾、咳嗽、痰喘、胸部、肺部疾病、食欲不振、膀胱疾病、外伤、肛门疾病、性病、贫血、低血压、手术、金属刃具致伤，皮肤病、气管疾病、头部疾病、破相。',
-  '内关':'[人体] 鼻、背、手背、指关节、骨、脾、趾、皮、手、脚背、膝关节、肘关节、左足、颧骨、乳房。<br>[疾病] 脾胃病、不食虚胀、鼻炎、手脚背之疾、麻木病、关节病、手指疾、肿瘤、结石、消化系统病、气血不通症、血液循环不定。',
-  '列缺':'[人体] 眼目、心脏、视力、红血球、血液、乳房、上焦、头面、喉、小肠。<br>[疾病] 眼病、视力疾病、心脏病、火烧伤、烫伤、放射性疾病、乳腺疾病、发烧、炎症、血液病、妇科病。囊肿扩散性病疾、肥大症（前列腺肥大，增生、乳腺增生、心脏肥大）、血压疾病。'};
-  var js=(Number(nian[lunar.getYearInGanZhi()]-1)+Number(yue[lunar.getMonth()]-1)+Number(lunar.getDay()-1)+Number(shi[bazi.getTimeZhi()]-1)+Number(nian[nownl.getYearInGanZhi()]-1)+Number(yue[nownl.getMonth()]-1)+Number(nownl.getDay()-1)+Number(shi[nowbz.getTimeZhi()]-1))%9;
-  var change  = {'元男':''+nanxw[nan[js]]+'穴&emsp;'+nans[js]+'&emsp;'+nang[nan[js]]+'&emsp;'+nangs[nan[js]]+'','元女':''+nvxw[nv[js]]+'穴&emsp;'+nvs[js]+'&emsp;'+nvg[nv[js]]+'&emsp;'+nvgs[nv[js]]+'',};
-  var changexw  = {'元男':''+nanxw[nan[js]]+'','元女':''+nvxw[nv[js]]+'',};//穴位
-  var changegw  = {'元男':''+xwgw[nanxw[nan[js]]]+'','元女':''+xwgw[nvxw[nv[js]]]+'',};//穴位→宫位
-  var changexx  = {'元男':''+xwxx[nanxw[nan[js]]]+'','元女':''+xwxx[nvxw[nv[js]]]+'',};//穴位详情
-
+ var js=(Number(nian[lunar.getYearInGanZhi()]-1)+Number(yue[lunar.getMonth()]-1)+Number(lunar.getDay()-1)+Number(shi[bazi.getTimeZhi()]-1)+Number(nian[nownl.getYearInGanZhi()]-1)+Number(yue[nownl.getMonth()]-1)+Number(nownl.getDay()-1)+Number(shi[nowbz.getTimeZhi()]-1))%9;
 
 
       var s = '';
 	  
-$('#zhenjiu').html('<table style="margin:0px 2% 7px 2%;border:0px;">'+
-'<tr><th style="padding:5px 1%;width:49px;border-top:0px;">生辰</th><td style="border-top:0px;">'+lunar.getYearInGanZhi()+'年&ensp;' +lunar.getMonthInChinese() + '月' +lunar.getDayInChinese() + '&ensp;'+bazi.getTimeZhi()+'时</td></tr>'+
-'<tr><th style="padding:5px 1%;">用时</th><td style="font-size:15px;">'+nownl.getYearInGanZhi()+'年&ensp;' +nownl.getMonthInChinese() + '月' +nownl.getDayInChinese() + '&ensp;'+nowbz.getTimeZhi()+'时</td></tr>'+
-'<tr><th style="padding:5px 1%;">穴位</th><td>'+change[riGan]+'</td></tr>'+
-'<tr><th style="padding:5px 1%;line-height:22.68px;">'+changegw[riGan]+'卦<br>详情</th><td style="padding:5px 1%;font-size:15px;text-align:left;">'+changexx[riGan]+'</td></tr>'+
-''+
-''+
-''+
-'</table>'); //针灸
-
-
-
-      s += "<div id='saveneirong' style='display: none;'>"+
-"<input type='text' id='sitename1' onkeyup=this.value=this.value.replace(/[^a-zA-Z0-9\u4E00-\u9FA5]/g,'') onbeforepaste=this.value=this.value.replace(/[^a-zA-Z0-9\u4E00-\u9FA5]/g,'') placeholder='标题' style='text-indent:3.1px;margin:0px 2% 7px 2%;width:96%;height:37px;font-size:16px;border:1px solid #c6c6c6;' />"+
-"<input style='display:none' type='text' id='xingbie1' value='传统 "+riGans+"'><input style='display:none' type='text' id='fenlei1' value=''><input type='text' id='time1' style='display:none;' />"+
-"<textarea id='shuoming1' style='text-indent:3.1px;resize:none;margin:0px 2% 3px 2%;width:96%;height:139px;font-size:16px;border:1px solid #c6c6c6;'  placeholder='详细说明'></textarea>"+
-"<div class='plr pb' style=''><div class='wrap'> <div class='pinp br'>  <a target='iframesave' href='save_bazi.html' onclick=save('skyx_bazi','bazi',1)  class='lbut'>保存</a> </div>  <div class='pinp '>  <a onclick=sqsave(); class='lbut'>返回</a> </div> </div> </div></div>";
-
-
-
-
-
-
-
-    s += '<textarea id="other1" style="display: none;">';
-    s += '';
-    s += '<table style="width:100%;">';
-    s += '<tr><td colspan="4">'+solar.getYear()+'-'+solar.getMonth()+'-'+solar.getDay()+' '+solar.getHour()+':'+solar.getMinute()+'&ensp;'+lunar.getYearInChinese()+'年 ' +lunar.getMonthInChinese() + '月' +lunar.getDayInChinese() + '</td></tr>';
-    s += '<tr><td width=25%>'+bazi.getYearShiShenGan()+'</td><td width=25%>'+bazi.getMonthShiShenGan()+'</td><td width=25%>'+riGan+'</td><td width=25%>'+bazi.getTimeShiShenGan()+'</td></tr>';
-    s += '<tr><td>'+bazi.getYear()+'</td><td>'+bazi.getMonth()+'</td><td>'+bazi.getDay()+'</td><td>'+bazi.getTime()+'</td></tr>';
-    s += '<tr><td>'+bazi.getYearShiShenZhi()+'</span></td><td>'+bazi.getMonthShiShenZhi()+'</span></td><td>'+bazi.getDayShiShenZhi()+'</span></td><td>'+bazi.getTimeShiShenZhi()+'</span></td></tr>';
-    s += '<tr><td>'+bazi.getYearDiShi()+'</td><td>'+bazi.getMonthDiShi()+'</td><td>'+bazi.getDayDiShi()+'</td><td>'+bazi.getTimeDiShi()+'</td></tr>';
-    s += '<tr><td>'+bazi.getYearNaYin()+'</td><td>'+bazi.getMonthNaYin()+'</td><td>'+bazi.getDayNaYin()+'</td><td>'+bazi.getTimeNaYin()+'</td></tr>';
-    s += '<tr><td colspan="2">'+yun.getStartYear()+'年'+yun.getStartMonth()+'个月'+yun.getStartDay()+'天起运</td><td colspan="2">日空'+bazi.getDayXunKong()+'</td></tr>';
-    s += '</table>';
-    s += '<div style="overflow-x:auto;"> <table style="border:0px;width:100%;margin-top:6px;"><tr>';
-	var daYunArr = yun.getDaYun();
-	for (var i=0, j=daYunArr.length; i<j; i++) {
-	  var daYun = daYunArr[i];
-	s += '<td>' + daYun.getStartYear() + '</td>';
-	}
-	s += '</tr><tr>';
-	var daYunArr = yun.getDaYun();
-	for (var i=0, j=daYunArr.length; i<j; i++) {
-	  var daYun = daYunArr[i];
-	s += '<td style=white-space:nowrap;>' + daYun.getStartAge() + '岁</td>';
-	}
-	s += '</tr><tr>';
-	var daYunArr = yun.getDaYun();
-	for (var i=0, j=daYunArr.length; i<j; i++) {
-	  var daYun = daYunArr[i];
-	s += '<td>' + daYun.getGanZhi() + '<br></td>';
-	}
-
-
-	s += '</tr><tr>';
-  s += '<td>';
-var LiuNianArr = daYunArr[0].getLiuNian();
-for (var i=0, j=LiuNianArr.length; i<j; i++) {
-  var liuNian = LiuNianArr[i];
-  s += ''+liuNian.getGanZhi()+'<br>';
-}
-  s += '</td><td>';
-var LiuNianArr = daYunArr[1].getLiuNian();
-for (var i=0, j=LiuNianArr.length; i<j; i++) {
-  var liuNian = LiuNianArr[i];
-  s += ''+liuNian.getGanZhi()+'<br>';
-}
-  s += '</td><td>';
-var LiuNianArr = daYunArr[2].getLiuNian();
-for (var i=0, j=LiuNianArr.length; i<j; i++) {
-  var liuNian = LiuNianArr[i];
-  s += ''+liuNian.getGanZhi()+'<br>';
-}
-  s += '</td><td>';
-var LiuNianArr = daYunArr[3].getLiuNian();
-for (var i=0, j=LiuNianArr.length; i<j; i++) {
-  var liuNian = LiuNianArr[i];
-  s += ''+liuNian.getGanZhi()+'<br>';
-}
-  s += '</td><td>';
-var LiuNianArr = daYunArr[4].getLiuNian();
-for (var i=0, j=LiuNianArr.length; i<j; i++) {
-  var liuNian = LiuNianArr[i];
-  s += ''+liuNian.getGanZhi()+'<br>';
-}
-  s += '</td><td>';
-var LiuNianArr = daYunArr[5].getLiuNian();
-for (var i=0, j=LiuNianArr.length; i<j; i++) {
-  var liuNian = LiuNianArr[i];
-  s += ''+liuNian.getGanZhi()+'<br>';
-}
-  s += '</td><td>';
-var LiuNianArr = daYunArr[6].getLiuNian();
-for (var i=0, j=LiuNianArr.length; i<j; i++) {
-  var liuNian = LiuNianArr[i];
-  s += ''+liuNian.getGanZhi()+'<br>';
-}
-  s += '</td><td>';
-var LiuNianArr = daYunArr[7].getLiuNian();
-for (var i=0, j=LiuNianArr.length; i<j; i++) {
-  var liuNian = LiuNianArr[i];
-  s += ''+liuNian.getGanZhi()+'<br>';
-}
-  s += '</td><td>';
-var LiuNianArr = daYunArr[8].getLiuNian();
-for (var i=0, j=LiuNianArr.length; i<j; i++) {
-  var liuNian = LiuNianArr[i];
-  s += ''+liuNian.getGanZhi()+'<br>';
-}
-  s += '</td><td>';
-var LiuNianArr = daYunArr[9].getLiuNian();
-for (var i=0, j=LiuNianArr.length; i<j; i++) {
-  var liuNian = LiuNianArr[i];
-  s += ''+liuNian.getGanZhi()+'<br>';
-}
-  s += '</td><td>';
-var LiuNianArr = daYunArr[10].getLiuNian();
-for (var i=0, j=LiuNianArr.length; i<j; i++) {
-  var liuNian = LiuNianArr[i];
-  s += ''+liuNian.getGanZhi()+'<br>';
-}
-	s += '</td>';
-
-	
-	
-    s += '</tr></table></div> </textarea>';
-	
-	
-
 //var dd = Lunar.fromDate(new Date());
 var ddxs = LunarYear.fromYear(nownl.getYear());
 var xusui=Number(ddxs.next(1))-Number(lunar.getYear());
@@ -339,11 +180,11 @@ var xusui=Number(ddxs.next(1))-Number(lunar.getYear());
       s += '<table class="table1">';
       s += '<tr>';
       s += '<th class="th2" style="width:10%">公历</th>';
-      s += '<td colspan="8" class="td2">'+solar.getYear()+'年'+solar.getMonth()+'月'+solar.getDay()+'日'+solar.getHour()+'时'+solar.getMinute()+'分 虚龄'+xusui+'岁<u class="saveimgs"><a id="open" onclick="sqsave();" style="display:none;"></a></u></td>';
+      s += '<td colspan="12" class="td2">'+solar.getYear()+'年'+solar.getMonth()+'月'+solar.getDay()+'日'+solar.getHour()+'时'+solar.getMinute()+'分 虚龄'+xusui+'岁<u class="saveimgs"><a id="open" onclick="sqsave();" style="display:none;"></a></u></td>';
       s += '</tr>';
       s += '<tr>';
       s += '<th class="th1">农历</th>';
-      s += '<td colspan="8" class="td1"><span id="shengxiao">'+lunar.getYearShengXiaoExact()+'年</span> ' +lunar.getMonthInChinese() + '月 ' +lunar.getDayInChinese() + ' <span id="xingxiu">['+lunar.getXiu()+']</span> <span id="benmingfo">'+bmf[lunar.getYearShengXiaoExact()]+'</span></td>';
+      s += '<td colspan="12" class="td1"><span id="shengxiao">'+lunar.getYearShengXiaoExact()+'年</span> ' +lunar.getMonthInChinese() + '月 ' +lunar.getDayInChinese() + ' <span id="xingxiu">['+lunar.getXiu()+']</span> <span id="benmingfo">'+bmf[lunar.getYearShengXiaoExact()]+'</span></td>';
       s += '</tr>';
 	  var padding = function(n){
   	  return (n<10?'0':'') + n;
@@ -352,7 +193,7 @@ var xusui=Number(ddxs.next(1))-Number(lunar.getYear());
     var jieQiSolar = prevJieQi.getSolar();
       s += '<tr id="jieqi">';
       s += '<th class="th2">'+jq[prevJieQi.getName()]+'</th>';
-      s += '<td colspan="8" class="td2">';
+      s += '<td colspan="12" class="td2">';
     s += '' + prevJieQi.getName() + ' ' + jieQiSolar.getMonth() + '-' + jieQiSolar.getDay() + ' ' + padding(jieQiSolar.getHour()) + ':' + padding(jieQiSolar.getMinute()) + ''; //这个节气
   		
   	var nextJieQi = lunar.getNextJieQi();
@@ -364,7 +205,7 @@ var xusui=Number(ddxs.next(1))-Number(lunar.getYear());
 
 	s += '<tr>';
 	s += '<th class="th1">起运</th>';
-	s += '<td colspan="8" class="td1" id="qylp">';
+	s += '<td colspan="12" class="td1" id="qylp">';
 	if(yun.getStartYear()>0){
 	  s += yun.getStartYear()+'年'
 	}
@@ -379,31 +220,31 @@ var xusui=Number(ddxs.next(1))-Number(lunar.getYear());
 
 	  s += '<tr>';
 	  s += '<th class="th1" valign="top">卦数</th>';
-	  s += '<td colspan="8" style="line-height:22.68px;" class="td1" id="">'+ (lunar.getYearZhiIndex()+1)+'-'+lunar.getMonth() +'-'+ lunar.getDay()+'-'+(lunar.getTimeZhiIndex()+1)+'</td>';
+	  s += '<td colspan="12" style="line-height:22.68px;" class="td1" id="">'+ (lunar.getYearZhiIndex()+1)+'-'+lunar.getMonth() +'-'+ lunar.getDay()+'-'+(lunar.getTimeZhiIndex()+1)+'</td>';
 	  s += '</tr>';
 	  
       s += '<tr>';
       s += '<th style="width:16%" class="th2">主星</th>';
-      s += '<td colspan="2" style="width:21%" id="niangan" class="td2">'+bazi.getYearShiShenGan()+'</td>';
-      s += '<td colspan="2" style="width:21%" id="yuegan" class="td2">'+bazi.getMonthShiShenGan()+'</td>';
-      s += '<td colspan="2" style="width:21%" class="td2">'+riGan+'</td>';
-      s += '<td colspan="2" style="width:21%" id="shigan" class="td2">'+bazi.getTimeShiShenGan()+'</td>';
+      s += '<td colspan="2" style="width:12%" id="niangan" class="td2">'+bazi.getYearShiShenGan()+'</td>';
+      s += '<td colspan="2" style="width:14%" id="yuegan" class="td2">'+bazi.getMonthShiShenGan()+'</td>';
+      s += '<td colspan="2" style="width:14%" class="td2">'+riGan+'</td>';
+      s += '<td colspan="2" style="width:14%;border-right:1px solid #afafaf;" id="shigan" class="td2">'+bazi.getTimeShiShenGan()+'</td>';	  
+	  s += '<td colspan="2" style="width:14%" id="seldygss" class="td2">大运</td>';
+	  s += '<td colspan="2" style="width:14%" id="sellngss" class="td2">流年</td>';
+
+	  
       s += '</tr>';
 	  
-	  
-      //s += '<tr>';
-      //s += '<th>八字</th>';
-      //s += '<td colspan="2">'+lunar.getYearInGanZhiExact()+'</td>';
-      //s += '<td colspan="2">'+lunar.getMonthInGanZhiExact()+'</td>';
-      //s += '<td colspan="2">'+bazi.getDay()+'</td>';
-      //s += '<td colspan="2">'+bazi.getTime()+'</td>';
-      //s += '</tr>';
       s += '<tr>';
       s += '<th class="th1" valign="top">四柱<br><div style="font-size:8px;color:#FF9999;line-height:9px;">点击<br>查看</div></th>';
       s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="tgxynian">'+bztg[lunar.getYearGanExact()]+'<br>'+bzdz[lunar.getYearZhiExact()]+'</td>';
       s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="tgxyyue">'+bztg[lunar.getMonthGanExact()]+'<br>'+bzdz[lunar.getMonthZhiExact()]+'</td>';
       s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="tgxyri">'+bztg[bazi.getDayGan()]+'<br>'+bzdz[bazi.getDayZhi()]+'</td>';
-      s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="tgxyshi">'+bztg[bazi.getTimeGan()]+'<br>'+bzdz[bazi.getTimeZhi()]+'</td>';
+      s += '<td colspan="2" style="line-height:22.68px;border-right:1px solid #afafaf;" class="td1" id="tgxyshi">'+bztg[bazi.getTimeGan()]+'<br>'+bzdz[bazi.getTimeZhi()]+'</td>';  
+	  s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="seldayun">'+'</td>';
+	  s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="selliunian">'+'</td>'; 
+	  
+	  
       s += '</tr>';
 
       s += '<tr>';
@@ -411,30 +252,24 @@ var xusui=Number(ddxs.next(1))-Number(lunar.getYear());
       s += '<td style="text-align:right;border-right:0;padding-right:0px;" valign="top" id="nianzhi1" class="td2">'+bazi.getYearHideGans()+'</td><td style="text-align:left;border-left:0;white-space:nowrap;padding-left:0px;" valign="top" id="nianzhi2" class="td2">'+lunar.getBaZiShiShenYearZhi()+'</td>';
       s += '<td style="text-align:right;border-right:0;padding-right:0px;" valign="top" id="yuezhi1" class="td2">'+bazi.getMonthHideGans()+'</td><td style="text-align:left;border-left:0;white-space:nowrap;padding-left:0px;" valign="top" id="yuezhi2" class="td2">'+lunar.getBaZiShiShenMonthZhi()+'</td>';
       s += '<td style="text-align:right;border-right:0;padding-right:0px;" valign="top" id="rizhi1" class="td2">'+bazi.getDayHideGans()+'</td><td style="text-align:left;border-left:0;white-space:nowrap;padding-left:0px;" valign="top" id="rizhi2" class="td2">'+lunar.getBaZiShiShenDayZhi()+'</td>';
-      s += '<td style="text-align:right;border-right:0;padding-right:0px;" valign="top" id="shizhi1" class="td2">'+bazi.getTimeHideGans()+'</td><td style="text-align:left;border-left:0;white-space:nowrap;padding-left:0px;" valign="top" id="shizhi2" class="td2">'+lunar.getBaZiShiShenTimeZhi()+'</td>';
+      s += '<td style="text-align:right;bpadding-right:0px;" valign="top" id="shizhi1" class="td2">'+bazi.getTimeHideGans()+'</td><td style="text-align:left;border-left:0;white-space:nowrap;padding-left:0px;border-right:1px solid #afafaf;" valign="top" id="shizhi2" class="td2">'+lunar.getBaZiShiShenTimeZhi()+'</td>';
+  
+	  s+='<td style="text-align:right;border-right:0;padding-right:0px;" valign="top" id="seldycg" class="td2"><td style="text-align:left;border-left:0;white-space:nowrap;padding-left:0px;" valign="top" id="seldycgss" class="td2"></td>';
+	  s+='<td style="text-align:right;border-right:0;padding-right:0px;" valign="top" id="sellncg" class="td2"><td style="text-align:left;border-left:0;white-space:nowrap;padding-left:0px;" valign="top" id="sellncgss" class="td2"></td>';
+	  
       s += '</tr>';
-      
-      s += '<!--tr>';
-      s += '<th>地支</th>';
-      s += '<td>'+bazi.getYearShiShenZhi()[0]+'</td>';
-      s += '<td>'+bazi.getMonthShiShenZhi()[0]+'</td>';
-      s += '<td>'+bazi.getDayShiShenZhi()[0]+'</td>';
-      s += '<td>'+bazi.getTimeShiShenZhi()[0]+'</td>';
-      s += '</tr>';
-      s += '<tr>';
-      s += '<th>五行</th>';
-      s += '<td colspan="2">('+bazi.getYearWuXing()+')<br>'+tiandiwuxing(bazi.getYear().substr(0,1))+'<br>'+tiandiwuxing(bazi.getYear().substr(-1))+'</td>';
-      s += '<td colspan="2">('+bazi.getMonthWuXing()+')<br>'+tiandiwuxing(bazi.getMonth().substr(0,1))+'<br>'+tiandiwuxing(bazi.getMonth().substr(-1))+'</td>';
-      s += '<td colspan="2">('+bazi.getDayWuXing()+')<br>'+tiandiwuxing(bazi.getDay().substr(0,1))+'<br>'+tiandiwuxing(bazi.getDay().substr(-1))+'</td>';
-      s += '<td colspan="2">('+bazi.getTimeWuXing()+')<br>'+tiandiwuxing(bazi.getTime().substr(0,1))+'<br>'+tiandiwuxing(bazi.getTime().substr(-1))+'</td>';
-      s += '</tr-->';
-	    
+      	    
       s += '<tr>';
       s += '<th class="th1">星运</th>';
       s += '<td colspan="2" class="td1" id="changshengxynian">'+bazi.getYearDiShi()+'</td>';
       s += '<td colspan="2" class="td1" id="changshengxyyue">'+bazi.getMonthDiShi()+'</td>';
       s += '<td colspan="2" class="td1" id="changshengxyri">'+bazi.getDayDiShi()+'</td>';
-      s += '<td colspan="2" class="td1" id="changshengxyshi">'+bazi.getTimeDiShi()+'</td>';
+      s += '<td colspan="2" class="td1" id="changshengxyshi" style="border-right:1px solid #afafaf;">'+bazi.getTimeDiShi()+'</td>';
+	  
+	  s += '<td colspan="2" class="td1" id="seldyxy">'+'</td>';
+	  s += '<td colspan="2" class="td1" id="sellnxy">'+'</td>';
+
+	  
       s += '</tr>';
   var CHANG_SHENG_OFFSET = {'甲':1,'丙':10,'戊':10,'庚':7,'壬':4,'乙':6,'丁':9,'己':9,'辛':0,'癸':3};
   function getChangSheng(gan, ganIndex, zhiIndex){
@@ -453,7 +288,11 @@ var xusui=Number(ddxs.next(1))-Number(lunar.getYear());
     s += '<td colspan="2" class="td2" id="changshengzznian">' + getChangSheng(bazi.getYearGan(), lunar.getYearGanIndexExact(), lunar.getYearZhiIndexExact()) + '</td>';
     s += '<td colspan="2" class="td2" id="changshengzzyue">' + getChangSheng(bazi.getMonthGan(), lunar.getMonthGanIndexExact(), lunar.getMonthZhiIndexExact()) + '</td>';
     s += '<td colspan="2" class="td2" id="changshengzzri">' + getChangSheng(bazi.getDayGan(), 2 == bazi.getSect() ? lunar.getDayGanIndexExact2() : lunar.getDayGanIndexExact(), 2 == bazi.getSect() ? lunar.getDayZhiIndexExact2() : lunar.getDayZhiIndexExact()) + '</td>';
-    s += '<td colspan="2" class="td2" id="changshengzzshi">' + getChangSheng(bazi.getTimeGan(), lunar.getTimeGanIndex(), lunar.getTimeZhiIndex()) + '</td>';
+    s += '<td colspan="2" class="td2" style="border-right:1px solid #afafaf;" id="changshengzzshi">' + getChangSheng(bazi.getTimeGan(), lunar.getTimeGanIndex(), lunar.getTimeZhiIndex()) + '</td>';
+	
+	s+='<td colspan="2" id="seldyzz" class="td2"></td>';
+	s+='<td colspan="2" id="sellnzz" class="td2"></td>';
+	
     s += '</tr>';
 	
       s += '<tr>';
@@ -461,22 +300,24 @@ var xusui=Number(ddxs.next(1))-Number(lunar.getYear());
       s += '<td colspan="2" class="td1">'+bazi.getYearXunKong()+'</td>';
       s += '<td colspan="2" class="td1">'+bazi.getMonthXunKong()+'</td>';
       s += '<td colspan="2" class="td1"><font color=red>'+bazi.getDayXunKong()+'</font></td>';
-      s += '<td colspan="2" class="td1">'+bazi.getTimeXunKong()+'</td>';
+      s += '<td colspan="2" style="border-right:1px solid #afafaf;"  class="td1">'+bazi.getTimeXunKong()+'</td>';
+	  s+='<td colspan="2" class="td1"></td>';
+	  s+='<td colspan="2" id="sellnkw" class="td1"></td>';
+	  
       s += '</tr>';
+	  
+	  
       s += '<tr>';
       s += '<th class="th2">纳音</th>';
       s += '<td colspan="2" class="td2" id="nayinnian">'+bazi.getYearNaYin()+'</td>';
       s += '<td colspan="2" class="td2" id="nayinyue">'+bazi.getMonthNaYin()+'</td>';
       s += '<td colspan="2" class="td2" id="nayinri">'+bazi.getDayNaYin()+'</td>';
-      s += '<td colspan="2" class="td2" id="nayinshi">'+bazi.getTimeNaYin()+'</td>';
+      s += '<td colspan="2" style="border-right:1px solid #afafaf;"  class="td2" id="nayinshi">'+bazi.getTimeNaYin()+'</td>';
+	  
+	  s+='<td colspan="2" id="seldyny" class="td2"></td>';
+	  s+='<td colspan="2" id="sellnny" class="td2"></td>';
+	  
       s += '</tr>';
-      //s += '<tr>';
-      //s += '<th>五行</th>';
-      //s += '<td colspan="2">'+bazi.getYearWuXing()+'</td>';
-      //s += '<td colspan="2">'+bazi.getMonthWuXing()+'</td>';
-      //s += '<td colspan="2">'+bazi.getDayWuXing()+'</td>';
-      //s += '<td colspan="2">'+bazi.getTimeWuXing()+'</td>';
-      //s += '</tr>';
 	  
 		  
 	  // 年柱神煞
@@ -1345,17 +1186,6 @@ var xusui=Number(ddxs.next(1))-Number(lunar.getYear());
 	  }
 	  // 时柱神煞结束
 	
-	
-
-
-
-
-
-
-
-
-
-
     s += '</table>';
 	  
 
@@ -1587,7 +1417,7 @@ $('#shensha').html(''+
          }
     }
 
-        $('#dizhich').html(''+(matched.join('&ensp;'))+''); //地支冲合
+    $('#dizhich').html(''+(matched.join('&ensp;'))+''); //地支冲合
 
 
 
@@ -1803,7 +1633,7 @@ var ctmss = {
 
       
 
-      s += '<style>.ys甲{color:#228B22;}.ys乙{color:#228B22;}.ys丙{color:#FF0000;}.ys丁{color:#FF0000;}.ys戊{color:#715a15;} .ys己{color:#715a15;}.ys庚{color:#ef9113;}.ys辛{color:#ef9113;}.ys壬{color:#185fac;}.ys癸{color:#185fac;} .ys子{color:#185fac;} .ys丑{color:#715a15;} .ys寅{color:#228B22;} .ys卯{color:#228B22;} .ys辰{color:#715a15;} .ys巳{color:#FF0000;} .ys午{color:#FF0000;} .ys未{color:#715a15;} .ys申{color:#ef9113;} .ys酉{color:#ef9113;} .ys戌{color:#715a15;} .ys亥{color:#185fac;} </style>';
+      s += '<style>.ys甲{color:#228B22;}.ys乙{color:#228B22;}.ys丙{color:#FF0000;}.ys丁{color:#FF0000;}.ys戊{color:#c38200;} .ys己{color:#c38200;}.ys庚{color:#0000ff;}.ys辛{color:#0000ff;}.ys壬{color:#000000;}.ys癸{color:#000000;} .ys子{color:#000000;} .ys丑{color:#c38200;} .ys寅{color:#228B22;} .ys卯{color:#228B22;} .ys辰{color:#c38200;} .ys巳{color:#FF0000;} .ys午{color:#FF0000;} .ys未{color:#c38200;} .ys申{color:#0000ff;} .ys酉{color:#0000ff;} .ys戌{color:#c38200;} .ys亥{color:#000000;} </style>';
            
       s += '<style>lqdz男'+riGan+'比肩:before{content:"【比肩】兄弟/姑丈/朋友/同辈"}lqdz男'+riGan+'劫财:before{content:"【劫财】姐妹/儿媳/朋友/同辈"}lqdz男'+riGan+'食神:before{content:"【食神】女婿/外公/孙儿/晚辈/学生/下属/仆人"}lqdz男'+riGan+'伤官:before{content:"【伤官】祖母/岳母/孙女/晚辈/下属/仆人"}lqdz男'+riGan+'偏财:before{content:"【偏财】父亲/情人/叔伯"}lqdz男'+riGan+'正财:before{content:"【正财】妻子/弟媳/兄嫂/姑母"}lqdz男'+riGan+'七杀:before{content:"【七杀】儿子/姐夫/妹婿/侄儿/敌人/小人/恶势力/苛刻师长"}lqdz男'+riGan+'正官:before{content:"【正官】女儿/侄女/外婆/领导"}lqdz男'+riGan+'偏印:before{content:"【偏印】祖父/岳父/男外孙/亲属长辈/意外助力"}lqdz男'+riGan+'正印:before{content:"【正印】母亲/外孙女/贵人/助我之师长"}';
       s += 'lqdz女'+riGan+'比肩:before{content:"【比肩】姐妹/朋友/同辈"}lqdz女'+riGan+'劫财:before{content:"【劫财】兄弟/家公/朋友/同辈"}lqdz女'+riGan+'食神:before{content:"【食神】祖母/女儿/晚辈/学生/下属/仆人"}lqdz女'+riGan+'伤官:before{content:"【伤官】儿子/夫家姐夫妹夫/晚辈/下属/仆人"}lqdz女'+riGan+'偏财:before{content:"【偏财】家婆/兄嫂/弟媳/姑母"}lqdz女'+riGan+'正财:before{content:"【正财】父亲/伯叔"}lqdz女'+riGan+'七杀:before{content:"【七杀】情人/儿媳/夫家姐妹/外婆/敌人/小人/恶势力/苛刻师长"}lqdz女'+riGan+'正官:before{content:"【正官】丈夫/姐夫/妹婿/上司"}lqdz女'+riGan+'偏印:before{content:"【偏印】母亲/孙女/亲属长辈/意外助力"}lqdz女'+riGan+'正印:before{content:"【正印】祖父/女婿/孙儿/贵人/助我之师长"}</style>';
@@ -2095,10 +1925,18 @@ $('#text222').val(txt123);
       tds.eq(23).html('小<br>运');
       for(var i=0,j=daYun.length;i<j;i++){
         var d = daYun[i];
-		  var dds =LunarUtil.SHI_SHEN_GAN[bazi.getDayGan() + d.getGanZhi().substr(0,1)];
-			  if(d.getGanZhi()==''){dds='';}
+		var dds =LunarUtil.SHI_SHEN_GAN[bazi.getDayGan() + d.getGanZhi().substr(0,1)];
+		if(d.getGanZhi()==''){dds='';}
         //tds.eq(1+i).html('');
         tds.eq(1+i).html('<div style="font-size:14.9px;line-height:14.9px;"><span style=font-size:11.3px>'+d.getStartYear()+'</span><br><span style=font-size:11.3px>'+d.getStartAge()+'岁</span><br>'+d.getGanZhi()+'<br><font color=red>'+dds+'</font><br>'+changsheng(bazi.getDay().substr(0,1)+d.getGanZhi().substr(-1))+'<!--br>'+tiandiwuxing(d.getGanZhi().substr(0,1))+'<br>'+tiandiwuxing(d.getGanZhi().substr(-1))+'<br--></div>');
+		if(nowgl.getYear()>=d.getStartYear() && nowgl.getYear()< d.getStartYear()+10){
+			// 当前大运
+			if(INDEX.daYun==-1){
+				INDEX.daYun = i;
+				INDEX.liuNian = nowgl.getYear()-d.getStartYear();
+			}
+			
+		}
         //tds.eq(21+i).html(d.getGanZhi()+'1<br>'+tiandiwuxing(d.getGanZhi().substr(0,1))+'<br>'+tiandiwuxing(d.getGanZhi().substr(-1)));
       }
       //tds.eq(21+INDEX.daYun).addClass('active');
@@ -2111,37 +1949,62 @@ $('#text222').val(txt123);
       for(var i=0,j=liuNian.length;i<j;i++){
         var d = liuNian[i];
 		  
-var dayunshishen=LunarUtil.SHI_SHEN_GAN[bazi.getDayGan() + daYun[INDEX.daYun].getGanZhi().substr(0,1)];	
-var liunianshishen=LunarUtil.SHI_SHEN_GAN[bazi.getDayGan() + d.getGanZhi().substr(0,1)];
-var shishentext='';
-		  
-shishentext+='【参考一】你的喜用神：';shishentext+=txt2+'➜➜本年五行：'; shishentext+=tiandiwuxing(d.getGanZhi().substr(0,1))+'+'+tiandiwuxing(d.getGanZhi().substr(-1))+'。➜➜本年运势：';
-shishentext+=shishen(dayunshishen+liunianshishen);
-		  
-var shishentext2=''; 
-shishentext2+='【参考二】你的喜用神：';shishentext2+=txt2+'➜➜本年五行：'; shishentext2+=tiandiwuxing(d.getGanZhi().substr(0,1))+'+'+tiandiwuxing(d.getGanZhi().substr(-1))+'。➜➜本年运势：';
-shishentext2+=shishen2(liunianshishen+dayunshishen);
-
-
+		var dayunshishen=LunarUtil.SHI_SHEN_GAN[bazi.getDayGan() + daYun[INDEX.daYun].getGanZhi().substr(0,1)];	
+		var liunianshishen=LunarUtil.SHI_SHEN_GAN[bazi.getDayGan() + d.getGanZhi().substr(0,1)];
+		var shishentext='';
+				  
+		shishentext+='【参考一】你的喜用神：';shishentext+=txt2+'➜➜本年五行：'; shishentext+=tiandiwuxing(d.getGanZhi().substr(0,1))+'+'+tiandiwuxing(d.getGanZhi().substr(-1))+'。➜➜本年运势：';
+		shishentext+=shishen(dayunshishen+liunianshishen);
+				  
+		var shishentext2=''; 
+		shishentext2+='【参考二】你的喜用神：';shishentext2+=txt2+'➜➜本年五行：'; shishentext2+=tiandiwuxing(d.getGanZhi().substr(0,1))+'+'+tiandiwuxing(d.getGanZhi().substr(-1))+'。➜➜本年运势：';
+		shishentext2+=shishen2(liunianshishen+dayunshishen);
 		  
         //tds.eq(14+i).html('');
         tds.eq(13+i).html('<div style="font-size:14.9px;line-height:14.9px;"><span style=font-size:11.3px>'+d.getYear()+'</span><br><span style=font-size:11.3px>'+d.getAge()+'岁</span><br>'+d.getGanZhi()+'<br><font color=red>'+liunianshishen+'</font><br>'+changsheng(bazi.getDay().substr(0,1)+d.getGanZhi().substr(-1))+'<br><!--br>'+tiandiwuxing(d.getGanZhi().substr(0,1))+'<br>'+tiandiwuxing(d.getGanZhi().substr(-1))+'<br><a title="'+shishentext+'" onclick=alert("'+shishentext+'")>参1</a>'+'<br><a title="'+shishentext2+'" onclick=alert("'+shishentext2+'")>考2</a--></div>');
-		
-		
-        
-		
+			
         //tds.eq(52+i).html('');
         //tds.eq(52+i).html(d.getGanZhi()+'<br>'+tiandiwuxing(d.getGanZhi().substr(0,1))+'<br>'+tiandiwuxing(d.getGanZhi().substr(-1))+'<br><a title="'+shishentext+'" onclick=alert("'+shishentext+'")>(参考1)</a>'+'<br><a title="'+shishentext2+'" onclick=alert("'+shishentext2+'")>(参考2)</a>');
       }
       tds.eq(13+INDEX.liuNian).addClass('active');
-      
+	  
+	  // 当前大运流年显示
+	  var seldygz = daYun[INDEX.daYun].getGanZhi();
+	  if(seldygz!=""){
+		  document.getElementById('seldayun').innerHTML= bztg[seldygz.substr(0,1)]+'<br>'+bzdz[seldygz.substr(1,1)];
+		  document.getElementById('seldycg').innerHTML=LunarUtil.ZHI_HIDE_GANS[seldygz.substr(1,1)];
+		  document.getElementById('seldycgss').innerHTML=getShishenZhiLiuqin(bazi.getDay().substr(0,1),seldygz.substr(1,1));
+		  document.getElementById('seldyxy').innerHTML = changsheng(bazi.getDay().substr(0,1)+seldygz.substr(1,1)).substr(0,1);
+		  document.getElementById('seldyzz').innerHTML = changsheng(seldygz).substr(0,1);
+		  document.getElementById('seldyny').innerHTML = LunarUtil.NAYIN[seldygz];		
+		  document.getElementById('seldygss').innerHTML = LunarUtil.SHI_SHEN_GAN[bazi.getDay().substr(0,1)+seldygz.substr(0,1)];
+			
+	  }
+		
+	  var sellngz =  tds.eq(13+INDEX.liuNian).html();
+	  var pattern1 = /[甲乙丙丁戊己庚辛壬癸][子丑寅卯辰巳午未申酉戌亥]+/g;
+	  sellngz = sellngz.replace(/[^甲乙丙丁戊己庚辛壬癸子丑寅卯辰巳午未申酉戌亥]+/g, '')
+	  var bzarr = sellngz.match(pattern1);
+	  if (bzarr.length >0) {
+		  var ngz = bzarr[0]; // 年干支
+		  var ng = ngz.substr(0, 1); // 年干
+		  var nz = ngz.substr(1, 1); // 年支
+   		  document.getElementById('selliunian').innerHTML=bztg[ng]+'<br>'+bzdz[nz];
+		  document.getElementById('sellncg').innerHTML=LunarUtil.ZHI_HIDE_GANS[nz];
+		  document.getElementById('sellncgss').innerHTML=getShishenZhiLiuqin(bazi.getDay().substr(0,1),nz);
+		  document.getElementById('sellnxy').innerHTML = changsheng(bazi.getDay().substr(0,1)+nz).substr(0,1);
+		  document.getElementById('sellnzz').innerHTML = changsheng(ngz).substr(0,1);
+		  document.getElementById('sellnkw').innerHTML = LunarUtil.getXunKong(ngz);
+		  document.getElementById('sellnny').innerHTML = LunarUtil.NAYIN[ngz];
+		  document.getElementById('sellngss').innerHTML = LunarUtil.SHI_SHEN_GAN[bazi.getDay().substr(0,1)+ng];
+		  
+	  }
+	        
       var xiaoYun = daYun[INDEX.daYun].getXiaoYun();
       for(var i=0,j=xiaoYun.length;i<j;i++){
         var d = xiaoYun[i];
         tds.eq(24+i).html('<div style="font-size:14.9px;line-height:14.9px;">'+d.getGanZhi()+'<br><font color=red>'+LunarUtil.SHI_SHEN_GAN[bazi.getDayGan() + d.getGanZhi().substr(0,1)]+'</font><br><!--br>'+tiandiwuxing(d.getGanZhi().substr(0,1))+'<br>'+tiandiwuxing(d.getGanZhi().substr(-1))+'<br-->'+changsheng(bazi.getDay().substr(0,1)+d.getGanZhi().substr(-1))+'</div>');
       }
-      
-	  
 	  
       tds = $('#liu-yue td');
       tds.removeClass('active').html('');
@@ -2176,22 +2039,53 @@ shishentext2+=shishen2(liunianshishen+dayunshishen);
   
   compute();
   
-  $('#year').on('input propertychange',onChange);
-  $('#month').on('input propertychange',onChange);
-  $('#day').on('input propertychange',onChange);
-  $('#hour').on('input propertychange',onChange);
-  $('#minute').on('input propertychange',onChange);
+  var myonchange = function(){
+  	  INDEX.daYun = -1;
+  	  onChange();
+  };
   
-  $('#now_year').on('input propertychange',onChange);
-  $('#now_month').on('input propertychange',onChange);
-  $('#now_day').on('input propertychange',onChange);
-  $('#now_hour').on('input propertychange',onChange);
+  
+  var chgdate = function(){
+	var datestr = $('#dateinput').val();
+  	var y = parseInt(datestr.substr(0, 4));
+  	var m = parseInt(datestr.substr(4, 2));
+  	var d = parseInt(datestr.substr(6, 2));
+  	var h = parseInt(datestr.substr(8, 2));
+  	
+  	var mi = parseInt(datestr.substr(10, 2));
+  	mi=isNaN(mi)?0:mi;
+  
+  	document.getElementById('year').value = y;
+  	document.getElementById('month').value = m;
+  	document.getElementById('day').value = d;
+  	document.getElementById('hour').value = h;
+  	document.getElementById('minute').value = mi;
+  	
+	//show();
+	myonchange();
+  	//
+  	//$('#yun td').click();				
+  };
+  
+  $('#year').on('input propertychange',myonchange);
+  $('#month').on('input propertychange',myonchange);
+  $('#day').on('input propertychange',myonchange);
+  $('#hour').on('input propertychange',myonchange);
+  $('#minute').on('input propertychange',myonchange);
+  
+  $('#now_year').on('input propertychange',myonchange);
+  $('#now_month').on('input propertychange',myonchange);
+  $('#now_day').on('input propertychange',myonchange);
+  $('#now_hour').on('input propertychange',myonchange);
   //$('#now_minute').on('input propertychange',onChange);
   //$('#now_second').on('input propertychange',onChange);
+  $('#gender').on('change',myonchange);
+  $('#sect').on('change',myonchange);
+  $('#yunSect').on('change',myonchange);
+  $('#dateinput').on('change',chgdate);
   
-  $('#gender').on('change',onChange);
-  $('#sect').on('change',onChange);
-  $('#yunSect').on('change',onChange);
+
+  
   var tds = $('#yun td');
   tds.each(function(i){
     $(this).data('index',i);
