@@ -1961,8 +1961,9 @@ $('#text222').val(txt123);
 		shishentext2+=shishen2(liunianshishen+dayunshishen);
 		  
         //tds.eq(14+i).html('');
-        tds.eq(13+i).html('<div style="font-size:14.9px;line-height:14.9px;"><span style=font-size:11.3px>'+d.getYear()+'</span><br><span style=font-size:11.3px>'+d.getAge()+'岁</span><br>'+d.getGanZhi()+'<br><font color=red>'+liunianshishen+'</font><br>'+changsheng(bazi.getDay().substr(0,1)+d.getGanZhi().substr(-1))+'<br><!--br>'+tiandiwuxing(d.getGanZhi().substr(0,1))+'<br>'+tiandiwuxing(d.getGanZhi().substr(-1))+'<br><a title="'+shishentext+'" onclick=alert("'+shishentext+'")>参1</a>'+'<br><a title="'+shishentext2+'" onclick=alert("'+shishentext2+'")>考2</a--></div>');
-			
+        tds.eq(13+i).html('<div style="font-size:14.9px;line-height:14.9px;"><span style=font-size:11.3px>'+d.getYear()+'</span><br><span style=font-size:11.3px>'+d.getAge()+'岁</span><br>'+d.getGanZhi()+'<br><font color=red>'+liunianshishen+'</font><br>'+changsheng(bazi.getDay().substr(0,1)+d.getGanZhi().substr(-1))+'<br></div>');
+		// tds.eq(13+i).html('<div style="font-size:14.9px;line-height:14.9px;"><span style=font-size:11.3px>'+d.getYear()+'</span><br><span style=font-size:11.3px>'+d.getAge()+'岁</span><br>'+d.getGanZhi()+'<br><font color=red>'+liunianshishen+'</font><br>'+changsheng(bazi.getDay().substr(0,1)+d.getGanZhi().substr(-1))+'<br><!--br>'+tiandiwuxing(d.getGanZhi().substr(0,1))+'<br>'+tiandiwuxing(d.getGanZhi().substr(-1))+'<br><a title="'+shishentext+'" onclick=alert("'+shishentext+'")>参1</a>'+'<br><a title="'+shishentext2+'" onclick=alert("'+shishentext2+'")>考2</a--></div>');
+		
         //tds.eq(52+i).html('');
         //tds.eq(52+i).html(d.getGanZhi()+'<br>'+tiandiwuxing(d.getGanZhi().substr(0,1))+'<br>'+tiandiwuxing(d.getGanZhi().substr(-1))+'<br><a title="'+shishentext+'" onclick=alert("'+shishentext+'")>(参考1)</a>'+'<br><a title="'+shishentext2+'" onclick=alert("'+shishentext2+'")>(参考2)</a>');
       }
@@ -1982,23 +1983,29 @@ $('#text222').val(txt123);
 	  }
 		
 	  var sellngz =  tds.eq(13+INDEX.liuNian).html();
-	  var pattern1 = /[甲乙丙丁戊己庚辛壬癸][子丑寅卯辰巳午未申酉戌亥]+/g;
-	  sellngz = sellngz.replace(/[^甲乙丙丁戊己庚辛壬癸子丑寅卯辰巳午未申酉戌亥]+/g, '')
-	  var bzarr = sellngz.match(pattern1);
-	  if (bzarr.length >0) {
-		  var ngz = bzarr[0]; // 年干支
-		  var ng = ngz.substr(0, 1); // 年干
-		  var nz = ngz.substr(1, 1); // 年支
-   		  document.getElementById('selliunian').innerHTML=bztg[ng]+'<br>'+bzdz[nz];
-		  document.getElementById('sellncg').innerHTML=LunarUtil.ZHI_HIDE_GANS[nz];
-		  document.getElementById('sellncgss').innerHTML=getShishenZhiLiuqin(bazi.getDay().substr(0,1),nz);
-		  document.getElementById('sellnxy').innerHTML = changsheng(bazi.getDay().substr(0,1)+nz).substr(0,1);
-		  document.getElementById('sellnzz').innerHTML = changsheng(ngz).substr(0,1);
-		  document.getElementById('sellnkw').innerHTML = LunarUtil.getXunKong(ngz);
-		  document.getElementById('sellnny').innerHTML = LunarUtil.NAYIN[ngz];
-		  document.getElementById('sellngss').innerHTML = LunarUtil.SHI_SHEN_GAN[bazi.getDay().substr(0,1)+ng];
-		  
-	  }
+	  // console.log(sellngz)
+	  //if(sellngz!=""){
+		  var pattern1 = /[甲乙丙丁戊己庚辛壬癸][子丑寅卯辰巳午未申酉戌亥]+/g;
+		  // sellngz = sellngz.replace(/[^甲乙丙丁戊己庚辛壬癸子丑寅卯辰巳午未申酉戌亥]+/g, '')
+		  var bzarr = sellngz.match(pattern1);
+		  if (bzarr!=null && bzarr.length >0) {
+			  // console.log(bzarr)
+			  var ngz = bzarr[0]; // 年干支
+			  var ng = ngz.substr(0, 1); // 年干
+			  var nz = ngz.substr(1, 1); // 年支
+			  document.getElementById('selliunian').innerHTML=bztg[ng]+'<br>'+bzdz[nz];
+			  document.getElementById('sellncg').innerHTML=LunarUtil.ZHI_HIDE_GANS[nz];
+			  document.getElementById('sellncgss').innerHTML=getShishenZhiLiuqin(bazi.getDay().substr(0,1),nz);
+			  document.getElementById('sellnxy').innerHTML = changsheng(bazi.getDay().substr(0,1)+nz).substr(0,1);
+			  // console.log(ngz)
+			  document.getElementById('sellnzz').innerHTML = changsheng(ngz).substr(0,1);
+			  document.getElementById('sellnkw').innerHTML = LunarUtil.getXunKong(ngz);
+			  document.getElementById('sellnny').innerHTML = LunarUtil.NAYIN[ngz];
+			  document.getElementById('sellngss').innerHTML = LunarUtil.SHI_SHEN_GAN[bazi.getDay().substr(0,1)+ng];
+			  
+		  }		  
+	  //}
+
 	        
       var xiaoYun = daYun[INDEX.daYun].getXiaoYun();
       for(var i=0,j=xiaoYun.length;i<j;i++){
