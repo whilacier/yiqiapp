@@ -421,7 +421,8 @@
 				
 				<!-- <div class="ipt pr mr br">直输</div> -->
 				<div class="pinp">
-					<input id="dateinput" placeholder="出生日期202509190920" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:96%;height:37px;font-size:16px;border:1px solid #c6c6c6;'  type="text"/>
+					<input id="dateinput" placeholder="出生日期202509190920" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:80%;height:37px;font-size:16px;border:1px solid #c6c6c6;'  type="text"/>
+					<input id="islun" type="checkbox">农</input>
 				</div>
 				
 			</div>
@@ -1467,37 +1468,57 @@
 				var pattern1 = /[甲乙丙丁戊己庚辛壬癸][子丑寅卯辰巳午未申酉戌亥]+/g;
 				bzstr = bzstr.replace(/[^甲乙丙丁戊己庚辛壬癸子丑寅卯辰巳午未申酉戌亥]+/g, '')
 				var bzarr = bzstr.match(pattern1);
-				// console.debug(bzarr);
-				if (bzarr.length < 1) return "";
-				var ngz = bzarr[0]; // 年干支
-				var ng = ngz.substr(0, 1); // 年干
-				var nz = ngz.substr(1, 1); // 年支
-				var mgz = ""; // 月干支
-				var mg = ""; // 月干
-				var mz = ""; // 月支
-				if (bzarr.length > 1) {
-					mgz = bzarr[1]; // 月干支
-					mg = mgz.substr(0, 1); // 月干
-					mz = mgz.substr(1, 1); // 月支
-				}
-				var rgz = ""; // 日干支
-				var rg = ""; // 日干
-				var rz = ""; // 日支
-				if (bzarr.length > 2) {
-					rgz = bzarr[2]; // 日干支
-					rg = rgz.substr(0, 1); // 日干
-					rz = rgz.substr(1, 1); // 日支
-				}
-				var sgz = "" // 时干支
-				var sg = "";
-				var sz = "";
-				var hours = "";
-				if (bzarr.length > 3) {
-					sgz = bzarr[3];
-					sg = sgz.substr(0, 1); // 时干
-					sz = sgz.substr(1, 1); // 时支
-					hours = scarr[sz];
-					hours = hours ? hours : "";
+				//console.log(bzarr,bzstr,bzstr.length);
+				
+				var ngz;
+				var mgz;
+				var rgz;
+				var sgz;
+				
+				if (bzarr.length ==4){
+					ngz = bzarr[0]; // 年干支
+					var ng = ngz.substr(0, 1); // 年干
+					var nz = ngz.substr(1, 1); // 年支
+					mgz = ""; // 月干支
+					var mg = ""; // 月干
+					var mz = ""; // 月支
+					if (bzarr.length > 1) {
+						mgz = bzarr[1]; // 月干支
+						mg = mgz.substr(0, 1); // 月干
+						mz = mgz.substr(1, 1); // 月支
+					}
+					rgz = ""; // 日干支
+					var rg = ""; // 日干
+					var rz = ""; // 日支
+					if (bzarr.length > 2) {
+						rgz = bzarr[2]; // 日干支
+						rg = rgz.substr(0, 1); // 日干
+						rz = rgz.substr(1, 1); // 日支
+					}
+					sgz = "" // 时干支
+					var sg = "";
+					var sz = "";
+					var hours = "";
+					if (bzarr.length > 3) {
+						sgz = bzarr[3];
+						sg = sgz.substr(0, 1); // 时干
+						sz = sgz.substr(1, 1); // 时支
+						hours = scarr[sz];
+						hours = hours ? hours : "";
+					}
+				}else if(bzstr.length==8){
+					var ng = bzstr.substr(0, 1); // 年干
+					var nz = bzstr.substr(4, 1); // 年支
+					ngz =ng+nz; // 年干支
+					var mg = bzstr.substr(1, 1); ; // 月干
+					var mz = bzstr.substr(5, 1); ""; // 月支
+					mgz = mg+mz; // 月干支
+					var rg =bzstr.substr(2, 1); // 日干
+					var rz = bzstr.substr(6, 1);  // 日支
+					rgz =rg+rz ; // 日干支
+					var sg = bzstr.substr(3, 1); 
+					var sz = bzstr.substr(7, 1); 
+					sgz = sg+sz;// 时干支
 				}
 
 				$('#solars').html('<li>计算中...</li>');
@@ -1573,6 +1594,11 @@
 			}
 
 			urlpara();
+			
+			
+			var lll =  Lunar.fromYmdHms(1982,2,8,20,0,0);
+		  console.debug(lll)
+			
 		</script>
 
 	</body>
