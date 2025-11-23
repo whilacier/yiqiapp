@@ -79,10 +79,6 @@
       var day = $('#day').val();
       var hour = $('#hour').val();
       var minute = $('#minute').val();
-      
-      var year = $('#year').val();
-      var month = $('#month').val();
-      var day = $('#day').val();
       var gender = parseInt($('#gender').val());
       var sect = parseInt($('#sect').val());
 	  
@@ -102,8 +98,20 @@
         return;
       }
       
-      var solar = Solar.fromYmdHms(year,month,day,hour,minute,0);
-      var lunar = solar.getLunar();
+	  var isl=document.getElementById('islun').checked;
+	  //var solar;
+	  //var lunar;
+	  console.debug(month)
+	  if(isl){
+		  lunar = Lunar.fromYmdHms(parseInt(year),parseInt(month),parseInt(day),parseInt(hour),parseInt(minute),0);
+		  // lunar = Lunar.fromYmdHms(1982,2,8,20,0,0);
+		  console.debug(lunar)
+		  solar = lunar.getSolar();
+	  }else{
+		  solar = Solar.fromYmdHms(year,month,day,hour,minute,0);
+		  lunar = solar.getLunar();
+	  }
+
       var bazi = lunar.getEightChar();
       bazi.setSect(sect);
 	  
