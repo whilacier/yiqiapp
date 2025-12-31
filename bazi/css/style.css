@@ -9,11 +9,41 @@ body{background-color: #FFF;}
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Lato', sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   outline-style:none;
   font-weight:normal;
   cursor:default;
 }
+
+
+.ltq{font-size:6.8rem;line-height:6.8rem;text-align:center;} /*鬼谷两头钳*/
+
+	.books img
+	{
+	position:absolute;
+	right:3.1rem;
+	top:0.86rem;
+	z-index:5;
+	}
+
+
+	.booksbottom img
+	{
+	position:absolute;
+	right:1.9rem;
+	bottom:0.86rem;
+	right:13px;bottom:128px;position:fixed;
+	opacity:0.31;z-index:313;cursor:default;
+	}
+	.saveimg img
+	{
+	position:absolute;
+	right:1.9rem;
+	bottom:0.86rem;
+	right:13px;bottom:128px;position:fixed;
+	opacity:0.31;z-index:313;cursor:default;
+	}
+
 @media only screen and (-moz-min-device-pixel-ratio:1.5), only screen and (-o-min-device-pixel-ratio:3/2), only screen and (-webkit-min-device-pixel-ratio:1.5), only screen and (min-device-pixel-ratio:1.5){
 select{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAHCAYAAAD5wDa1AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAACZSURBVCiRrZIhDsJAFAWn5QAVXKF36B3wXAKFRTyzK7FNSDgDigOsWIHC4XHYBteEhCyimxoIbNiOez+TjPmFMeYOVKTRSZonum+UwBJ4JriP6P7NzDl39d53wOKHu5J0yImVAJJaYPfF20ra54TGWGQNuA/OEdjkhgCKEMI4rLUVcAbqeLoAjaR+8lgM1sCJ4SEaSbcpQgAvF5MqX4cbXiwAAAAASUVORK5CYII=)}
 }
@@ -62,8 +92,8 @@ a.right{right:0;}
 .mm,.ml,.mrl,.mlr,.mtl,.mlt,.mbl,.mlb{margin-left:0.5rem}
 .mm,.mt,.mtb,.mbt,.mtl,.mlt,.mtr,.mrt{margin-top:0.5rem}
 .mm,.mb,.mtb,.mbt,.mlb,.mbl,.mrb,.mbr{margin-bottom:0.5rem}
-.pp,.pr,.prl,.plr,.ptr,.prt,.pbr,.prb{padding-right:0.5rem}
-.pp,.pl,.prl,.plr,.ptl,.plt,.pbl,.plb{padding-left:0.5rem}
+.pp,.pr,.prl,.plr,.ptr,.prt,.pbr,.prb{padding-right:2%}
+.pp,.pl,.prl,.plr,.ptl,.plt,.pbl,.plb{padding-left:2%}
 .pp,.pt,.ptb,.pbt,.ptl,.plt,.ptr,.prt{padding-top:0.5rem}
 .pp,.pb,.ptb,.pbt,.plb,.pbl,.prb,.pbr{padding-bottom:0.5rem}
 
@@ -264,6 +294,39 @@ div.nopop{
 	border-radius:0.25rem;
 	white-space:nowrap;
 }
+
+.but,.lbuts{
+	border:0;
+	border-left:0.0625rem solid #c6c6c6;
+	font-size:1rem;
+	color:#666;
+	height:1.9rem;
+	line-height:1.9rem;
+	width:5rem;
+	margin-left:0.625rem;
+	text-align:center;
+	display:inline-block;
+	-moz-border-radius:0 0.25rem 0.25rem 0;
+	-webkit-border-radius:0 0.25rem 0.25rem 0;
+	border-radius:0 0.25rem 0.25rem 0;
+	-webkit-appearance:none;
+	-moz-appearance:none;
+	appearance:none;
+
+	background-color:#fbfbfb;
+	background:-moz-linear-gradient(top, #ffffff,#f8f8f8);
+	background:-webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f8f8f8));
+}
+.lbuts{
+	border:0;
+	margin:0;
+	width:100%;
+	-moz-border-radius:0.25rem;
+	-webkit-border-radius:0.25rem;
+	border-radius:0.25rem;
+	white-space:nowrap;
+}
+
 .inp{
 	height:2.4375rem;
 	font-size:1rem;
@@ -449,8 +512,19 @@ div.nopop{
 #gb:checked:checked ~ .gb,
 #gc:checked:checked ~ .gc,
 #gd:checked:checked ~ .gd,
+#ge:checked:checked ~ .ge,
+#gf:checked:checked ~ .gf,
+#gg:checked:checked ~ .gg,
+#gh:checked:checked ~ .gh,
+#gi:checked:checked ~ .gi,
+#gj:checked:checked ~ .gj,
+#gk:checked:checked ~ .gk,
+#gl:checked:checked ~ .gl,
+#gm:checked:checked ~ .gm,
+#gn:checked:checked ~ .gn,
 #zi0:checked:checked ~ .zi0,
-#zi1:checked:checked ~ .zi1{
+#zi1:checked:checked ~ .zi1,
+#zi2:checked:checked ~ .zi2{
   border-color: #DDDDDD;
   background: #DDDDDD;
 }
@@ -458,16 +532,38 @@ div.nopop{
 #gb:checked:checked ~ .gb .dot,
 #gc:checked:checked ~ .gc .dot,
 #gd:checked:checked ~ .gd .dot,
+#ge:checked:checked ~ .ge .dot,
+#gf:checked:checked ~ .gf .dot,
+#gg:checked:checked ~ .gg .dot,
+#gh:checked:checked ~ .gh .dot,
+#gi:checked:checked ~ .gi .dot,
+#gj:checked:checked ~ .gj .dot,
+#gk:checked:checked ~ .gk .dot,
+#gl:checked:checked ~ .gl .dot,
+#gm:checked:checked ~ .gm .dot,
+#gn:checked:checked ~ .gn .dot,
 #zi0:checked:checked ~ .zi0 .dot,
-#zi1:checked:checked ~ .zi1 .dot{
+#zi1:checked:checked ~ .zi1 .dot,
+#zi2:checked:checked ~ .zi2 .dot{
   background: #fff;
 }
 #ga:checked:checked ~ .ga .dot::before,
 #gb:checked:checked ~ .gb .dot::before,
 #gc:checked:checked ~ .gc .dot::before,
 #gd:checked:checked ~ .gd .dot::before,
+#ge:checked:checked ~ .ge .dot::before,
+#gf:checked:checked ~ .gf .dot::before,
+#gg:checked:checked ~ .gg .dot::before,
+#gh:checked:checked ~ .gh .dot::before,
+#gi:checked:checked ~ .gi .dot::before,
+#gj:checked:checked ~ .gj .dot::before,
+#gk:checked:checked ~ .gk .dot::before,
+#gl:checked:checked ~ .gl .dot::before,
+#gm:checked:checked ~ .gm .dot::before,
+#gn:checked:checked ~ .gn .dot::before,
 #zi0:checked:checked ~ .zi0 .dot::before,
-#zi1:checked:checked ~ .zi1 .dot::before{
+#zi1:checked:checked ~ .zi1 .dot::before,
+#zi2:checked:checked ~ .zi2 .dot::before{
   opacity: 1;
   transform: scale(1);
 }
@@ -476,8 +572,19 @@ div.nopop{
 #gb:checked:checked ~ .gb span,
 #gc:checked:checked ~ .gc span,
 #gd:checked:checked ~ .gd span,
+#ge:checked:checked ~ .ge span,
+#gf:checked:checked ~ .gf span,
+#gg:checked:checked ~ .gg span,
+#gh:checked:checked ~ .gh span,
+#gi:checked:checked ~ .gi span,
+#gj:checked:checked ~ .gj span,
+#gk:checked:checked ~ .gk span,
+#gl:checked:checked ~ .gl span,
+#gm:checked:checked ~ .gm span,
+#gn:checked:checked ~ .gn span,
 #zi0:checked:checked ~ .zi0 span,
-#zi1:checked:checked ~ .zi1 span{
+#zi1:checked:checked ~ .zi1 span,
+#zi2:checked:checked ~ .zi2 span{
   color: #fff;
 }
 
