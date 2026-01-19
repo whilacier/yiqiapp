@@ -3594,13 +3594,17 @@
 					dds = '';
 				}
 				var dygz=d.getGanZhi();
+				// console.log(dygz)
 				
 				var lns = d.getLiuNian();
+				// console.log(lns)
 				var lnss = "";
-				for (var j = 0; j < lns.length; j++) {
-					var agz = lns[j].getGanZhi();
+				for (var jj = 0; jj < lns.length; jj++) {
+					var agz = lns[jj].getGanZhi();
 					lnss += bztg1[agz.substr(0, 1)] + bzdz1[agz.substr(1, 1)] + "<br>";
 				}
+				
+				// console.log(dygz)
 				// tds.eq(35 + i).html(
 				// 	'<div style="font-size:14.9px;line-height:14.9px;"><span style=font-size:11.3px>' +
 				// 	lnss + "</span></div>");
@@ -3608,9 +3612,7 @@
 				tds.eq(1 + i).html(
 					'<div style="font-size:14.9px;line-height:14.9px;"><span style=font-size:11.3px>' + d
 					.getStartYear() + '</span><br><span style=font-size:11.3px>' + d.getStartAge() +
-					'岁</span><br>' + (dygz==''?'':(bztg1[dygz.substr(0, 1)] + bzdz1[dygz.substr(1, 1)]))+ '<br><!--font color=red>' + dds + '</font><br>' +
-					changsheng(bazi.getDay().substr(0, 1) + d.getGanZhi().substr(-1)) + '<br--><hr class="style1">'+lnss+ '</div>');
-
+					'岁</span><br>' + (dygz==''?'':(bztg1[dygz.substr(0, 1)] + bzdz1[dygz.substr(1, 1)]))+ '<br><hr class="style1">'+lnss+ '</div>');
 
 				if (nowgl.getYear() >= d.getStartYear() && nowgl.getYear() < d.getStartYear() + 10) {
 					// 当前大运
@@ -3622,9 +3624,10 @@
 
 				//tds.eq(21+i).html(d.getGanZhi()+'1<br>'+tiandiwuxing(d.getGanZhi().substr(0,1))+'<br>'+tiandiwuxing(d.getGanZhi().substr(-1)));
 			}
-			//tds.eq(21+INDEX.daYun).addClass('active');
 			tds.eq(1 + INDEX.daYun).addClass('active');
+			//tds.eq(21+INDEX.daYun).addClass('active');
 
+		// console.log(INDEX.daYun)
 			var liuNian = daYun[INDEX.daYun].getLiuNian();
 			if (INDEX.liuNian >= liuNian.length) {
 				INDEX.liuNian = 0;
