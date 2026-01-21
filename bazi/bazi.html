@@ -291,7 +291,6 @@
 		</style>
 	</head>
 	<body>
-		<link rel="stylesheet" href="css/loading.css">
 		<!-- Start preloader area -->
 		<div class="preloader_area">
 			<div class="spinner">
@@ -310,7 +309,6 @@
 		<!-- jquery  -->
 		<script src="js/jquery-1.12.4.min.js"></script>
 		<!-- main js -->
-		<script src="js/loading.js"></script>
 
 		<script src="js/xcx_bazi_1.js"></script>
 		<script src="js/xcx_bazi_2.js"></script>
@@ -425,11 +423,65 @@
 				
 				<!-- <div class="ipt pr mr br">直输</div> -->
 				<div class="pinp">
-					<input id="dateinput" placeholder="出生日期202509190920" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:50%;height:37px;font-size:16px;border:1px solid #c6c6c6;'  type="text"/>
+					<input id="dateinput" placeholder="出生日期202509190920" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:53%;height:37px;font-size:16px;border:1px solid #c6c6c6;'  type="text"/>
 					<input id="islun" type="checkbox">农</input>
-					<button onclick="showty();">真太阳时</button>	
-				</div>
+				</div>				
 			</div>
+			
+			
+			<div class="wrap">
+			<div class="pinp">
+			<select id="region" name="region" style="width: 30%;">
+							<option value="" selected disabled>-- 出生地 --</option>
+							
+							<!-- 东部战区 -->
+							<option value="4">上海市</option>
+							<option value="4">江苏省</option>
+							<option value="4">浙江省</option>
+							<option value="4">安徽省</option>
+							<option value="4">福建省</option>
+							<option value="4">江西省</option>
+							
+							<!-- 南部战区 -->
+							<option value="3">湖南省</option>
+							<option value="3">广东省</option>
+							<option value="3">广西壮族自治区</option>
+							<option value="3">海南省</option>
+							<option value="3">云南省</option>
+							<option value="3">贵州省</option>
+							<option value="3">香港特别行政区</option>
+							<option value="3">澳门特别行政区</option>
+							
+							<!-- 西部战区 -->
+							<option value="2">四川省</option>
+							<option value="2">重庆市</option>
+							<option value="2">甘肃省</option>
+							<option value="2">青海省</option>
+							<option value="2">宁夏回族自治区</option>
+							<option value="2">新疆维吾尔自治区</option>
+							<option value="2">西藏自治区</option>
+							
+							<!-- 北部战区 -->
+							<option value="6">辽宁省</option>
+							<option value="6">吉林省</option>
+							<option value="6">黑龙江省</option>
+							<option value="6">内蒙古自治区</option>
+							<option value="6">山东省</option>
+							
+							<!-- 中部战区 -->
+							<option value="8">北京市</option>
+							<option value="8">天津市</option>
+							<option value="8">河北省</option>
+							<option value="8">山西省</option>
+							<option value="8">河南省</option>
+							<option value="8">湖北省</option>
+							<option value="8">陕西省</option>
+						</select>
+						<button onclick="showty();">真太阳时</button>	
+			</div>
+
+			</div>
+			
 		</div>
 		
 		<div id="cgdiv" style="display:none;top: 6px;width: 100%;height: 600px;">
@@ -477,18 +529,18 @@
 
 
 		<script type="text/javascript">
-			setTimeout(function() {
-				// IE
-				if (document.all) {
-					document.getElementById("btn").click();
-				}
-				// 其它浏览器
-				else {
-					var e = document.createEvent("MouseEvents");
-					e.initEvent("click", true, true);
-					document.getElementById("btn").dispatchEvent(e);
-				}
-			}, 300);
+			// setTimeout(function() {
+			// 	// IE
+			// 	if (document.all) {
+			// 		document.getElementById("btn").click();
+			// 	}
+			// 	// 其它浏览器
+			// 	else {
+			// 		var e = document.createEvent("MouseEvents");
+			// 		e.initEvent("click", true, true);
+			// 		document.getElementById("btn").dispatchEvent(e);
+			// 	}
+			// }, 300);
 		</script>
 
 
@@ -584,20 +636,23 @@
 
 			<style>
 				.ttd {
-					width: 9.5%;
-					padding-bottom: 1.9px;
+					/* width: 9.5%; */
+					padding-top: 1px;
+					padding-bottom: 1px;
+					/* line-height:14.9px; */
 				}
 
 				.tdy {
-					padding-top: 0px;
-					padding-bottom: 0px;
+					padding-top: 1px;
+					padding-bottom: 1px;
+					/* line-height:14.9px; */
 				}
 			</style>
 
 			<div id="yun" style="overflow-x:auto;white-space:nowrap;">
-				<table style="margin:4.1px 2% 4.1px 2%;">
-					<tr>
-						<td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:1.9px;"
+				<table class="table1" style="margin:1.1px 2% 1.1px 2%;">
+					<tr >
+						<td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:10px;padding:1px;"
 							class="active"></td>
 						<td valign="top"></td>
 						<td class=ttd></td>
@@ -612,7 +667,7 @@
 						<td class=ttd style=display:none></td>
 					</tr>
 					<tr>
-						<td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:2.6px;"
+						<td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:10px;padding:1px;"
 							class="active"></td>
 						<td class=ttd></td>
 						<td class=ttd></td>
@@ -627,7 +682,7 @@
 					</tr>
 					<tr>
 						<td
-							style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:2.6px;">
+							style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:10px;padding:1px;">
 						</td>
 						<td class=ttd style="padding-top:1.9px;"></td>
 						<td class=ttd></td>
@@ -647,10 +702,10 @@
 
 
 			<div style="overflow-x:auto;white-space:nowrap;">
-				<table id="liu-yue" style="margin:1.1px 2% 1.1px 2%;">
+				<table id="liu-yue" class="table1" style="margin:1.1px 2% 1.1px 2%;">
 					<tbody>
 						<tr>
-							<td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:19px;padding:2.6px;"
+							<td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:10px;padding:1px;"
 								rowspan="2"></td>
 							<td class=tdy></td>
 							<td class=tdy></td>
@@ -682,12 +737,19 @@
 					</tbody>
 				</table>
 			</div>
-
+			<table class="table1"> 
+				<tr>
+					<td align="center"  style="border: 1px;">
+						<center>生辰卦需要输入准确的出生时间和出生地<div id="meihuag" style="margin-top:3px;width: 60%;"></div></center><!--梅花-->
+					</td>
+				</tr>
+			</table>
 			<div style="width:100%;">
 				<div id="shensha"></div>
 				<div id="qiyun"></div>
+				
 			</div>
-
+			
 
 			<div id="wangxiang" style="margin-top:3px;"></div><!--旺相休囚-->
 			<table class="table1" style="border-top:0px;border-bottom:0px;">
@@ -709,12 +771,8 @@
 					<th class="th2">婚配</th>
 					<td class="td2" style="text-align: left;"><span id="hunpei"></span></td>
 				</tr> <!--婚配-->
-				<!--tr><th class="th2">太岁</th><td class="td2" style="text-align: left;"><span id="fantaisui"></span></td></tr-->
+				<tr><th class="th2">太岁</th><td class="td2" style="text-align: left;"><span id="fantaisui"></span></td></tr>
 				<!--太岁-->
-				<!--tr><th class="th1">三垣</th><td class="td1" style="text-align: left;"><span id="sanyuan"></span></td></tr-->
-				<!--三垣yuán-->
-				<!--tr><th class="th2">胎息</th><td class="td2" style="text-align: left;"><span id="taixi"></span></td></tr-->
-				<!--胎息-->
 			</table>
 
 			<table class="table1" style="border-top:0px;">
@@ -1613,6 +1671,9 @@
 			}
 
 			urlpara();
+			
+			
+			
 			
 					
 		</script>
