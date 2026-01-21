@@ -48,6 +48,782 @@
 		return l;
 	};
 
+
+
+	
+	// 梅花卦
+	var paimeihua=function (no1, no2, byno) {
+		var shangg = ""; // 上挂
+		var xiag = ""; // 下挂
+		// 变卦
+		var biangs = ""; // 变卦上卦
+		var biangx = ""; // 变卦下卦
+	
+		var yd = 0;
+		var oriyd = yd;
+	
+
+			var curshizhino = no1 % 8;
+			curshizhino = curshizhino == 0 ? 8 : curshizhino;
+			var curkezhino = no2 % 8;
+			curkezhino = curkezhino == 0 ? 8 : curkezhino;
+			
+			if (byno != null && byno != "") {
+				// 指定爻变
+				yd = byno % 6; // 爻动
+			} else {
+				yd = (no1 % 6 + no2 % 6) % 6; // 爻动
+			}
+			
+			if (yd == 0) yd = 6;
+			oriyd = yd;
+			// console.debug(yd,no1+no2)
+			
+			// console.debug(curshizhino)
+			switch (curshizhino) {
+				case 6: // 坎卦
+					shangg = "010";
+					break;
+				case 7: // 艮卦
+					shangg = "100";
+					break;
+				case 4: // 震卦
+					shangg = "001";
+					break;
+				case 5: // 巽卦
+					shangg = "110";
+					break;
+				case 3: // 离卦
+					shangg = "101";
+					break;
+				case 8: // 坤卦
+					shangg = "000";
+					break;
+				case 2: // 兑卦
+					shangg = "011";
+					break;
+				case 1: // 乾卦
+					shangg = "111";
+					break;
+			}
+			// console.debug(shangg)
+			
+			switch (curkezhino) {
+				case 6: // 坎卦
+					xiag = "010";
+					break;
+				case 7: // 艮卦
+					xiag = "100";
+					break;
+				case 4: // 震卦
+					xiag = "001";
+					break;
+				case 5: // 巽卦
+					xiag = "110";
+					break;
+				case 3: // 离卦
+					xiag = "101";
+					break;
+				case 8: // 坤卦
+					xiag = "000";
+					break;
+				case 2: // 兑卦
+					xiag = "011";
+					break;
+				case 1: // 乾卦
+					xiag = "111";
+					break;
+			}
+	
+		if (yd < 4) { // 下爻动
+			yd = 4 - yd;
+			biangs = shangg;
+			var ta = xiag.substr(yd - 1, 1) == "0" ? "1" : "0";
+			biangx = xiag.substring(0, yd - 1) + "" + ta + "" + xiag.substr(yd);
+			// console.debug(biangx + "," + biangs)
+		} else { // 上爻动
+			biangx = xiag;
+			yd = yd - 3;
+			yd = 4 - yd;
+			var ta = shangg.substr(yd - 1, 1) == "0" ? "1" : "0";
+			biangs = shangg.substring(0, yd - 1) + "" + ta + "" + shangg.substr(yd);
+			// console.debug(biangx + "," + biangs)
+		}
+		var biangtbl = generateHexagramTable(biangs + "" + biangx);
+		
+		// 互卦
+		var hugs = shangg.substr(1, 2) + "" + xiag.substr(0, 1);
+		var hugx = shangg.substr(2, 1) + "" + xiag.substr(0, 2);
+		var hugtbl = generateHexagramTable(hugs + "" + hugx);
+		// 互卦内卦
+		var hugns = hugs.substr(1, 2) + "" + hugx.substr(0, 1);
+		var hugnx = hugs.substr(2, 1) + "" + hugx.substr(0, 2);
+		// console.debug(shangg, xiag)
+	
+		// 主卦
+		var zgtbl = generateHexagramTable(shangg + "" + xiag);
+	
+		// 主综卦
+		var zzgs = xiag.split('').reverse().join('');
+		var zzgx = shangg.split('').reverse().join('');
+		var zzgtbl = generateHexagramTable(zzgs + "" + zzgx);
+	
+		// 互综卦
+		var hzgs = hugx.split('').reverse().join('');
+		var hzgx = hugs.split('').reverse().join('');
+		var hzgtbl = generateHexagramTable(hzgs + "" + hzgx);
+	
+		// 变卦综
+		var bzgs = biangx.split('').reverse().join('');
+		var bzgx = biangs.split('').reverse().join('');
+		var bzgtbl = generateHexagramTable(bzgs + "" + bzgx);
+	
+	
+		// zgs = zgs.substr(0,zgs.length-1);
+		return "<table border=0 >" +
+			"<tr><td></td><td >" + get64guam(shangg, xiag) + "</td><td>　</td><td>" + get64guam(hugs,
+				hugx) + "</td><td>　</td><td>" + get64guam(biangs, biangx) + "</td></tr>" +
+			"<tr><td>" + (oriyd > 3 ? "用" : "体") + "<br><br><br>" + (oriyd < 4 ? "用" : "体") + "</td><td>" + zgtbl +
+			"</td><td>" + "</td><td>" + hugtbl + "</td><td></td><td>" + biangtbl + "</td></tr>" + //+ yd+ oriyd+
+			"<tr style='text-align: center;'><td></td><td>主卦</td><td></td><td>互卦</td><td></td><td>变卦" + oriyd +
+			"</td></tr>" +
+	
+			"<tr><td><br></td></tr>" +
+	
+			"<tr><td></td><td>" + get64guam(zzgs, zzgx) + "</td><td></td><td>" + get64guam(hzgs,
+				hzgx) + "</td><td></td><td>" + get64guam(bzgs, bzgx) + "</td></tr>" +
+	
+			// "<tr style='text-align: center;'><td></td></tr>" +
+	
+			"<tr><td></td><td>" + zzgtbl + "</td><td>" + "</td><td>" + hzgtbl + "</td><td></td><td>" + bzgtbl + "</td></tr>" +
+			//+ yd+ oriyd+	
+	
+			"<tr style='text-align: center;'><td></td><td>主综</td><td></td><td>互综</td><td></td><td>变综</td></tr>" +
+	
+			"</table>";
+	};
+		
+	// 根据二进制64卦字串生成对应的六十四卦显示
+	var generateHexagramTable=function (binaryStr) {
+		// 验证输入：必须是6位的二进制字符串
+		if (!/^[01]{6}$/.test(binaryStr)) {
+			throw new Error('参数必须是6位的二进制字符串（仅包含0和1）');
+		}
+	
+		// 阴爻和阳爻的Unicode符号
+		const YIN_SYMBOL = '\u268B'; // 阴爻：⚋
+		const YANG_SYMBOL = '\u268A'; // 阳爻：⚊
+	
+		// 反转字符串，因为卦象通常从下往上显示，而字符串是从上往下
+		// const reversedStr = binaryStr.split('').reverse().join('');
+	
+		// 八卦的二进制表示
+		const lowerTrigram = binaryStr.substring(3, 6); // 下卦
+		const upperTrigram = binaryStr.substring(0, 3); // 上卦
+	
+		// 获取八卦的五行颜色
+		const lowerColor = getTrigramColor(lowerTrigram);
+		const upperColor = getTrigramColor(upperTrigram);
+	
+		// 构建表格HTML
+		let tableHTML = '<table border=0 style="border-collapse: collapse; border-spacing: 0;border:0px;">';
+	
+		// 从下往上遍历每个爻（从第一个字符开始）
+		for (let i = 0; i < 6; i++) {
+			const bit = binaryStr[i];
+			const symbol = bit === '1' ? YANG_SYMBOL : YIN_SYMBOL;
+	
+			// 判断当前爻属于上卦还是下卦
+			const isLowerTrigram = i > 2;
+			const color = isLowerTrigram ? lowerColor : upperColor;
+			
+			var sjno = "";
+			if(i>=1&&i<=4){
+				sjno=getSjGuano(binaryStr.substr(i-1,3));
+			}
+			
+			tableHTML += `
+	    <tr style="height: 1px; margin: 0; padding: 0;">
+	        <td style="border:0px;transform: scaleX(1.3);padding: 0; text-align: center; vertical-align: middle; font-size: 44px; line-height: 14px; margin: 0; color: ${color};">${symbol}</td>
+			<td style="border:0px;">${sjno}</td>
+	    </tr>`;
+		}
+		tableHTML += '\n</table>';
+	
+		return tableHTML;
+	};
+	
+	// 辅助函数：根据三个爻的二进制获取对应的八卦五行颜色
+	var getTrigramColor = function (trigramBinary) {
+		// 八卦的二进制表示（从下往上）
+		const trigrams = {
+			'111': {
+				name: '乾',
+				element: '金',
+				color: 'blue'
+			}, // 乾为天，金
+			'000': {
+				name: '坤',
+				element: '土',
+				color: '#8B4513'
+			}, // 坤为地，土（用棕色表示）
+			'001': {
+				name: '震',
+				element: '木',
+				color: 'green'
+			}, // 震为雷，木
+			'010': {
+				name: '坎',
+				element: '水',
+				color: 'black'
+			}, // 坎为水，水
+			'100': {
+				name: '艮',
+				element: '土',
+				color: '#8B4513'
+			}, // 艮为山，土（用棕色表示）
+			'110': {
+				name: '巽',
+				element: '木',
+				color: 'green'
+			}, // 巽为风，木
+			'101': {
+				name: '离',
+				element: '火',
+				color: 'red'
+			}, // 离为火，火
+			'011': {
+				name: '兑',
+				element: '金',
+				color: 'blue'
+			} // 兑为泽，金
+		};
+	
+		const trigram = trigrams[trigramBinary];
+		if (!trigram) {
+			return 'black'; // 默认黑色
+		}
+	
+		return trigram.color;
+	};
+	
+	var getSjGuano=function (yao,zno) {
+		switch (yao) {
+			case "010": { // 坎卦
+				return "1";
+				break;
+			}
+			case "100": { // 艮卦
+				if (zno == 2) {
+					return "2";
+				} else {
+					return "3";
+				}
+				break;
+			}
+			case "001": { // 震卦
+				return "4";
+				break;
+			}
+			case "110": { // 巽卦
+				if (zno == 6 || zno == 12) {
+					return "6";
+				} else {
+					return "5";
+				}
+				break;
+			}
+			case "101": { // 离卦
+				return  "7";
+				break;
+			}
+			case "000": { // 坤卦
+				if (zno == 9) {
+					return  "9";
+				} else {
+					return  "8";
+				}
+				break;
+			}
+			case "011": { // 兑卦
+				return  "10";
+				break;
+			}
+			case "111": { // 乾卦
+				if (zno == 6 || zno == 12) {
+					return  "12";
+				} else {
+					return  "11";
+				}
+				break;
+			}
+		}
+		return 0;
+	};
+	
+	// 获得先天卦的数字
+	var getxtno=function (binname) {
+	
+		switch (binname) {
+			case "010": // 坎卦
+				return "6";
+				break;
+			case "100": // 艮卦
+				return "7";
+				break;
+			case "001": // 震卦
+				return "4";
+				break;
+			case "110": // 巽卦
+				return "5";
+				break;
+			case "101": // 离卦
+				return "3";
+				break;
+			case "000": // 坤卦
+				return "8";
+				break;
+			case "011": // 兑卦
+				return "2";
+				break;
+			case "111": // 乾卦
+				return "1";
+				break;
+		}
+		return "";
+	};
+	
+	var get64guam= function (htgms, shtgms) {
+		htgms=getxtno(htgms);
+		shtgms = getxtno(shtgms);
+		var gid, ggid, guam, bgm, zgm;
+		if (htgms == 1 && shtgms == 1) {
+			guam = "乾卦";
+			gid = 1;
+			ggid = 1
+		}
+		if (htgms == 1 && shtgms == 2) {
+			guam = "履卦";
+			gid = 10;
+			ggid = 10
+		}
+		if (htgms == 1 && shtgms == 3) {
+			guam = "同人";
+			gid = 13;
+			ggid = 13
+		}
+		if (htgms == 1 && shtgms == 4) {
+			guam = "无妄";
+			gid = 25;
+			ggid = 25
+		}
+		if (htgms == 1 && shtgms == 5) {
+			guam = "姤卦";
+			gid = 44;
+			ggid = 44
+		}
+		if (htgms == 1 && shtgms == 6) {
+			guam = "讼卦";
+			gid = 6;
+			ggid = 6
+		}
+		if (htgms == 1 && shtgms == 7) {
+			guam = "遁卦";
+			gid = 33;
+			ggid = 33
+		}
+		if (htgms == 1 && shtgms == 8) {
+			guam = "否卦";
+			gid = 12;
+			ggid = 12
+		}
+	
+		if (htgms == 2 && shtgms == 1) {
+			guam = "夬卦";
+			gid = 43;
+			ggid = 43
+		}
+		if (htgms == 2 && shtgms == 2) {
+			guam = "兑卦";
+			gid = 58;
+			ggid = 58
+		}
+		if (htgms == 2 && shtgms == 3) {
+			guam = "革卦";
+			gid = 49;
+			ggid = 49
+		}
+		if (htgms == 2 && shtgms == 4) {
+			guam = "随卦";
+			gid = 17;
+			ggid = 17
+		}
+		if (htgms == 2 && shtgms == 5) {
+			guam = "大过";
+			gid = 28;
+			ggid = 28
+		}
+		if (htgms == 2 && shtgms == 6) {
+			guam = "困卦";
+			gid = 47;
+			ggid = 47
+		}
+		if (htgms == 2 && shtgms == 7) {
+			guam = "咸卦";
+			gid = 31;
+			ggid = 31
+		}
+		if (htgms == 2 && shtgms == 8) {
+			guam = "萃卦";
+			gid = 45;
+			ggid = 45
+		}
+	
+		if (htgms == 3 && shtgms == 1) {
+			guam = "大有";
+			gid = 14;
+			ggid = 14
+		};
+		if (htgms == 3 && shtgms == 2) {
+			guam = "睽卦";
+			gid = 38;
+			ggid = 38
+		};
+		if (htgms == 3 && shtgms == 3) {
+			guam = "离卦";
+			gid = 30;
+			ggid = 30
+		};
+		if (htgms == 3 && shtgms == 4) {
+			guam = "噬嗑";
+			gid = 21;
+			ggid = 21
+		};
+		if (htgms == 3 && shtgms == 5) {
+			guam = "鼎卦";
+			gid = 50;
+			ggid = 50
+		};
+		if (htgms == 3 && shtgms == 6) {
+			guam = "未济";
+			gid = 64;
+			ggid = 64
+		};
+		if (htgms == 3 && shtgms == 7) {
+			guam = "旅卦";
+			gid = 56;
+			ggid = 56
+		};
+		if (htgms == 3 && shtgms == 8) {
+			guam = "晋卦";
+			gid = 35;
+			ggid = 35
+		};
+	
+		if (htgms == 4 && shtgms == 1) {
+			guam = "大壮";
+			gid = 34;
+			ggid = 34
+		};
+		if (htgms == 4 && shtgms == 2) {
+			guam = "归妹";
+			gid = 54;
+			ggid = 54
+		};
+		if (htgms == 4 && shtgms == 3) {
+			guam = "丰卦";
+			gid = 55;
+			ggid = 55
+		};
+		if (htgms == 4 && shtgms == 4) {
+			guam = "震卦";
+			gid = 51;
+			ggid = 51
+		};
+		if (htgms == 4 && shtgms == 5) {
+			guam = "恒卦";
+			gid = 32;
+			ggid = 32
+		};
+		if (htgms == 4 && shtgms == 6) {
+			guam = "解卦";
+			gid = 40;
+			ggid = 40
+		};
+		if (htgms == 4 && shtgms == 7) {
+			guam = "小过";
+			gid = 62;
+			ggid = 62
+		};
+		if (htgms == 4 && shtgms == 8) {
+			guam = "豫卦";
+			gid = 16;
+			ggid = 16
+		};
+	
+		if (htgms == 5 && shtgms == 1) {
+			guam = "小畜";
+			gid = 9;
+			ggid = 9
+		};
+		if (htgms == 5 && shtgms == 2) {
+			guam = "中孚";
+			gid = 61;
+			ggid = 61
+		};
+		if (htgms == 5 && shtgms == 3) {
+			guam = "家人";
+			gid = 37;
+			ggid = 37
+		};
+		if (htgms == 5 && shtgms == 4) {
+			guam = "益卦";
+			gid = 42;
+			ggid = 42
+		};
+		if (htgms == 5 && shtgms == 5) {
+			guam = "巽卦";
+			gid = 57;
+			ggid = 57
+		};
+		if (htgms == 5 && shtgms == 6) {
+			guam = "涣卦";
+			gid = 59;
+			ggid = 59
+		};
+		if (htgms == 5 && shtgms == 7) {
+			guam = "渐卦";
+			gid = 53;
+			ggid = 53
+		};
+		if (htgms == 5 && shtgms == 8) {
+			guam = "观卦";
+			gid = 20;
+			ggid = 20
+		};
+	
+		if (htgms == 6 && shtgms == 1) {
+			guam = "需卦";
+			gid = 5;
+			ggid = 5
+		};
+		if (htgms == 6 && shtgms == 2) {
+			guam = "节卦";
+			gid = 60;
+			ggid = 60
+		};
+		if (htgms == 6 && shtgms == 3) {
+			guam = "既济";
+			gid = 63;
+			ggid = 63
+		};
+		if (htgms == 6 && shtgms == 4) {
+			guam = "屯卦";
+			gid = 3;
+			ggid = 3
+		};
+		if (htgms == 6 && shtgms == 5) {
+			guam = "井卦";
+			gid = 48;
+			ggid = 48
+		};
+		if (htgms == 6 && shtgms == 6) {
+			guam = "坎卦";
+			gid = 29;
+			ggid = 29
+		};
+		if (htgms == 6 && shtgms == 7) {
+			guam = "蹇卦";
+			gid = 39;
+			ggid = 39
+		};
+		if (htgms == 6 && shtgms == 8) {
+			guam = "比卦";
+			gid = 8;
+			ggid = 8
+		};
+	
+		if (htgms == 7 && shtgms == 1) {
+			guam = "大畜";
+			gid = 26;
+			ggid = 26
+		};
+		if (htgms == 7 && shtgms == 2) {
+			guam = "损卦";
+			gid = 41;
+			ggid = 41
+		};
+		if (htgms == 7 && shtgms == 3) {
+			guam = "贲卦";
+			gid = 22;
+			ggid = 22
+		};
+		if (htgms == 7 && shtgms == 4) {
+			guam = "颐卦";
+			gid = 27;
+			ggid = 27
+		};
+		if (htgms == 7 && shtgms == 5) {
+			guam = "蛊卦";
+			gid = 18;
+			ggid = 18
+		};
+		if (htgms == 7 && shtgms == 6) {
+			guam = "蒙卦";
+			gid = 4;
+			ggid = 4
+		};
+		if (htgms == 7 && shtgms == 7) {
+			guam = "艮卦";
+			gid = 52;
+			ggid = 52
+		};
+		if (htgms == 7 && shtgms == 8) {
+			guam = "剥卦";
+			gid = 23;
+			ggid = 23
+		};
+	
+		if (htgms == 8 && shtgms == 1) {
+			guam = "泰卦";
+			gid = 11;
+			ggid = 11
+		};
+		if (htgms == 8 && shtgms == 2) {
+			guam = "临卦";
+			gid = 19;
+			ggid = 19
+		};
+		if (htgms == 8 && shtgms == 3) {
+			guam = "明夷";
+			gid = 36;
+			ggid = 36
+		};
+		if (htgms == 8 && shtgms == 4) {
+			guam = "复卦";
+			gid = 24;
+			ggid = 24
+		};
+		if (htgms == 8 && shtgms == 5) {
+			guam = "升卦";
+			gid = 46;
+			ggid = 46
+		};
+		if (htgms == 8 && shtgms == 6) {
+			guam = "师卦";
+			gid = 7;
+			ggid = 7
+		};
+		if (htgms == 8 && shtgms == 7) {
+			guam = "谦卦";
+			gid = 15;
+			ggid = 15
+		};
+		if (htgms == 8 && shtgms == 8) {
+			guam = "坤卦";
+			gid = 2;
+			ggid = 2
+		};
+		// console.log(guam,htgms,shtgms)
+		return guam;
+	};
+	
+	/**
+	 * 将时间转换为刻数
+	 * 一个时辰分为8刻，每刻15分钟
+	 * 子时：23:00-1:00
+	 * 丑时：1:00-3:00
+	 * 寅时：3:00-5:00
+	 * 卯时：5:00-7:00
+	 * 辰时：7:00-9:00
+	 * 巳时：9:00-11:00
+	 * 午时：11:00-13:00
+	 * 未时：13:00-15:00
+	 * 申时：15:00-17:00
+	 * 酉时：17:00-19:00
+	 * 戌时：19:00-21:00
+	 * 亥时：21:00-23:00
+	 * 
+	 * @param {string} timeStr - 时间字符串，格式为"HH:MM"，如"18:05"
+	 * @returns {number} 刻数（1-8）
+	 */
+	var timeToKe = function (timeStr) {
+	    // 验证输入格式
+	    if (!/^([01]?\d|2[0-3]):([0-5]\d)$/.test(timeStr)) {
+	        throw new Error('时间格式不正确，请使用"HH:MM"格式，如"18:05"');
+	    }
+	    
+	    // 解析小时和分钟
+	    const [hourStr, minuteStr] = timeStr.split(':');
+	    let hour = parseInt(hourStr, 10);
+	    const minute = parseInt(minuteStr, 10);
+	    
+	    // 将24小时制转换为时辰
+	    // 子时比较特殊，跨天
+	    let shiChen; // 时辰索引：0-子,1-丑,2-寅,3-卯,4-辰,5-巳,6-午,7-未,8-申,9-酉,10-戌,11-亥
+	    
+	    if (hour === 23 || hour === 0) {
+	        // 子时：23:00-1:00
+	        shiChen = 0;
+	    } else if (hour === 1 || hour === 2) {
+	        // 丑时：1:00-3:00
+	        shiChen = 1;
+	    } else if (hour === 3 || hour === 4) {
+	        // 寅时：3:00-5:00
+	        shiChen = 2;
+	    } else if (hour === 5 || hour === 6) {
+	        // 卯时：5:00-7:00
+	        shiChen = 3;
+	    } else if (hour === 7 || hour === 8) {
+	        // 辰时：7:00-9:00
+	        shiChen = 4;
+	    } else if (hour === 9 || hour === 10) {
+	        // 巳时：9:00-11:00
+	        shiChen = 5;
+	    } else if (hour === 11 || hour === 12) {
+	        // 午时：11:00-13:00
+	        shiChen = 6;
+	    } else if (hour === 13 || hour === 14) {
+	        // 未时：13:00-15:00
+	        shiChen = 7;
+	    } else if (hour === 15 || hour === 16) {
+	        // 申时：15:00-17:00
+	        shiChen = 8;
+	    } else if (hour === 17 || hour === 18) {
+	        // 酉时：17:00-19:00
+	        shiChen = 9;
+	    } else if (hour === 19 || hour === 20) {
+	        // 戌时：19:00-21:00
+	        shiChen = 10;
+	    } else if (hour === 21 || hour === 22) {
+	        // 亥时：21:00-23:00
+	        shiChen = 11;
+	    }
+	    
+	    // 计算从时辰开始经过的分钟数
+	    let minutesSinceShiChenStart;
+	    
+	    if (hour === 23) {
+	        // 子时的第一部分：23:00-24:00
+	        minutesSinceShiChenStart = minute;
+	    } else if (hour === 0) {
+	        // 子时的第二部分：0:00-1:00
+	        minutesSinceShiChenStart = 60 + minute; // 23:00-0:00已经过了60分钟
+	    } else if (hour % 2 === 1) {
+	        // 奇数小时：时辰的第一个小时，如1:00, 3:00, 5:00等
+	        minutesSinceShiChenStart = minute;
+	    } else {
+	        // 偶数小时：时辰的第二个小时，如2:00, 4:00, 6:00等
+	        minutesSinceShiChenStart = 60 + minute;
+	    }
+	    
+	    // 计算刻数：一个时辰120分钟，分为8刻，每刻15分钟
+	    // 刻数从1开始
+	    const ke = Math.floor(minutesSinceShiChenStart / 15) + 1;
+	    
+	    return ke;
+	};
+	
 	var compute = function() {
 		try {
 
@@ -56,10 +832,10 @@
 			var month = $('#now_month').val();
 			var day = $('#now_day').val();
 			var hour = $('#now_hour').val();
-			//var minute = $('#now_minute').val();
+			var minute = $('#now_minute').val();
 			//var seconds = $('#now_second').val();
 
-			var solar = Solar.fromYmdHms(year, month, day, hour, 0, 0);
+			var solar = Solar.fromYmdHms(year, month, day, hour, minute, 0);
 			var lunar = solar.getLunar();
 			var bazi = lunar.getEightChar();
 			bazi.setSect(sect);
@@ -70,7 +846,7 @@
 
 			var nowgl = Solar.fromYmdHms(year, month, day, hour, 0, 0); //公历
 			var nownl = Lunar.fromYmdHms(lunar.getYear(), lunar.getMonth(), lunar
-		.getDay()); //固定农历初一 的干支'+nownl.getDayInGanZhiExact()+'
+				.getDay()); //固定农历初一 的干支'+nownl.getDayInGanZhiExact()+'
 			var nowbz = lunar.getEightChar(); //'+nowbz.getDay()+'八字 run范围内都可以
 			/*保障另外一组选择器独立运行 finish*/
 
@@ -508,7 +1284,7 @@
 			var nextJieQi = lunar.getNextJieQi();
 			jieQiSolar = nextJieQi.getSolar();
 			s += ' ~ ' + jieQiSolar.getMonth() + '-' + jieQiSolar.getDay() + ' ' + padding(jieQiSolar
-			.getHour()) + ':' + padding(jieQiSolar.getMinute()) + ''; //下个节气';
+				.getHour()) + ':' + padding(jieQiSolar.getMinute()) + ''; //下个节气';
 			s += '</tr>';
 
 
@@ -552,13 +1328,13 @@
 
 			s += '<tr>';
 			s +=
-			'<th class="th1" valign="top">四柱<br><div style="font-size:8px;color:#FF9999;line-height:9px;">点击<br>查看</div></th>';
+				'<th class="th1" valign="top">四柱<br><div style="font-size:8px;color:#FF9999;line-height:9px;"></div></th>';
 			s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="tgxynian">' + bztg[lunar
 				.getYearGanExact()] + '<br>' + bzdz[lunar.getYearZhiExact()] + '</td>';
 			s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="tgxyyue">' + bztg[lunar
 				.getMonthGanExact()] + '<br>' + bzdz[lunar.getMonthZhiExact()] + '</td>';
 			s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="tgxyri">' + bztg[bazi
-			.getDayGan()] + '<br>' + bzdz[bazi.getDayZhi()] + '</td>';
+				.getDayGan()] + '<br>' + bzdz[bazi.getDayZhi()] + '</td>';
 			s += '<td colspan="2" style="line-height:22.68px;border-right:1px solid #afafaf;" class="td1" id="tgxyshi">' +
 				bztg[bazi.getTimeGan()] + '<br>' + bzdz[bazi.getTimeZhi()] + '</td>';
 			s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="seldayun">' + '</td>';
@@ -587,9 +1363,9 @@
 				lunar.getBaZiShiShenTimeZhi() + '</td>';
 
 			s +=
-			'<td style="text-align:right;border-right:0;padding-right:0px;" valign="top" id="seldycg" class="td2"><td style="text-align:left;border-left:0;white-space:nowrap;padding-left:0px;" valign="top" id="seldycgss" class="td2"></td>';
+				'<td style="text-align:right;border-right:0;padding-right:0px;" valign="top" id="seldycg" class="td2"><td style="text-align:left;border-left:0;white-space:nowrap;padding-left:0px;" valign="top" id="seldycgss" class="td2"></td>';
 			s +=
-			'<td style="text-align:right;border-right:0;padding-right:0px;" valign="top" id="sellncg" class="td2"><td style="text-align:left;border-left:0;white-space:nowrap;padding-left:0px;" valign="top" id="sellncgss" class="td2"></td>';
+				'<td style="text-align:right;border-right:0;padding-right:0px;" valign="top" id="sellncg" class="td2"><td style="text-align:left;border-left:0;white-space:nowrap;padding-left:0px;" valign="top" id="sellncgss" class="td2"></td>';
 
 			s += '</tr>';
 
@@ -638,7 +1414,7 @@
 				.getMonthGanIndexExact(), lunar.getMonthZhiIndexExact()) + '</td>';
 			s += '<td colspan="2" class="td2" id="changshengzzri">' + getChangSheng(bazi.getDayGan(), 2 == bazi
 				.getSect() ? lunar.getDayGanIndexExact2() : lunar.getDayGanIndexExact(), 2 == bazi
-			.getSect() ? lunar.getDayZhiIndexExact2() : lunar.getDayZhiIndexExact()) + '</td>';
+				.getSect() ? lunar.getDayZhiIndexExact2() : lunar.getDayZhiIndexExact()) + '</td>';
 			s += '<td colspan="2" class="td2" style="border-right:1px solid #afafaf;" id="changshengzzshi">' +
 				getChangSheng(bazi.getTimeGan(), lunar.getTimeGanIndex(), lunar.getTimeZhiIndex()) + '</td>';
 
@@ -653,7 +1429,7 @@
 			s += '<td colspan="2" class="td1">' + bazi.getMonthXunKong() + '</td>';
 			s += '<td colspan="2" class="td1"><font color=red>' + bazi.getDayXunKong() + '</font></td>';
 			s += '<td colspan="2" style="border-right:1px solid #afafaf;"  class="td1">' + bazi
-			.getTimeXunKong() + '</td>';
+				.getTimeXunKong() + '</td>';
 			s += '<td colspan="2" class="td1"></td>';
 			s += '<td colspan="2" id="sellnkw" class="td1"></td>';
 
@@ -1353,7 +2129,7 @@
 				for (var j = 0, k = gzs.length; j < k; j++) {
 					var gz = gzs[j];
 					if (gz == bazi.getYearGan() + bazi.getDayZhi() || gz == bazi.getDayGan() + bazi
-					.getDayZhi()) {
+						.getDayZhi()) {
 						shenShaTemp[i] = true;
 					}
 				}
@@ -1364,7 +2140,7 @@
 				for (var j = 0, k = gzs.length; j < k; j++) {
 					var gz = gzs[j];
 					if (gz == bazi.getYearZhi() + bazi.getDayZhi() || gz == bazi.getDayZhi() + bazi
-					.getDayZhi()) {
+						.getDayZhi()) {
 						shenShaTemp[i] = true;
 					}
 				}
@@ -1734,7 +2510,7 @@
 
 			$('#shensha').html('' +
 
-				'<table style="border-top:0px;">' +
+				'<table class="table1">' +
 				'<tr><th class="th1" style="width:16%">年柱</th><td colspan="8" class="td1" style="text-align:left;">' +
 				(shenShaYear.length < 1 ? '无' : shenShaYear.join(' ')) +
 				'</td><!--th rowspan="4" style="border:0">四<br>柱<br>神<br>煞</th--></tr>' +
@@ -1937,8 +2713,7 @@
 					break;
 				}
 			}
-			$('#wangxiang').html('<table><tr><!--' + bazi.getDayGan() + LunarUtil.WU_XING_GAN[bazi
-			.getDayGan()] + '生于' + bazi.getMonthZhi() + '月 -->' + wx + '</tr></table>'); //旺相休囚
+			$('#wangxiang').html('<table><tr>' + wx + '</tr></table>'); //旺相休囚
 
 			//天干冲合	  
 			var tgguanxi = {
@@ -1988,8 +2763,6 @@
 			}
 
 			$('#tianganch').html('' + (matched.length < 1 ? '天干无冲合' : matched.join('&ensp;')) + ''); //天干冲合
-
-
 
 			//地支冲克	  
 			var dzguanxi = {
@@ -2079,8 +2852,6 @@
 			zhis[bazi.getDayZhi()] = zhis[bazi.getDayZhi()] ? zhis[bazi.getDayZhi()] + 1 : 1;
 			zhis[bazi.getTimeZhi()] = zhis[bazi.getTimeZhi()] ? zhis[bazi.getTimeZhi()] + 1 : 1;
 
-
-
 			var matched = [];
 			var gxs = {};
 			for (var i in zhis) {
@@ -2123,13 +2894,7 @@
 
 			$('#dizhich').html('' + (matched.join('&ensp;')) + ''); //地支冲合
 
-
-
-
-
 			// 太岁
-
-
 			var tsguanxi = {
 				'子子': '值太岁',
 				'丑丑': '值太岁',
@@ -2167,35 +2932,7 @@
 				//'卯子':'刑太岁','戌丑':'刑太岁(丑戌未三刑)','午子':'冲太岁','酉卯':'冲太岁','申寅':'冲太岁(寅巳申三刑)','亥巳':'冲太岁','戌辰':'冲太岁','未丑':'冲太岁(丑戌未三刑)','未子':'害太岁','午丑':'害太岁','巳寅':'害太岁(寅巳申三刑)','辰卯':'害太岁','亥申':'害太岁','戌酉':'害太岁','酉子':'破太岁','午卯':'破太岁','丑辰':'破太岁','亥寅':'破太岁','申巳':'破太岁(寅巳申三刑)','戌未':'破太岁(丑戌未三刑)'
 
 			};
-			/*
-			    var zhis = [];
-			    zhis.push(bazi.getYearZhi());
-
-			    var matched=[];
-			    var gxs = {};
-			    var size=zhis.length;
-			        for(var i=0;i<size;i++){
-			          for(var j=0;j<size;j++){
-			            if(i===j){
-			              continue;
-			    }
-			    var v=tsguanxi[zhis[i]+zhis[j]];
-			    if(v){
-			      gxs[v] = true;
-			        }
-			      }
-			    }
-			    for(var i in gxs){
-			     matched.push(i);
-			    }
-				
-				
-				
-			    $('#fantaisui').html(''+(matched.length<1 ? '未犯太岁' : matched.join(' '))+' '+tsguanxi[bazi.getYearZhi()+bazi.getYearZhi()]+' '+ddbazi.getYearZhi()+bazi.getYearZhi()+'  '); //犯太岁
-				*/
-
-
-
+	
 			var dd = Lunar.fromDate(new Date());
 			$('#fantaisui').html('<taisui' + tsguanxi[bazi.getYearZhi() + dd.getYearZhiExact()] +
 				' class=taisui1><taisui2' + tsguanxi[bazi.getYearZhi() + dd.getYearZhiExact()] +
@@ -2238,12 +2975,7 @@
 
 			$('#hunpei').html('' + hp + ''); //婚配
 
-
-
-
-			$('#wangxiang').html('<table><tr><!--' + bazi.getDayGan() + LunarUtil.WU_XING_GAN[bazi
-			.getDayGan()] + '生于' + bazi.getMonthZhi() + '月 -->' + wx + '</tr></table>'); //旺相休囚
-
+			$('#wangxiang').html('<table><tr>' + wx + '</tr></table>'); //旺相休囚
 
 			$('#sizhu').html('' + bazi.getYear() + '年　' + bazi.getMonth() + '月　' + bazi.getDay() + '日　' + bazi
 				.getTime() + '时'); //四柱
@@ -2388,13 +3120,13 @@
 			var ctmscount = Number(ctms[bazi.getYear()]) + Number(ctms[bazi.getMonth()]) + Number(ctms[bazi
 				.getDay()]) + Number(ctms[bazi.getTime()]);
 
-			$('#text666').html('<p>【冲天妙數】' + ctmscount + ' ' + ctmss[ctmscount] + '<br>【' + bazi.getDay() +
+			$('#text666').html('<p>【冲天妙数】' + ctmscount + ' ' + ctmss[ctmscount] + '<br>【' + bazi.getDay() +
 				'论命】<jiazilm' + bazi.getDay() + '>');
 
 
 
 			s +=
-			'<style>.ys甲{color:#228B22;}.ys乙{color:#228B22;}.ys丙{color:#FF0000;}.ys丁{color:#FF0000;}.ys戊{color:#c38200;} .ys己{color:#c38200;}.ys庚{color:#0000ff;}.ys辛{color:#0000ff;}.ys壬{color:#000000;}.ys癸{color:#000000;} .ys子{color:#000000;} .ys丑{color:#c38200;} .ys寅{color:#228B22;} .ys卯{color:#228B22;} .ys辰{color:#c38200;} .ys巳{color:#FF0000;} .ys午{color:#FF0000;} .ys未{color:#c38200;} .ys申{color:#0000ff;} .ys酉{color:#0000ff;} .ys戌{color:#c38200;} .ys亥{color:#000000;} </style>';
+				'<style>.ys甲{color:#228B22;}.ys乙{color:#228B22;}.ys丙{color:#FF0000;}.ys丁{color:#FF0000;}.ys戊{color:#c38200;} .ys己{color:#c38200;}.ys庚{color:#0000ff;}.ys辛{color:#0000ff;}.ys壬{color:#000000;}.ys癸{color:#000000;} .ys子{color:#000000;} .ys丑{color:#c38200;} .ys寅{color:#228B22;} .ys卯{color:#228B22;} .ys辰{color:#c38200;} .ys巳{color:#FF0000;} .ys午{color:#FF0000;} .ys未{color:#c38200;} .ys申{color:#0000ff;} .ys酉{color:#0000ff;} .ys戌{color:#c38200;} .ys亥{color:#000000;} </style>';
 
 			s += '<style>lqdz男' + riGan + '比肩:before{content:"【比肩】兄弟/姑丈/朋友/同辈"}lqdz男' + riGan +
 				'劫财:before{content:"【劫财】姐妹/儿媳/朋友/同辈"}lqdz男' + riGan +
@@ -2415,15 +3147,8 @@
 				'偏印:before{content:"【偏印】母亲/孙女/亲属长辈/意外助力"}lqdz女' + riGan +
 				'正印:before{content:"【正印】祖父/女婿/孙儿/贵人/助我之师长"}</style>';
 
-
-
-
 			s += '';
-
-
-
 			$('#result').html(s);
-
 
 			$('#tgxynian').on('click', function() {
 				$.sendMsg(
@@ -2464,7 +3189,7 @@
 
 			$('#niangan').on('click', function() {
 				$.sendMsg('<lqdz男元男' + bazi.getYearShiShenGan() + '><lqdz女元女' + bazi
-				.getYearShiShenGan() + '> [' + riGan +
+					.getYearShiShenGan() + '> [' + riGan +
 					']</span><div style=padding:3px;></div><div style="overflow-y:scroll;max-height:62vh;border:1px dashed #DDD;padding:1%;"><p style="border:0px;padding:1%;"><xx' +
 					bazi.getYearShiShenGan() + '><br><qx' + bazi.getYearShiShenGan() + '><br><gj' +
 					bazi.getYearShiShenGan() + '><br><gn1' + bazi.getYearShiShenGan() +
@@ -2480,7 +3205,8 @@
 					']</span><div style=padding:3px;></div><div style="overflow-y:scroll;max-height:62vh;border:1px dashed #DDD;padding:1%;"><p style="border:0px;padding:1%;"><xx' +
 					bazi.getMonthShiShenGan() + '><br><qx' + bazi.getMonthShiShenGan() +
 					'><br><gj' + bazi.getMonthShiShenGan() + '><br><gn1' + bazi
-				.getMonthShiShenGan() + '><br><gn2' + bazi.getMonthShiShenGan() + '></div>', false,
+					.getMonthShiShenGan() + '><br><gn2' + bazi.getMonthShiShenGan() + '></div>',
+					false,
 					function() {
 						console.log('sendMsg closed');
 					});
@@ -2488,7 +3214,7 @@
 
 			$('#shigan').on('click', function() {
 				$.sendMsg('<lqdz男元男' + bazi.getTimeShiShenGan() + '><lqdz女元女' + bazi
-				.getTimeShiShenGan() + '> [' + riGan +
+					.getTimeShiShenGan() + '> [' + riGan +
 					']</span><div style=padding:3px;></div><div style="overflow-y:scroll;max-height:62vh;border:1px dashed #DDD;padding:1%;"><p style="border:0px;padding:1%;"><xx' +
 					bazi.getTimeShiShenGan() + '><br><qx' + bazi.getTimeShiShenGan() + '><br><gj' +
 					bazi.getTimeShiShenGan() + '><br><gn1' + bazi.getTimeShiShenGan() +
@@ -2652,7 +3378,7 @@
 			});
 			$('#changshengzzyue').on('click', function() {
 				$.sendMsg('<changsheng' + getChangSheng(bazi.getMonthGan(), lunar
-					.getMonthGanIndexExact(), lunar.getMonthZhiIndexExact()) +
+						.getMonthGanIndexExact(), lunar.getMonthZhiIndexExact()) +
 					'><div style=padding:3px;></div><div style="overflow-y:scroll;max-height:62vh;border:1px dashed #DDD;padding:1%;"><p style="border:0px;padding:1%;"><changsheng2' +
 					getChangSheng(bazi.getMonthGan(), lunar.getMonthGanIndexExact(), lunar
 						.getMonthZhiIndexExact()) + '></div>', false,
@@ -2678,7 +3404,7 @@
 						lunar.getTimeZhiIndex()) +
 					'><div style=padding:3px;></div><div style="overflow-y:scroll;max-height:62vh;border:1px dashed #DDD;padding:1%;"><p style="border:0px;padding:1%;"><changsheng2' +
 					getChangSheng(bazi.getTimeGan(), lunar.getTimeGanIndex(), lunar
-					.getTimeZhiIndex()) + '></div>', false,
+						.getTimeZhiIndex()) + '></div>', false,
 					function() {
 						console.log('sendMsg closed');
 					});
@@ -3470,11 +4196,6 @@
 					});
 			});
 
-
-
-
-
-
 			$('#xingxiu').on('click', function() {
 				$.sendMsg('<center>【' + lunar.getXiu() +
 					'宿】</center><div style=padding:3px;></div><div style="overflow-y:scroll;max-height:62vh;border:1px dashed #DDD;padding:1%;"><p style="border:0px;padding:1%;">' +
@@ -3505,11 +4226,6 @@
 					});
 			});
 
-
-
-
-
-
 			$('#shengxiao').on('click', function() {
 				$.sendMsg('<center>【生肖属' + lunar.getYearShengXiaoExact() +
 					'】</center><div style=padding:3px;></div><div style="overflow-y:scroll;max-height:62vh;border:1px dashed #DDD;padding:1%;"><p style="border:0px;padding:1%;"><shengxiao' +
@@ -3532,17 +4248,6 @@
 			var txt = '';
 			txt += '' + shiri_h;
 
-
-			$('#text1').html('' + txt);
-			$('#text1').val(txt);
-
-			//日详细
-			var rixx = rixiangxi(riri);
-			var txt1 = '';
-			txt1 += rixx;
-			$('#text2').html('' + txt1);
-			$('#text2').val(txt1);
-
 			//本命佛
 			var nianzhi = niannian.substr(-1);
 			var txtfo = '';
@@ -3559,7 +4264,6 @@
 					});
 			});
 
-
 			//喜用神
 			var rigan = riri.substr(0, 1);
 			var yuezhi = yueyue.substr(-1);
@@ -3568,15 +4272,6 @@
 			txt2 += xiyongshen(riganyuezhi);
 			$('#text3').html('' + txt2);
 			$('#text3').val(txt2);
-
-			//两头钳
-			var txt123 = '';
-			var niangan123 = bazi.getYear().substr(0, 1);
-			var shigan123 = bazi.getTime().substr(0, 1);
-			var jiajia123 = niangan123 + shigan123;
-			txt123 += '【**星：为八字的时辰】<br>' + ltq(jiajia123);
-			$('#text222').html('' + txt123);
-			$('#text222').val(txt123);
 
 			var daYun = yun.getDaYun();
 			if (INDEX.daYun >= daYun.length) {
@@ -3593,9 +4288,9 @@
 				if (d.getGanZhi() == '') {
 					dds = '';
 				}
-				var dygz=d.getGanZhi();
+				var dygz = d.getGanZhi();
 				// console.log(dygz)
-				
+
 				var lns = d.getLiuNian();
 				// console.log(lns)
 				var lnss = "";
@@ -3603,16 +4298,12 @@
 					var agz = lns[jj].getGanZhi();
 					lnss += bztg1[agz.substr(0, 1)] + bzdz1[agz.substr(1, 1)] + "<br>";
 				}
-				
-				// console.log(dygz)
-				// tds.eq(35 + i).html(
-				// 	'<div style="font-size:14.9px;line-height:14.9px;"><span style=font-size:11.3px>' +
-				// 	lnss + "</span></div>");
-					
+
 				tds.eq(1 + i).html(
-					'<div style="font-size:14.9px;line-height:14.9px;"><span style=font-size:11.3px>' + d
-					.getStartYear() + '</span><br><span style=font-size:11.3px>' + d.getStartAge() +
-					'岁</span><br>' + (dygz==''?'':(bztg1[dygz.substr(0, 1)] + bzdz1[dygz.substr(1, 1)]))+ '<br><hr class="style1">'+lnss+ '</div>');
+					'<div style="font-size:11.3px;line-height:11.3px;">' + d
+					.getStartYear() + '<br>' + d.getStartAge() +
+					'岁</div><div style="font-size:14.9px;line-height:14.9px;">' + (dygz == '' ? '' : (bztg1[dygz.substr(0, 1)] + bzdz1[dygz.substr(1,
+						1)])) + '<br><hr class="style1">' + lnss + '</div>');
 
 				if (nowgl.getYear() >= d.getStartYear() && nowgl.getYear() < d.getStartYear() + 10) {
 					// 当前大运
@@ -3627,7 +4318,7 @@
 			tds.eq(1 + INDEX.daYun).addClass('active');
 			//tds.eq(21+INDEX.daYun).addClass('active');
 
-		// console.log(INDEX.daYun)
+			// console.log(INDEX.daYun)
 			var liuNian = daYun[INDEX.daYun].getLiuNian();
 			if (INDEX.liuNian >= liuNian.length) {
 				INDEX.liuNian = 0;
@@ -3638,25 +4329,12 @@
 				var dayunshishen = LunarUtil.SHI_SHEN_GAN[bazi.getDayGan() + daYun[INDEX.daYun].getGanZhi()
 					.substr(0, 1)];
 				var liunianshishen = LunarUtil.SHI_SHEN_GAN[bazi.getDayGan() + d.getGanZhi().substr(0, 1)];
-				var shishentext = '';
-
-				shishentext += '【参考一】你的喜用神：';
-				shishentext += txt2 + '➜➜本年五行：';
-				shishentext += tiandiwuxing(d.getGanZhi().substr(0, 1)) + '+' + tiandiwuxing(d.getGanZhi()
-					.substr(-1)) + '。➜➜本年运势：';
-				shishentext += shishen(dayunshishen + liunianshishen);
-
-				var shishentext2 = '';
-				shishentext2 += '【参考二】你的喜用神：';
-				shishentext2 += txt2 + '➜➜本年五行：';
-				shishentext2 += tiandiwuxing(d.getGanZhi().substr(0, 1)) + '+' + tiandiwuxing(d.getGanZhi()
-					.substr(-1)) + '。➜➜本年运势：';
-				shishentext2 += shishen2(liunianshishen + dayunshishen);
+				// var shishentext = '';
 
 				//tds.eq(14+i).html('');
 				tds.eq(13 + i).html(
-					'<div style="font-size:14.9px;line-height:14.9px;"><span style=font-size:11.3px>' + d
-					.getYear() + '</span><br><span style=font-size:11.3px>' + d.getAge() + '岁</span><br>' +
+					'<div style="font-size:11.3px;line-height:11.3px;">' + d
+					.getYear() + '<br>' + d.getAge() + '岁</span><br><div style="font-size:14.9px;line-height:14.9px;">' +
 					d.getGanZhi() + '<br><!--font color=red>' + liunianshishen + '</font><br>' + changsheng(
 						bazi.getDay().substr(0, 1) + d.getGanZhi().substr(-1)) + '<br--></div>');
 				// tds.eq(13+i).html('<div style="font-size:14.9px;line-height:14.9px;"><span style=font-size:11.3px>'+d.getYear()+'</span><br><span style=font-size:11.3px>'+d.getAge()+'岁</span><br>'+d.getGanZhi()+'<br><font color=red>'+liunianshishen+'</font><br>'+changsheng(bazi.getDay().substr(0,1)+d.getGanZhi().substr(-1))+'<br><!--br>'+tiandiwuxing(d.getGanZhi().substr(0,1))+'<br>'+tiandiwuxing(d.getGanZhi().substr(-1))+'<br><a title="'+shishentext+'" onclick=alert("'+shishentext+'")>参1</a>'+'<br><a title="'+shishentext2+'" onclick=alert("'+shishentext2+'")>考2</a--></div>');
@@ -3714,13 +4392,9 @@
 			var xiaoYun = daYun[INDEX.daYun].getXiaoYun();
 			for (var i = 0, j = xiaoYun.length; i < j; i++) {
 				var d = xiaoYun[i];
-				tds.eq(24 + i).html('<div style="font-size:14.9px;line-height:14.9px;">' + d.getGanZhi() +
-					'<br><!--font color=red>' + LunarUtil.SHI_SHEN_GAN[bazi.getDayGan() + d.getGanZhi().substr(
-						0, 1)] + '</font><br--><!--br>' + tiandiwuxing(d.getGanZhi().substr(0, 1)) + '<br>' +
-					tiandiwuxing(d.getGanZhi().substr(-1)) + '<br>' + changsheng(bazi.getDay().substr(0,
-						1) + d.getGanZhi().substr(-1)) + '<br--></div>');
+				tds.eq(24 + i).html('<div style="font-size:14.9px;">' + d.getGanZhi() +'</div>');
 			}
-
+			
 			tds = $('#liu-yue td');
 			tds.removeClass('active').html('');
 			tds.eq(0).html('流<br>月');
@@ -3731,25 +4405,42 @@
 					var d = liuYue[i];
 					tds.eq(1 + i).html('<span style=font-size:12.27px>' + d.getMonthInChinese() + '月' +
 						'<br></span>');
-					/*d.getliuyun2()实现流月也能预测好坏了。哈哈，当然是在lunar-xiugai.js中添加函数getliuyun2，并添加了 liuyue2数组*/
-					tds.eq(13 + i).html('<div style="font-size:12.27px;line-height:12.27px;">' + d.getGanZhi() +
-						'<br><!--font color=red>' + LunarUtil.SHI_SHEN_GAN[bazi.getDayGan() + d.getGanZhi()
-							.substr(0, 1)] + '</font--><!--br>' + tiandiwuxing(d.getGanZhi().substr(0, 1)) +
-						'<br>' + tiandiwuxing(d.getGanZhi().substr(-1)) + '<br><br>' + changsheng(bazi
-							.getDay().substr(0, 1) + d.getGanZhi().substr(-1)) + '<br--></div>');
+					tds.eq(13 + i).html('<div style="font-size:12.27px;">' + d.getGanZhi() +'</div>');
 				}
 
 			} catch (ex) {
-				console.log(ex);
+				// console.log(ex);
 				if (INDEX.daYun == 0) {
 					INDEX.daYun = 1;
 					onChange();
 				}
 			}
+
+			
 		} catch (e) {
 			console.log(e);
 			$('#result').html('');
 		}
+		
+		// // 生辰卦
+		const dizhiNumberMapping = {
+		    "寅": 1,
+		    "卯": 2,
+		    "辰": 3,
+		    "巳": 4,
+		    "午": 5,
+		    "未": 6,
+		    "申": 7,
+		    "酉": 8,
+		    "戌": 9,
+		    "亥": 10,
+		    "子": 11,
+		    "丑": 12
+		};
+		var regval = document.getElementById("region").value;
+		var mhghtm = paimeihua(dizhiNumberMapping[bazi.getMonthZhi()],regval,timeToKe(("00"+solar.getHour()).slice(-2) + ":"+("00"+solar.getMinute()).slice(-2)));
+		// console.log(mhghtm)
+		document.getElementById('meihuag').innerHTML=mhghtm;
 	};
 
 	compute();
@@ -3798,7 +4489,10 @@
 	$('#sect').on('change', myonchange);
 	$('#yunSect').on('change', myonchange);
 	$('#dateinput').on('change', chgdate);
-
+	$('#region').on('change', myonchange)
+	$('#islun').on('change', myonchange)
+	
+	
 
 
 	var tds = $('#yun td');
@@ -3815,4 +4509,22 @@
 			onChange();
 		}
 	});
+	
+	
+	
+	const dizhiyue = {
+	    "寅": 1,
+	    "卯": 2,
+	    "辰": 3,
+	    "巳": 4,
+	    "午": 5,
+	    "未": 6,
+	    "申": 7,
+	    "酉": 8,
+	    "戌": 9,
+	    "亥": 10,
+	    "子": 11,
+	    "丑": 12
+	};
+	
 })();
