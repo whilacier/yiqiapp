@@ -188,7 +188,7 @@
 			"<tr style='text-align: center;'><td></td><td>主卦</td><td></td><td>互卦</td><td></td><td>变卦" + oriyd +
 			"</td></tr>" +
 	
-			"<tr><td><br></td></tr>" +
+			"<tr><td colspan=6><br></td></tr>" +
 	
 			"<tr><td></td><td>" + get64guam(zzgs, zzgx) + "</td><td></td><td>" + get64guam(hzgs,
 				hzgx) + "</td><td></td><td>" + get64guam(bzgs, bzgx) + "</td></tr>" +
@@ -243,8 +243,8 @@
 			}
 			
 			tableHTML += `
-	    <tr style="height: 1px; margin: 0; padding: 0;">
-	        <td style="border:0px;transform: scaleX(1.3);padding: 0; text-align: center; vertical-align: middle; font-size: 44px; line-height: 14px; margin: 0; color: ${color};">${symbol}</td>
+	    <tr style="">
+	        <td style="border:0px;transform: scaleX(1.3);padding:0px; text-align: center; vertical-align: middle; font-size: 62px; line-height: 14px; margin: 0; color: ${color};">${symbol}</td>
 			<td style="border:0px;">${sjno}</td>
 	    </tr>`;
 		}
@@ -822,6 +822,14 @@
 	    const ke = Math.floor(minutesSinceShiChenStart / 15) + 1;
 	    
 	    return ke;
+	};
+	
+	var exemeihua = function(){
+		var sgn = document.getElementById("mhsgno").value;
+		var xgn = document.getElementById("mhxgno").value;
+		var byn = document.getElementById("mhbyno").value;
+		var mhghtm = paimeihua(sgn,xgn,byn);
+		document.getElementById('meihuag').innerHTML=mhghtm;
 	};
 	
 	var compute = function() {
@@ -4431,10 +4439,17 @@
 		    "子": 11,
 		    "丑": 12
 		};
-		var regval = document.getElementById("region").value;
-		var mhghtm = paimeihua(dizhiNumberMapping[bazi.getMonthZhi()],regval,timeToKe(("00"+solar.getHour()).slice(-2) + ":"+("00"+solar.getMinute()).slice(-2)));
-		// console.log(mhghtm)
-		document.getElementById('meihuag').innerHTML=mhghtm;
+		
+		
+		var issdmeih = document.getElementById("chksd").checked;
+		if(!issdmeih){
+			var regval = document.getElementById("region").value;
+			document.getElementById("mhsgno").value=dizhiNumberMapping[bazi.getMonthZhi()];
+			document.getElementById("mhxgno").value=regval;
+			document.getElementById("mhbyno").value=timeToKe(("00"+solar.getHour()).slice(-2) + ":"+("00"+solar.getMinute()).slice(-2));
+			exemeihua();
+		}
+		
 	};
 
 	compute();
@@ -4486,7 +4501,9 @@
 	$('#region').on('change', myonchange)
 	$('#islun').on('change', myonchange)
 	
-	
+	$('#mhsgno').on('change', exemeihua);
+	$('#mhxgno').on('change', exemeihua);
+	$('#mhbyno').on('change', exemeihua);
 
 
 	var tds = $('#yun td');
