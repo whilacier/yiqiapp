@@ -4281,7 +4281,7 @@
 			tds.removeClass('active').html('');
 			tds.eq(0).html('大<br>运<br>流<br>年');
 			tds.eq(12).html('流<br>年');
-			tds.eq(23).html('小<br>运');
+			// tds.eq(23).html('小<br>运');
 			for (var i = 0, j = daYun.length; i < j; i++) {
 				var d = daYun[i];
 				var dds = LunarUtil.SHI_SHEN_GAN[bazi.getDayGan() + d.getGanZhi().substr(0, 1)];
@@ -4296,14 +4296,13 @@
 				var lnss = "";
 				for (var jj = 0; jj < lns.length; jj++) {
 					var agz = lns[jj].getGanZhi();
-					lnss += bztg1[agz.substr(0, 1)] + bzdz1[agz.substr(1, 1)] + "<br>";
+					lnss += agz+ "<br>";
 				}
 
 				tds.eq(1 + i).html(
 					'<div style="font-size:11.3px;line-height:11.3px;">' + d
 					.getStartYear() + '<br>' + d.getStartAge() +
-					'岁</div><div style="font-size:14.9px;line-height:14.9px;">' + (dygz == '' ? '' : (bztg1[dygz.substr(0, 1)] + bzdz1[dygz.substr(1,
-						1)])) + '<br><hr class="style1">' + lnss + '</div>');
+					'岁</div><div style="font-size:14.9px;line-height:14.9px;">' + (dygz == '' ? '' : dygz) + '<br><hr class="style1">' + lnss + '</div>');
 
 				if (nowgl.getYear() >= d.getStartYear() && nowgl.getYear() < d.getStartYear() + 10) {
 					// 当前大运
@@ -4331,16 +4330,11 @@
 				var liunianshishen = LunarUtil.SHI_SHEN_GAN[bazi.getDayGan() + d.getGanZhi().substr(0, 1)];
 				// var shishentext = '';
 
-				//tds.eq(14+i).html('');
+
 				tds.eq(13 + i).html(
 					'<div style="font-size:11.3px;line-height:11.3px;">' + d
 					.getYear() + '<br>' + d.getAge() + '岁</span><br><div style="font-size:14.9px;line-height:14.9px;">' +
-					d.getGanZhi() + '<br><!--font color=red>' + liunianshishen + '</font><br>' + changsheng(
-						bazi.getDay().substr(0, 1) + d.getGanZhi().substr(-1)) + '<br--></div>');
-				// tds.eq(13+i).html('<div style="font-size:14.9px;line-height:14.9px;"><span style=font-size:11.3px>'+d.getYear()+'</span><br><span style=font-size:11.3px>'+d.getAge()+'岁</span><br>'+d.getGanZhi()+'<br><font color=red>'+liunianshishen+'</font><br>'+changsheng(bazi.getDay().substr(0,1)+d.getGanZhi().substr(-1))+'<br><!--br>'+tiandiwuxing(d.getGanZhi().substr(0,1))+'<br>'+tiandiwuxing(d.getGanZhi().substr(-1))+'<br><a title="'+shishentext+'" onclick=alert("'+shishentext+'")>参1</a>'+'<br><a title="'+shishentext2+'" onclick=alert("'+shishentext2+'")>考2</a--></div>');
-
-				//tds.eq(52+i).html('');
-				//tds.eq(52+i).html(d.getGanZhi()+'<br>'+tiandiwuxing(d.getGanZhi().substr(0,1))+'<br>'+tiandiwuxing(d.getGanZhi().substr(-1))+'<br><a title="'+shishentext+'" onclick=alert("'+shishentext+'")>(参考1)</a>'+'<br><a title="'+shishentext2+'" onclick=alert("'+shishentext2+'")>(参考2)</a>');
+					d.getGanZhi() + '<br></div>');
 			}
 			tds.eq(13 + INDEX.liuNian).addClass('active');
 
@@ -4389,11 +4383,11 @@
 			//}
 
 
-			var xiaoYun = daYun[INDEX.daYun].getXiaoYun();
-			for (var i = 0, j = xiaoYun.length; i < j; i++) {
-				var d = xiaoYun[i];
-				tds.eq(24 + i).html('<div style="font-size:14.9px;">' + d.getGanZhi() +'</div>');
-			}
+			// var xiaoYun = daYun[INDEX.daYun].getXiaoYun();
+			// for (var i = 0, j = xiaoYun.length; i < j; i++) {
+			// 	var d = xiaoYun[i];
+			// 	tds.eq(24 + i).html('<div style="font-size:14.9px;">' + d.getGanZhi() +'</div>');
+			// }
 			
 			tds = $('#liu-yue td');
 			tds.removeClass('active').html('');
