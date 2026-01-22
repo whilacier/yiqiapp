@@ -35,9 +35,9 @@
 				color: #33CC33;
 			}
 
-			hr.style1{
-			    border-top: 1px solid #8c8b8b;
-			 }
+			hr.style1 {
+				border-top: 1px solid #8c8b8b;
+			}
 
 			.saveimgs {
 				margin-left: 239px;
@@ -342,8 +342,8 @@
 
 
 		<div class="pp">
-			
-		
+
+
 			<div class="wrap">
 				<div class="ipt plr mr br">年</div>
 				<div class="pinp"><select id="year" class="tin" type="number" pattern="\d*">
@@ -382,8 +382,8 @@
 							}
 						</script>
 					</select></div>
-					
-					
+
+
 				<div class="ipt plr mr br">时</div>
 				<div class="pinp"> <select id="hour" type="number" pattern="\d*" onchange="sqsave();">
 						<script type="text/javascript">
@@ -394,12 +394,12 @@
 								document.write("<option value=" + i + (i == k ? " >" : ">") + i + "</option>")
 							}
 						</script>
-					</select></div>	
-					
+					</select></div>
+
 			</div>
-		</div>
-		
-		<div class="plr pb">
+			<!-- 		</div>
+
+		<div class="pp"> -->
 			<div class="wrap">
 
 				<div class="ipt plr mr blr">分</div>
@@ -420,83 +420,83 @@
 						<option value="0">女</option>
 					</select>
 				</div>
-				
-				<!-- <div class="ipt pr mr br">直输</div> -->
 				<div class="pinp">
-					<input id="dateinput" placeholder="出生日期202509190920" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:53%;height:37px;font-size:16px;border:1px solid #c6c6c6;'  type="text"/>
+					<input id="dateinput" placeholder="出生日期202509190920"
+						style='text-indent:3.1px;margin:0px 2% 0px 29%;width:53%;height:37px;font-size:16px;border:1px solid #c6c6c6;'
+						type="text" />
 					<input id="islun" type="checkbox">农</input>
-				</div>				
+				</div>
 			</div>
-			
-			
+
+
 			<div class="wrap">
-			<div class="pinp">
-			<select id="region" name="region" style="width: 30%;">
-							<option value="" selected disabled>-- 出生地 --</option>
-							
-							<!-- 东部战区 -->
-							<option value="4">上海市</option>
-							<option value="4">江苏省</option>
-							<option value="4">浙江省</option>
-							<option value="4">安徽省</option>
-							<option value="4">福建省</option>
-							<option value="4">江西省</option>
-							
-							<!-- 南部战区 -->
-							<option value="3">湖南省</option>
-							<option value="3">广东省</option>
-							<option value="3">广西壮族自治区</option>
-							<option value="3">海南省</option>
-							<option value="3">云南省</option>
-							<option value="3">贵州省</option>
-							<option value="3">香港特别行政区</option>
-							<option value="3">澳门特别行政区</option>
-							
-							<!-- 西部战区 -->
-							<option value="2">四川省</option>
-							<option value="2">重庆市</option>
-							<option value="2">甘肃省</option>
-							<option value="2">青海省</option>
-							<option value="2">宁夏回族自治区</option>
-							<option value="2">新疆维吾尔自治区</option>
-							<option value="2">西藏自治区</option>
-							
-							<!-- 北部战区 -->
-							<option value="6">辽宁省</option>
-							<option value="6">吉林省</option>
-							<option value="6">黑龙江省</option>
-							<option value="6">内蒙古自治区</option>
-							<option value="6">山东省</option>
-							
-							<!-- 中部战区 -->
-							<option value="8">北京市</option>
-							<option value="8">天津市</option>
-							<option value="8">河北省</option>
-							<option value="8">山西省</option>
-							<option value="8">河南省</option>
-							<option value="8">湖北省</option>
-							<option value="8">陕西省</option>
-						</select>
-						<button onclick="showty();">真太阳时</button>	
-			</div>
+				<div class="ipt plr mr blr">出生地</div>
+				<div class="pinp">
+					<select id="region" name="region" style="width: 30%;">
+						<!-- 东部战区 -->
+						<option value="4">上海市</option>
+						<option value="4">江苏省</option>
+						<option value="4">浙江省</option>
+						<option value="4">安徽省</option>
+						<option value="4">福建省</option>
+						<option value="4">江西省</option>
+
+						<!-- 南部战区 -->
+						<option value="3">湖南省</option>
+						<option value="3">广东省</option>
+						<option value="3">广西壮族自治区</option>
+						<option value="3">海南省</option>
+						<option value="3">云南省</option>
+						<option value="3">贵州省</option>
+						<option value="3">香港特别行政区</option>
+						<option value="3">澳门特别行政区</option>
+
+						<!-- 西部战区 -->
+						<option value="2">四川省</option>
+						<option value="2">重庆市</option>
+						<option value="2">甘肃省</option>
+						<option value="2">青海省</option>
+						<option value="2">宁夏回族自治区</option>
+						<option value="2">新疆维吾尔自治区</option>
+						<option value="2">西藏自治区</option>
+
+						<!-- 北部战区 -->
+						<option value="6">辽宁省</option>
+						<option value="6">吉林省</option>
+						<option value="6">黑龙江省</option>
+						<option value="6">内蒙古自治区</option>
+						<option value="6">山东省</option>
+
+						<!-- 中部战区 -->
+						<option value="8" selected>北京市</option>
+						<option value="8">天津市</option>
+						<option value="8">河北省</option>
+						<option value="8">山西省</option>
+						<option value="8">河南省</option>
+						<option value="8">湖北省</option>
+						<option value="8">陕西省</option>
+					</select>
+					<button onclick="showty();" style="margin:0px 2% 0px 50%;">真太阳时</button>
+				</div>
 
 			</div>
-			
-		</div>
-		
-		<div id="cgdiv" style="display:none;top: 6px;width: 100%;height: 600px;">
-		<!-- <div id="cgdiv" style="display:none ;"> -->
-			<button style="position:absolute; right: 30px;top:118px;" onclick="document.getElementById('cgdiv').style.display='none'">关闭</button><br>
-			<iframe id="cgurl" width="100%" height="539px" scrolling="yes" frameborder="no" border="0"></iframe>    	
-		</div>
-		<script>
-			function showty() {
-				document.getElementById('cgurl').src = "ztys.html";
-				document.getElementById('cgdiv').style.display = "";
-			}
-		</script>
 
-		<div class="plr pb">
+			<!-- </div> -->
+			<div id="cgdiv" class="wrap" style="display:none;">
+				<div style="display:;top: 6px;width: 100%;height: 600px;">
+					<!-- <div id="cgdiv" style="display:none ;"> -->
+					<button style="position:absolute; right: 30px;top:138px;"
+						onclick="document.getElementById('cgdiv').style.display='none'">关闭</button><br>
+					<iframe id="cgurl" width="100%" height="539px" scrolling="yes" frameborder="no" border="0"></iframe>
+				</div>
+				<script>
+					function showty() {
+						document.getElementById('cgurl').src = "ztys.html";
+						document.getElementById('cgdiv').style.display = "";
+					}
+				</script>
+			</div>
+			<!-- <div class="plr pb"> -->
 			<div class="wrap">
 				<div class="br">
 					<select id="sect" style="margin-left:8px;width:119px;">
@@ -504,7 +504,6 @@
 						<option value="2">晚子时按当天</option>
 					</select>
 				</div>
-
 
 				<div class="ipt mr pinp">
 					<select id="yunSect" style="padding:0px 19px 0px 8px;">
@@ -516,8 +515,10 @@
 
 
 			<div class="wrap">
-				<div class="br">					
-					<input placeholder="反查八字" onchange="fcbz(this.value)" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:96%;height:37px;font-size:16px;border:1px solid #c6c6c6;'  type="text"/>						
+				<div class="br">
+					<input placeholder="反查八字" onchange="fcbz(this.value)"
+						style='text-indent:3.1px;margin:0px 2% 0px 2%;width:96%;height:37px;font-size:16px;border:1px solid #c6c6c6;'
+						type="text" />
 				</div>
 				<div class="br">
 					<ul id="solars"></ul>
@@ -651,7 +652,7 @@
 
 			<div id="yun" style="overflow-x:auto;white-space:nowrap;">
 				<table class="table1" style="margin:1.1px 2% 1.1px 2%;">
-					<tr >
+					<tr>
 						<td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:10px;padding:1px;"
 							class="active"></td>
 						<td valign="top"></td>
@@ -680,7 +681,7 @@
 						<td class=ttd></td>
 						<td class=ttd></td>
 					</tr>
-					<tr>
+					<!-- 					<tr>
 						<td
 							style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:10px;padding:1px;">
 						</td>
@@ -694,31 +695,26 @@
 						<td class=ttd></td>
 						<td class=ttd></td>
 						<td class=ttd></td>
-					</tr>
+					</tr> -->
 
 				</table>
-			</div>
-
-
-
-			<div style="overflow-x:auto;white-space:nowrap;">
 				<table id="liu-yue" class="table1" style="margin:1.1px 2% 1.1px 2%;">
 					<tbody>
 						<tr>
 							<td style="color:#000;font-weight:900;background-color:#FFFFFF;font-size:13px;width:10px;padding:1px;"
 								rowspan="2"></td>
-							<td class=tdy></td>
-							<td class=tdy></td>
-							<td class=tdy></td>
-							<td class=tdy></td>
-							<td class=tdy></td>
-							<td class=tdy></td>
-							<td class=tdy></td>
-							<td class=tdy></td>
-							<td class=tdy></td>
-							<td class=tdy></td>
-							<td class=tdy></td>
-							<td class=tdy></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td class=ttd></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td class=ttd></td>
@@ -737,19 +733,19 @@
 					</tbody>
 				</table>
 			</div>
-			<table class="table1"> 
+			<table class="table1">
 				<tr>
-					<td align="center"  style="border: 1px;">
-						<center>生辰卦需要输入准确的出生时间和出生地<div id="meihuag" style="margin-top:3px;width: 60%;"></div></center><!--梅花-->
+					<td align="center" style="border: 1px;">
+						<center>生辰卦需要输入准确的出生时间和出生地<div id="meihuag" style="margin-top:3px;width: 60%;"></div>
+						</center><!--梅花-->
 					</td>
 				</tr>
 			</table>
 			<div style="width:100%;">
 				<div id="shensha"></div>
 				<div id="qiyun"></div>
-				
 			</div>
-			
+
 
 			<div id="wangxiang" style="margin-top:3px;"></div><!--旺相休囚-->
 			<table class="table1" style="border-top:0px;border-bottom:0px;">
@@ -771,7 +767,10 @@
 					<th class="th2">婚配</th>
 					<td class="td2" style="text-align: left;"><span id="hunpei"></span></td>
 				</tr> <!--婚配-->
-				<tr><th class="th2">太岁</th><td class="td2" style="text-align: left;"><span id="fantaisui"></span></td></tr>
+				<tr>
+					<th class="th2">太岁</th>
+					<td class="td2" style="text-align: left;"><span id="fantaisui"></span></td>
+				</tr>
 				<!--太岁-->
 			</table>
 
@@ -1546,13 +1545,13 @@
 				bzstr = bzstr.replace(/[^甲乙丙丁戊己庚辛壬癸子丑寅卯辰巳午未申酉戌亥]+/g, '')
 				var bzarr = bzstr.match(pattern1);
 				//console.log(bzarr,bzstr,bzstr.length);
-				
+
 				var ngz;
 				var mgz;
 				var rgz;
 				var sgz;
-				
-				if (bzarr.length ==4){
+
+				if (bzarr.length == 4) {
 					ngz = bzarr[0]; // 年干支
 					var ng = ngz.substr(0, 1); // 年干
 					var nz = ngz.substr(1, 1); // 年支
@@ -1583,19 +1582,20 @@
 						hours = scarr[sz];
 						hours = hours ? hours : "";
 					}
-				}else if(bzstr.length==8){
+				} else if (bzstr.length == 8) {
 					var ng = bzstr.substr(0, 1); // 年干
 					var nz = bzstr.substr(4, 1); // 年支
-					ngz =ng+nz; // 年干支
-					var mg = bzstr.substr(1, 1); ; // 月干
-					var mz = bzstr.substr(5, 1); ""; // 月支
-					mgz = mg+mz; // 月干支
-					var rg =bzstr.substr(2, 1); // 日干
-					var rz = bzstr.substr(6, 1);  // 日支
-					rgz =rg+rz ; // 日干支
-					var sg = bzstr.substr(3, 1); 
-					var sz = bzstr.substr(7, 1); 
-					sgz = sg+sz;// 时干支
+					ngz = ng + nz; // 年干支
+					var mg = bzstr.substr(1, 1);; // 月干
+					var mz = bzstr.substr(5, 1);
+					""; // 月支
+					mgz = mg + mz; // 月干支
+					var rg = bzstr.substr(2, 1); // 日干
+					var rz = bzstr.substr(6, 1); // 日支
+					rgz = rg + rz; // 日干支
+					var sg = bzstr.substr(3, 1);
+					var sz = bzstr.substr(7, 1);
+					sgz = sg + sz; // 时干支
 				}
 
 				$('#solars').html('<li>计算中...</li>');
@@ -1614,25 +1614,26 @@
 						$('#solars').html('');
 						for (var i = 0; i < size; i++) {
 							var solar = solars[i];
-							$('<a onclick="setymds(this.innerHTML)">' + solar.toYmdHms().substr(0,16) + '　</a>').appendTo($('#solars'));
+							$('<a onclick="setymds(this.innerHTML)">' + solar.toYmdHms().substr(0, 16) + '　</a>').appendTo($(
+								'#solars'));
 						}
 					}
 				} catch (e) {
 					$('#solars').html('<li>出错了！</li>');
 				}
 			};
-			
-	
-			
-			var setdateinput = function(datestr){
+
+
+
+			var setdateinput = function(datestr) {
 				var y = (datestr.substr(0, 4));
 				var m = (datestr.substr(5, 2));
 				var d = (datestr.substr(8, 2));
 				var h = (datestr.substr(11, 2));
 				var mi = (datestr.substr(14, 2));
-				
-				$('#dateinput').val(y+m+d+h+mi).change()
-				
+
+				$('#dateinput').val(y + m + d + h + mi).change()
+
 				//chgdate(y+m+d+h+mi)
 			};
 
@@ -1671,11 +1672,6 @@
 			}
 
 			urlpara();
-			
-			
-			
-			
-					
 		</script>
 
 	</body>
