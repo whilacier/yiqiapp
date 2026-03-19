@@ -244,7 +244,7 @@
 			
 			tableHTML += `
 	    <tr style="">
-	        <td style="border:0px;transform: scaleX(1.3);padding:0px; text-align: center; vertical-align: middle; font-size: 62px; line-height: 14px; margin: 0; color: ${color};">${symbol}</td>
+	        <td style="border:0px;transform: scaleX(1.3);padding:0px; text-align: center; vertical-align: middle; font-size: 52px; line-height: 14px; margin: 0; color: ${color};">${symbol}</td>
 			<td style="border:0px;">${sjno}</td>
 	    </tr>`;
 		}
@@ -1262,7 +1262,6 @@
 			var ddxs = LunarYear.fromYear(nownl.getYear());
 			var xusui = Number(ddxs.next(1)) - Number(lunar.getYear());
 
-
 			s += '<style>.fonts{font-weight:900;font-size:19.9px;}</style>';
 			s += '<table class="table1">';
 			s += '<tr>';
@@ -1842,7 +1841,7 @@
 					'申丑', '酉寅', '戌卯', '亥辰'
 				]
 			};
-
+			
 			// 阳
 			var yang = (0 == lunar.getYearGanIndexExact() % 2);
 			// 男
@@ -4310,7 +4309,7 @@
 				tds.eq(1 + i).html(
 					'<div style="font-size:11.3px;line-height:11.3px;">' + d
 					.getStartYear() + '<br>' + d.getStartAge() +
-					'岁</div><div style="font-size:14.9px;line-height:14.9px;">' + (dygz == '' ? '' : dygz) + '<br><hr class="style1">' + lnss + '</div>');
+					'岁</div><div style="font-size:14.9px;line-height:16.9px;"><span style="font-weight:bold;">' + (dygz == '' ? ' ' : dygz) + '<br></span><hr class="style1">' + lnss + '</div>');
 
 				if (nowgl.getYear() >= d.getStartYear() && nowgl.getYear() < d.getStartYear() + 10) {
 					// 当前大运
@@ -4319,12 +4318,15 @@
 						INDEX.liuNian = nowgl.getYear() - d.getStartYear();
 					}
 				}
-
 				//tds.eq(21+i).html(d.getGanZhi()+'1<br>'+tiandiwuxing(d.getGanZhi().substr(0,1))+'<br>'+tiandiwuxing(d.getGanZhi().substr(-1)));
 			}
+			if (INDEX.daYun == -1) {
+				INDEX.daYun = 0;
+			}
+			
 			tds.eq(1 + INDEX.daYun).addClass('active');
 			//tds.eq(21+INDEX.daYun).addClass('active');
-
+// console.log('333333333333',INDEX.daYun,INDEX.liuNian,seldygz)
 			// console.log(INDEX.daYun)
 			var liuNian = daYun[INDEX.daYun].getLiuNian();
 			if (INDEX.liuNian >= liuNian.length) {
@@ -4362,6 +4364,8 @@
 					1) + seldygz.substr(0, 1)];
 
 			}
+			
+			
 
 			var sellngz = tds.eq(13 + INDEX.liuNian).html();
 			// console.log(sellngz)
@@ -4483,9 +4487,10 @@
 	};
 
 	$('#year').on('input propertychange', myonchange);
-	$('#month').on('input propertychange', myonchange);
-	$('#day').on('input propertychange', myonchange);
-	$('#hour').on('input propertychange', myonchange);
+	// $('#month').on('input propertychange', myonchange);
+	$('#month').on('change', myonchange);
+	$('#day').on('change', myonchange);
+	$('#hour').on('change', myonchange);
 	$('#minute').on('input propertychange', myonchange);
 
 	$('#now_year').on('input propertychange', myonchange);
