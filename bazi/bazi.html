@@ -359,7 +359,7 @@
 					</select></div>
 
 				<div class="ipt plr mr blr">月</div>
-				<div class="pinp"> <select id="month" type="number" pattern="\d*" onchange="sqsave();">
+				<div class="pinp"> <select id="month" type="number" pattern="\d*" >
 
 						<script type="text/javascript">
 							var j, k;
@@ -372,7 +372,7 @@
 					</select></div>
 
 				<div class="ipt plr mr blr">日</div>
-				<div class="pinp"> <select id="day" type="number" pattern="\d*" onchange="sqsave();">
+				<div class="pinp"> <select id="day" type="number" pattern="\d*" >
 						<script type="text/javascript">
 							var j, k;
 							j = new Date();
@@ -385,7 +385,7 @@
 
 
 				<div class="ipt plr mr br">时</div>
-				<div class="pinp"> <select id="hour" type="number" pattern="\d*" onchange="sqsave();">
+				<div class="pinp"> <select id="hour" type="number" pattern="\d*" >
 						<script type="text/javascript">
 							var j, k;
 							j = new Date();
@@ -403,7 +403,7 @@
 			<div class="wrap">
 
 				<div class="ipt plr mr blr">分</div>
-				<div class="pinp br mr"> <select id="minute" type="number" pattern="\d*" onchange="sqsave();">
+				<div class="pinp br mr"> <select id="minute" type="number" pattern="\d*" >
 						<script language="JScript">
 							var j, k;
 							j = new Date();
@@ -524,26 +524,7 @@
 					<ul id="solars"></ul>
 				</div>
 			</div>
-
-
 		</div>
-
-
-		<script type="text/javascript">
-			// setTimeout(function() {
-			// 	// IE
-			// 	if (document.all) {
-			// 		document.getElementById("btn").click();
-			// 	}
-			// 	// 其它浏览器
-			// 	else {
-			// 		var e = document.createEvent("MouseEvents");
-			// 		e.initEvent("click", true, true);
-			// 		document.getElementById("btn").dispatchEvent(e);
-			// 	}
-			// }, 300);
-		</script>
-
 
 		<div style='display:none;' id='neirongzj'>
 			<table style="margin:0px 2% 0px 2%">
@@ -630,7 +611,17 @@
 
 
 		<div id="shower">
+
 			<div style="width:100%;">
+				
+				<div style="width:100%;text-align: center;">
+					<input value="上月" onclick="next('m',-1)" type="button" />
+					<input value="下月" onclick="next('m',1)" type="button" />
+					<input value="上日" onclick="next('d',-1)" type="button" />
+					<input value="下日" onclick="next('d',1)" type="button" />
+					<input value="上时" onclick="next('h',-2)" type="button" />
+					<input value="下时" onclick="next('h',2)" type="button" />
+				</div>
 				<div id="result"></div>
 
 			</div>
@@ -741,20 +732,20 @@
 						<div class="wrap">
 							<div class="ipt plr mr blr">上卦</div>
 							<div class="pinp br mr">
-								<input id="mhsgno" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:96%;height:37px;border:1px solid #c6c6c6;' type="text" />
+								<input id="mhsgno" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:50px;height:37px;border:1px solid #c6c6c6;' type="text" />
 							</div>
 							<div class="ipt plr mr blr">下卦</div>
 							<div class="pinp br mr">
-								<input id="mhxgno" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:96%;height:37px;border:1px solid #c6c6c6;' type="text" />
+								<input id="mhxgno" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:50px;height:37px;border:1px solid #c6c6c6;' type="text" />
 							</div>
 							<div class="ipt plr mr blr">变爻</div>
 							<div class="pinp br mr">
-								<input id="mhbyno" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:96%;height:37px;border:1px solid #c6c6c6;' type="text" />
+								<input id="mhbyno" style='text-indent:3.1px;margin:0px 2% 0px 2%;width:50px;height:37px;border:1px solid #c6c6c6;' type="text" />
 							</div>
 
 							<div class="ipt plr mr blr">手动</div>
 							<div class=" br mr">
-								<input id="chksd" style='margin:0px 2% 0px 2%;width:96%;height:37px;width: 20px;' type="checkbox"/>
+								<input id="chksd" style='margin:0px 2% 0px 2%;width:96%;height:37px;width:20px;' type="checkbox"/>
 							</div>
 						</div>
 						<center>
@@ -1660,7 +1651,7 @@
 
 				//chgdate(y+m+d+h+mi)
 			};
-
+			
 			var setymds = function(bzstr) {
 				setdateinput(bzstr);
 				//console.log(bzstr)
@@ -1694,6 +1685,55 @@
 				// $('#yun td').click();
 
 			}
+			
+			
+		var next=function (t,v){
+				if(t=='m'){//月
+					var vv=parseInt($('#month').val());
+					var nv=vv+v;
+					if(nv>12){
+						nv=1;
+						$('#year').val(parseInt($('#year').val())+1);
+						$('#month').val(nv).change();
+					}else if(nv<1){
+						nv=12;
+						$('#year').val(parseInt($('#year').val())-1);
+						$('#month').val(nv).change();
+					}else{
+						$('#month').val(nv).change();
+					}
+				}else if(t=='d'){//日
+					var vv=parseInt($('#day').val());
+					var nv=vv+v;
+					if(nv>31){
+						nv=1;
+						$('#month').val(parseInt($('#month').val())+1);
+						$('#day').val(nv).change();
+					}else if(nv<1){
+						nv=31;
+						$('#month').val(parseInt($('#month').val())-1);
+						$('#day').val(nv).change();
+					}else{
+						$('#day').val(nv).change();
+					}
+					
+				}else if(t=='h'){// 时辰
+					var vv=parseInt($('#hour').val());
+					var nv=vv+v;
+					if(nv>23){
+						nv=0;
+						$('#day').val(parseInt($('#day').val())+1);
+						$('#hour').val(nv).change();
+					}else if(nv<0){
+						nv=23;
+						$('#day').val(parseInt($('#day').val())-1);
+						$('#hour').val(nv).change();
+					}else{
+						$('#hour').val(nv).change();
+					}
+				}
+			};
+			
 
 			urlpara();
 		</script>
