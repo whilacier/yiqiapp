@@ -1346,9 +1346,10 @@
 				bztg[bazi.getTimeGan()] + '<br>' + bzdz[bazi.getTimeZhi()] + '</td>';
 			s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="seldayun">' + '</td>';
 			s += '<td colspan="2" style="line-height:22.68px;" class="td1" id="selliunian">' + '</td>';
-
-
 			s += '</tr>';
+			
+			s += '<tr><th class="th1">大运</th><td id="dysimp" style="text-align:left;font-size:17px; line-height:18px;border-right:1px solid #afafaf;padding-left:15px;" colspan="12" class="td1">'+'</td></tr>';
+			
 
 			s += '<tr>';
 			s += '<th class="th2" valign="top">藏干</th>';
@@ -1376,20 +1377,7 @@
 
 			s += '</tr>';
 
-			s += '<tr>';
-			s += '<th class="th1">星运</th>';
-			s += '<td colspan="2" class="td1" id="changshengxynian">' + bazi.getYearDiShi() + '</td>';
-			s += '<td colspan="2" class="td1" id="changshengxyyue">' + bazi.getMonthDiShi() + '</td>';
-			s += '<td colspan="2" class="td1" id="changshengxyri">' + bazi.getDayDiShi() + '</td>';
-			s += '<td colspan="2" class="td1" id="changshengxyshi" style="border-right:1px solid #afafaf;">' +
-				bazi.getTimeDiShi() + '</td>';
-
-			s += '<td colspan="2" class="td1" id="seldyxy">' + '</td>';
-			s += '<td colspan="2" class="td1" id="sellnxy">' + '</td>';
-
-
-			s += '</tr>';
-			var CHANG_SHENG_OFFSET = {
+var CHANG_SHENG_OFFSET = {
 				'甲': 1,
 				'丙': 10,
 				'戊': 10,
@@ -1403,27 +1391,90 @@
 			};
 
 			function getChangSheng(gan, ganIndex, zhiIndex) {
-				var offset = CHANG_SHENG_OFFSET[gan];
-				var index = offset + (ganIndex % 2 == 0 ? zhiIndex : -zhiIndex);
-				if (index >= 12) {
-					index -= 12;
-				}
-				if (index < 0) {
-					index += 12;
-				}
-				return EightChar.CHANG_SHENG[index];
+				return getChangshengState(TIANGAN[ganIndex],DIZHI[zhiIndex]);
+				// var offset = CHANG_SHENG_OFFSET[gan];
+				// var index = offset + (ganIndex % 2 == 0 ? zhiIndex : -zhiIndex);
+				// if (index >= 12) {
+				// 	index -= 12;
+				// }
+				// if (index < 0) {
+				// 	index += 12;
+				// }
+				// console.log(gan, ganIndex, zhiIndex)
+				// return EightChar.CHANG_SHENG[index];
 			}
+			
+			
+			// 天干
+			const TIANGAN = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];	
+			// 地支
+			const DIZHI = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];			
+			// 十二长生状态
+			const CHANGSHENG_STATES = ['长生', '沐浴', '冠带', '临官', '帝旺', '衰', '病', '死', '墓', '绝', '胎', '养'];			
+			// 天干的阳长生地支（阴干也按阳干算）
+			const TIANGAN_CHANGSHENG = {
+			  '甲': '亥',  // 甲木长生在亥
+			  '乙': '亥',  // 阴干乙木也按阳干甲木算，长生在亥
+			  '丙': '寅',  // 丙火长生在寅
+			  '丁': '寅',  // 阴干丁火也按阳干丙火算，长生在寅
+			  '戊': '寅',  // 戊土长生在寅
+			  '己': '寅',  // 阴干己土也按阳干戊土算，长生在寅
+			  '庚': '巳',  // 庚金长生在巳
+			  '辛': '巳',  // 阴干辛金也按阳干庚金算，长生在巳
+			  '壬': '申',  // 壬水长生在申
+			  '癸': '申'   // 阴干癸水也按阳干壬水算，长生在申
+			};
+			
+			/**
+			 * 获取天干在地支的十二长生状态
+			 * @param {string} tiangan - 天干，如'甲'、'乙'等
+			 * @param {string} dizhi - 地支，如'子'、'丑'等
+			 * @returns {string} 长生状态
+			 */
+			function getChangshengState(tiangan, dizhi) {
+			  // 参数验证
+			  if (!TIANGAN.includes(tiangan)) {
+			    return "";
+			  }
+			  if (!DIZHI.includes(dizhi)) {
+			    return "";
+			  }			  
+			  // 获取天干的长生地支
+			  const changshengDizhi = TIANGAN_CHANGSHENG[tiangan];			  
+			  // 找到长生地支在十二地支中的位置
+			  const changshengIndex = DIZHI.indexOf(changshengDizhi);			  
+			  // 找到目标地支的位置
+			  const targetIndex = DIZHI.indexOf(dizhi);			  
+			  // 计算从长生到目标地支的步数（顺时针）
+			  let steps = (targetIndex - changshengIndex) % 12;
+			  if (steps < 0) steps += 12;			  
+			  // 返回对应的长生状态
+			  return CHANGSHENG_STATES[steps];
+			}
+
+
+			s += '<tr>';
+			s += '<th class="th1">星运</th>';
+			s += '<td colspan="2" class="td1" id="changshengxynian">' + getChangshengState(bazi.getDayGan(),bazi.getYearZhi()) + '</td>';
+			s += '<td colspan="2" class="td1" id="changshengxyyue">' + getChangshengState(bazi.getDayGan(),bazi.getMonthZhi()) + '</td>';
+			s += '<td colspan="2" class="td1" id="changshengxyri">' + getChangshengState(bazi.getDayGan(),bazi.getDayZhi()) + '</td>';
+			s += '<td colspan="2" class="td1" id="changshengxyshi" style="border-right:1px solid #afafaf;">' +
+				getChangshengState(bazi.getDayGan(),bazi.getTimeZhi()) + '</td>';
+
+			s += '<td colspan="2" class="td1" id="seldyxy">' + '</td>';
+			s += '<td colspan="2" class="td1" id="sellnxy">' + '</td>';
+
+
+			s += '</tr>';
+			
+			
 			s += '<tr>';
 			s += '<th class="th2">自坐</th>';
-			s += '<td colspan="2" class="td2" id="changshengzznian">' + getChangSheng(bazi.getYearGan(), lunar
-				.getYearGanIndexExact(), lunar.getYearZhiIndexExact()) + '</td>';
-			s += '<td colspan="2" class="td2" id="changshengzzyue">' + getChangSheng(bazi.getMonthGan(), lunar
-				.getMonthGanIndexExact(), lunar.getMonthZhiIndexExact()) + '</td>';
-			s += '<td colspan="2" class="td2" id="changshengzzri">' + getChangSheng(bazi.getDayGan(), 2 == bazi
-				.getSect() ? lunar.getDayGanIndexExact2() : lunar.getDayGanIndexExact(), 2 == bazi
-				.getSect() ? lunar.getDayZhiIndexExact2() : lunar.getDayZhiIndexExact()) + '</td>';
+			s += '<td colspan="2" class="td2" id="changshengzznian">' + getChangshengState(bazi.getYearGan(), bazi.getYearZhi()) + '</td>';
+			s += '<td colspan="2" class="td2" id="changshengzzyue">' + getChangshengState(bazi.getMonthGan(), bazi.getMonthZhi()) + '</td>';
+			s += '<td colspan="2" class="td2" id="changshengzzri">' + getChangshengState(bazi.getDayGan(), bazi.getDayZhi()) + '</td>';
 			s += '<td colspan="2" class="td2" style="border-right:1px solid #afafaf;" id="changshengzzshi">' +
-				getChangSheng(bazi.getTimeGan(), lunar.getTimeGanIndex(), lunar.getTimeZhiIndex()) + '</td>';
+				getChangshengState(bazi.getTimeGan(),bazi.getTimeZhi()) + '</td>';
 
 			s += '<td colspan="2" id="seldyzz" class="td2"></td>';
 			s += '<td colspan="2" id="sellnzz" class="td2"></td>';
@@ -4289,6 +4340,9 @@
 			tds.eq(0).html('大<br>运<br>流<br>年');
 			tds.eq(12).html('流<br>年');
 			// tds.eq(23).html('小<br>运');
+			
+			var dygstr = ""; // 竖排的大运列表
+			var dyzstr = "";
 			for (var i = 0, j = daYun.length; i < j; i++) {
 				var d = daYun[i];
 				var dds = LunarUtil.SHI_SHEN_GAN[bazi.getDayGan() + d.getGanZhi().substr(0, 1)];
@@ -4296,6 +4350,8 @@
 					dds = '';
 				}
 				var dygz = d.getGanZhi();
+				dygstr+=(i?" ":"")+dygz.substr(0,1);
+				dyzstr+=(i?" ":"")+dygz.substr(1,1);
 				// console.log(dygz)
 
 				var lns = d.getLiuNian();
@@ -4320,6 +4376,9 @@
 				}
 				//tds.eq(21+i).html(d.getGanZhi()+'1<br>'+tiandiwuxing(d.getGanZhi().substr(0,1))+'<br>'+tiandiwuxing(d.getGanZhi().substr(-1)));
 			}
+			
+			document.getElementById("dysimp").innerHTML=dygstr+"<br>"+dyzstr;
+			
 			if (INDEX.daYun == -1) {
 				INDEX.daYun = 0;
 			}
@@ -4356,9 +4415,9 @@
 				document.getElementById('seldycg').innerHTML = LunarUtil.ZHI_HIDE_GANS[seldygz.substr(1, 1)];
 				document.getElementById('seldycgss').innerHTML = getShishenZhiLiuqin(bazi.getDay().substr(0, 1),
 					seldygz.substr(1, 1));
-				document.getElementById('seldyxy').innerHTML = changsheng(bazi.getDay().substr(0, 1) + seldygz
+				document.getElementById('seldyxy').innerHTML = getChangshengState(bazi.getDay().substr(0, 1) , seldygz
 					.substr(1, 1)).substr(0, 1);
-				document.getElementById('seldyzz').innerHTML = changsheng(seldygz).substr(0, 1);
+				document.getElementById('seldyzz').innerHTML = getChangshengState(seldygz.substr(0, 1),seldygz.substr(1, 1)).substr(0, 1);
 				document.getElementById('seldyny').innerHTML = LunarUtil.NAYIN[seldygz];
 				document.getElementById('seldygss').innerHTML = LunarUtil.SHI_SHEN_GAN[bazi.getDay().substr(0,
 					1) + seldygz.substr(0, 1)];
@@ -4382,10 +4441,10 @@
 				document.getElementById('sellncg').innerHTML = LunarUtil.ZHI_HIDE_GANS[nz];
 				document.getElementById('sellncgss').innerHTML = getShishenZhiLiuqin(bazi.getDay().substr(0, 1),
 					nz);
-				document.getElementById('sellnxy').innerHTML = changsheng(bazi.getDay().substr(0, 1) + nz)
+				document.getElementById('sellnxy').innerHTML = getChangshengState(bazi.getDay().substr(0, 1) ,nz)
 					.substr(0, 1);
 				// console.log(ngz)
-				document.getElementById('sellnzz').innerHTML = changsheng(ngz).substr(0, 1);
+				document.getElementById('sellnzz').innerHTML = getChangshengState(ngz.substr(0, 1),ngz.substr(1, 1)).substr(0, 1).substr(0, 1);
 				document.getElementById('sellnkw').innerHTML = LunarUtil.getXunKong(ngz);
 				document.getElementById('sellnny').innerHTML = LunarUtil.NAYIN[ngz];
 				document.getElementById('sellngss').innerHTML = LunarUtil.SHI_SHEN_GAN[bazi.getDay().substr(0,
