@@ -319,8 +319,12 @@
                 <div class="carousel-container">
                     <div class="carousel">
                         <script>
-                        for(i=0;i<28;i++){
-                            document.write('<div class="carousel-item"><img src="images/app_'+(i+1)+'.png" alt="" onclick="openModal(this)"></div>');    
+                        for(let i=0; i<28; i++){
+                            document.write(
+                                '<div class="carousel-item">' +
+                                    '<img data-src="images/app_' + (i+1) + '.png" alt="" onclick="openModal(this)">' +
+                                '</div>'
+                            );
                         }
                         </script>
                      </div>
@@ -407,15 +411,38 @@
         }
         
         // 更新轮播显示
+        //function updateCarousel() {
+        //    carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+                //    
+        //     更新指示器
+        //    indicators.forEach((indicator, index) => {
+        //        if (index === currentSlide) {
+        //            indicator.classList.add('active');
+        //        } else {
+        //            indicator.classList.remove('active');
+        //        }
+        //    });
+        //}
+        
         function updateCarousel() {
             carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
-            
+
             // 更新指示器
             indicators.forEach((indicator, index) => {
-                if (index === currentSlide) {
-                    indicator.classList.add('active');
-                } else {
-                    indicator.classList.remove('active');
+                indicator.classList.toggle('active', index === currentSlide);
+            });
+
+            // 懒加载：加载当前图片以及前后各一张（预加载）
+            const totalSlides = slides.length;
+            const loadIndexes = [
+                currentSlide,
+                (currentSlide + 1) % totalSlides,
+                (currentSlide - 1 + totalSlides) % totalSlides
+            ];
+            loadIndexes.forEach(index => {
+                const img = slides[index].querySelector('img');
+                if (img && !img.src && img.dataset.src) {
+                    img.src = img.dataset.src;
                 }
             });
         }
