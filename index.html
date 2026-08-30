@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="无镜道 · 正统易学课程 — 八字命理、奇门遁甲、风水堪舆、卦数预测、姓名学、号码学、微信头像等课程介绍" />
-    <title>无镜道 · 易学课程</title>
+    <title>无镜道易学课程 | 八字命理·奇门遁甲·风水堪舆等实战培训</title>
+    <meta name="description" content="无镜道易学课程，系统传授八字命理、奇门遁甲、风水堪舆、数字易预测、姓名学、号码学、微信头像及扑克牌预测解析，助你洞悉命运规律，掌握人生决策智慧。立即开启易学之旅！" />
+    <!-- 关键词标签（仍可保留，但作用有限） -->
+    <meta name="keywords" content="无镜道易学,八字命理,奇门遁甲,风水堪舆,数字易预测,姓名学,号码学,微信头像, 扑克牌" />
 
     <!-- Font Awesome 图标 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -681,6 +683,10 @@
             <li><a href="#teacher">老师简介</a></li>
             <li><a href="#courses">课程介绍</a></li>
             <li><a href="#app">排盘APP</a></li>
+            
+            <li><a href="./latest.html" target="">最新课程</a></li>
+            <li><a href="http://e.yitixin.cn" target="">视频合集</a></li>
+            
             <li><a href="#contact">联系方式</a></li>
             <li><a href="#contact" class="nav-cta">立即咨询</a></li>
         </ul>
@@ -1364,17 +1370,18 @@ function handleAppDownload(platform) {
         case 'ios':
             // 替换为实际 App Store 链接
             showToast('即将跳转 App Store 下载页');
-            window.location.href = 'app.html';
+            //window.location.href = 'app.html';
+            window.open('app.html', '_blank', 'noopener,noreferrer');
             break;
         case 'android':
             // 替换为实际安卓下载链接
             showToast('正在获取安卓安装包...');
-            window.location.href = 'app.html';
+            window.open('app.html', '_blank', 'noopener,noreferrer');
             break;
         case 'apk':
             // 直接下载 APK
             showToast('开始下载 APK 文件');
-            window.location.href = 'app.html';
+            window.open('app.html', '_blank', 'noopener,noreferrer');
             break;
     }
 }
