@@ -632,16 +632,45 @@
 
     @media (max-width: 760px) {
         .nav-links {
-            position: fixed; top: 70px; left: 0; right: 0;
-            background: rgba(250,246,239,.98); backdrop-filter: blur(20px);
-            flex-direction: column; gap: 0; padding: 20px 24px;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: rgba(250,246,239,.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            flex-direction: column;
+            gap: 0;
+            padding: 0 24px;          /* 上下内边距改由内部元素控制 */
             border-bottom: 1px solid rgba(184,134,11,.15);
-            transform: translateY(-120%); opacity: 0;
-            transition: var(--transition); pointer-events: none;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 999;
         }
-        .nav-links.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
-        .nav-links li { padding: 14px 0; border-bottom: 1px solid rgba(184,134,11,.08); }
-        .nav-links li:last-child { border-bottom: none; }
+        .nav-links.open {
+            max-height: 500px;        /* 根据内容调整，足够大即可 */
+            opacity: 1;
+            pointer-events: auto;
+            padding: 20px 24px;       /* 展开时恢复内边距 */
+        }
+        .nav-links li {
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(184,134,11,.08);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+        }
+        .nav-links.open li {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .nav-links li:last-child {
+            border-bottom: none;
+        }   
+        
         .hamburger { display: flex; }
 
         .section-title { font-size: 1.7rem; }
