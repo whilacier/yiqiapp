@@ -298,7 +298,7 @@
         padding: 36px 30px 30px; box-shadow: var(--shadow);
         transition: var(--transition); border: 1px solid rgba(184,134,11,.12);
         position: relative; overflow: hidden;
-        will-change: transform, box-shadow;
+        will-change: transform;
     }
     .course-card::before {
         content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
@@ -333,12 +333,28 @@
         font-size: .75rem; background: var(--gold-pale); color: var(--primary);
         padding: 2px 14px; border-radius: 20px; font-weight: 500;
     }
-    .course-link {
-        font-weight: 600; color: var(--primary); font-size: .88rem;
-        transition: var(--transition); display: inline-flex; align-items: center; gap: 4px;
-    }
-    .course-link:hover { color: var(--primary-light); gap: 8px; }
+.course-link {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: .88rem;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;               /* 保持初始间距，但不做过渡 */
+}
 
+.course-link i {
+    transition: var(--transition);
+    transform: translateX(0);
+}
+
+.course-link:hover {
+    color: var(--primary-light);
+}
+
+.course-link:hover i {
+    transform: translateX(4px);  /* 箭头右移，不触发重排 */
+}
     /* ============================================================
        📱 APP 下载
     ============================================================ */
