@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>塔罗占卜</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: radial-gradient(ellipse at center, #1c1a2e 0%, #0d0b1a 70%);
+    color: #e8e4f0; min-height: 100vh; padding: 16px 0 32px;  
+  }
+  .header,
+.toolbar,
+.counter,
+.empty,
+.tip {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+  .header { text-align: center; margin-bottom: 14px; }
+  .header h1 { font-size: 22px; letter-spacing: 2px; color: #d4b86a; text-shadow: 0 0 12px rgba(212,184,106,.35); }
+  .header p { font-size: 12px; color: #8f8aa8; margin-top: 4px; }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 16px; }
+  button {
+    appearance: none; border: none; cursor: pointer; font-size: 14px; font-weight: 600;
+    padding: 10px 18px; border-radius: 22px; transition: transform .12s, box-shadow .12s, opacity .2s;
+    user-select: none;
+  }
+  button:active { transform: scale(.96); }
+  .btn-draw { background: linear-gradient(135deg,#e0c074,#c49a3f); color:#2b2517; box-shadow: 0 4px 14px rgba(196,154,63,.4); }
+  .btn-draw:disabled { opacity:.45; cursor:not-allowed; }
+  .btn-reset { background: transparent; color:#b8b2d6; border:1px solid #5a5478; }
+
+  .counter { text-align:center; font-size:12px; color:#8f8aa8; margin-bottom:12px; }
+  .counter b { color:#d4b86a; }
+
+  .cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  justify-content: center;
+}
+/* 移除卡片背景色和内边距，让图片直接作为卡片背景 */
+.card {
+    width: calc(25%);
+    max-width: 150px;
+    min-width: 70px;
+    background: transparent; /* 改为透明 */
+    border-radius: 0;       /* 移除圆角 */
+    padding: 0;
+    box-shadow: none;       /* 移除阴影，或者保留但调整 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: deal .42s cubic-bezier(.2,.8,.3,1.15) both;
+}
+  @keyframes deal { from { opacity:0; transform: translateY(18px) scale(.92); } to { opacity:1; transform:none; } }
+/* 图片容器铺满，不留空白 */
+.card .img-wrap {
+    width: 100%;
+    /* 移除 aspect-ratio */
+    overflow: hidden;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card img {
+    width: 100%;
+    height: auto;        /* 高度由图片比例自动计算 */
+    display: block;      /* 消除图片底部间隙 */
+}
+  .card img.reversed { transform: rotate(180deg); }
+  .card .name { margin-top:5px; font-size:11px; font-weight:600; color:#ece6f5; text-align:center; line-height:1.2; }
+  /* 将 tag 和 pos-label 放在同一行 */
+  .card .card-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 3px;
+    margin-bottom: 2px;
+  }
+  .card .tag { font-size:9px; padding:1px 6px; border-radius:8px; font-weight:600; white-space:nowrap; }
+  .tag.up { background:#2f4a37; color:#8fd6a8; }
+  .tag.rev { background:#4a2f37; color:#e0a09a; }
+  .card .pos-label { font-size:9px; color:#9c97b8; white-space:nowrap; }
+
+  /* 弹层 */
+  .modal { position:fixed; inset:0; background:rgba(8,6,18,.78); display:none; align-items:center; justify-content:center;
+    z-index:99; padding:14px; overflow-y:auto; }
+  .modal.show { display:flex; }
+  
+.modal .panel {
+  width: 100%;
+  max-width: 400px;
+  background: #252139;
+  border-radius: 14px;
+  padding: 10px 12px 8px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.55);
+  animation: pop .25s ease both;
+  position: relative;
+}
+
+
+
+
+    
+  @keyframes pop { from{opacity:0; transform:scale(.94);} to{opacity:1; transform:none;} }
+  
+.modal .panel img {
+  width: 280px;
+  height: 448px;
+  max-width: 85vw;    /* 防止在小屏幕上溢出 */
+  max-height: 65vh;   /* 防止在窄屏上过高 */
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 8px;
+  border-radius: 6px;
+  background: transparent;
+}
+.modal .panel img.rev { transform: rotate(180deg); }
+  
+  /* ---- 新的一行布局：牌名、组名、正逆位、页码 ---- */
+.modal .header-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  padding: 0 2px;
+}
+.modal .header-left {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.modal .header-left h2 {
+  font-size: 16px;
+  color: #d4b86a;
+  margin: 0;
+  line-height: 1.2;
+}
+.modal .header-left .sub {
+  font-size: 11px;
+  color: #9c97b8;
+  margin: 0;
+}
+.modal .header-left .pos-badge {
+  font-size: 10px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  background: #2f4a37;
+  color: #8fd6a8;
+}
+.modal .header-left .pos-badge.rev {
+  background: #4a2f37;
+  color: #e0a09a;
+}
+.modal .nav-counter {
+  font-size: 10px;
+  color: #9c97b8;
+  white-space: nowrap;
+  margin: 0;
+}
+  
+  .modal h2 { text-align:center; font-size:18px; color:#d4b86a; margin-bottom:2px; }
+  .modal .sub { text-align:center; font-size:11px; color:#9c97b8; margin-bottom:12px; }
+  
+  
+  
+/* ---- 含义区块压缩 ---- */
+.modal .sec {
+  margin-top: 6px;
+}
+.modal .sec h3 {
+  font-size: 12px;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.modal .sec h3 .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot.up { background: #5fc28f; }
+.dot.rev { background: #d97a70; }
+.modal .sec p {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #d4d0e6;
+  background: #1c192e;
+  padding: 6px 10px;
+  border-radius: 7px;
+  margin: 0;
+}
+  
+  
+  
+/* ---- 关闭按钮 ---- */
+.modal .close {
+  display: block;
+  margin: 10px auto 0;
+  background: transparent;
+  color: #b8b2d6;
+  border: 1px solid #5a5478;
+  padding: 6px 24px;
+  border-radius: 18px;
+  font-size: 12px;
+}
+
+
+  .empty { text-align:center; color:#6f6a8a; font-size:13px; padding:30px 0; }
+  .tip { text-align:center; font-size:11px; color:#5e5978; margin-top:16px; }
+  /* 极小屏回退为每行2张，避免4张过度挤压 */
+  @media (max-width: 339px){
+    .card { width: calc(50%); max-width: 160px; }
+    .card .name { font-size:12px; }
+    .card .card-meta { gap:4px; }
+    .card .tag, .card .pos-label { font-size:8px; }
+  }
+
+  /* ===== 牌库功能样式 ===== */
+  .topnav { display:flex; align-items:center; justify-content:space-between; padding:0 12px; margin-bottom:6px; }
+  .topnav .brand { font-size:12px; color:#8f8aa8; letter-spacing:1px; }
+  .topnav a.lib-link { font-size:13px; color:#d4b86a; text-decoration:none; font-weight:600;
+    padding:6px 14px; border:1px solid #5a5478; border-radius:16px; transition: background .15s; }
+  .topnav a.lib-link:active { background:#2a253f; }
+
+  .lib-view { display:none; }
+  .lib-view.show { display:block; }
+  .main-view.hide { display:none; }
+
+  .group-block { margin-bottom:18px; padding:0 12px; }
+  .group-title { display:flex; align-items:center; gap:8px; font-size:14px; color:#d4b86a;
+    margin-bottom:8px; font-weight:700; letter-spacing:1px; }
+  .group-title .gcount { font-size:10px; color:#9c97b8; font-weight:500; }
+  .group-title .gline { flex:1; height:1px; background:linear-gradient(90deg, #3a3450, transparent); }
+
+  .lib-cards { display:flex; flex-wrap:wrap; gap:0; justify-content:center; }
+  .lib-card { width:calc(25%); max-width:110px; min-width:64px; background:transparent;
+    display:flex; flex-direction:column; align-items:center; padding:0; cursor:pointer;
+    transition: transform .12s; }
+  .lib-card:active { transform:scale(.95); }
+  .lib-card .img-wrap { width:100%; overflow:hidden; background:transparent;
+    display:flex; align-items:center; justify-content:center; }
+  .lib-card img { width:100%; height:auto; display:block; border-radius:4px; }
+  .lib-card .name { margin-top:3px; font-size:10px; font-weight:600; color:#ece6f5; text-align:center; line-height:1.2; }
+  .lib-card .grp { font-size:8px; color:#7d7896; text-align:center; margin-bottom:4px; }
+
+  .lib-back { display:block; margin:6px auto 14px; background:transparent; color:#b8b2d6;
+    border:1px solid #5a5478; padding:8px 22px; border-radius:18px; font-size:13px; }
+  @media (max-width: 339px){
+    .lib-card { width:calc(33.33%); max-width:120px; }
+    .lib-card .name { font-size:11px; }
+  }
+
+  /* 弹层左右导航 */
+  .modal .panel { position:relative; }
+  .nav-btn { position:absolute; top:50%; transform:translateY(-50%);
+    width:38px; height:38px; border-radius:50%; border:none; cursor:pointer;
+    background:rgba(45,40,68,.9); color:#d4b86a; font-size:20px; line-height:1;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 2px 10px rgba(0,0,0,.4); transition:opacity .15s, background .15s;
+    user-select:none; z-index:5; }
+  .nav-btn:hover { background:#3a3358; }
+  .nav-btn:active { transform:translateY(-50%) scale(.94); }
+  .nav-btn.disabled { opacity:.25; cursor:not-allowed; pointer-events:none; }
+  .nav-prev { left:6px; }
+  .nav-next { right:6px; }
+  .nav-counter { text-align:center; font-size:10px; color:#9c97b8; margin-top:2px; margin-bottom:6px; letter-spacing:1px; }
+  @media (max-width: 339px){
+    .nav-btn { width:34px; height:34px; font-size:18px; }
+  }
+  
+/* ===== 新增：完整解读区域样式 ===== */
+/* ---- 完整解读区域 ---- */
+.detail-area {
+  margin-top: 6px;
+  border-top: 1px solid #3a3450;
+  padding-top: 6px;
+}
+.detail-area .detail-text {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #c8c4dc;
+  background: #1c192e;
+  padding: 6px 10px;
+  border-radius: 7px;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+.toggle-detail {
+  display: block;
+  margin: 4px auto 0;
+  background: transparent;
+  color: #b8b2d6;
+  border: 1px solid #5a5478;
+  padding: 4px 16px;
+  border-radius: 16px;
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+/* ===== 图片预览遮罩 ===== */
+.img-preview-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: 999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  touch-action: pinch-zoom;  /* 允许双指缩放 */
+}
+.img-preview-overlay.show {
+  display: flex;
+}
+.img-preview-overlay img {
+  max-width: 93vw;
+  max-height: 93vh;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 8px 36px rgba(0,0,0,0.6);
+}
+
+  /* ===== 统一顶部操作栏 ===== */
+  .action-bar { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px;
+    padding:0 12px; margin:0 auto 18px; max-width:560px; }
+  .action-bar .grp { display:flex; flex-wrap:wrap; align-items:center; gap:8px;
+    padding:8px 12px; border-radius:24px; background:rgba(40,35,62,.55); border:1px solid #322d4d; }
+  .action-bar .grp-label { font-size:11px; color:#9c97b8; letter-spacing:1px; white-space:nowrap; padding:0 2px; }
+  .btn-poker { background:linear-gradient(135deg,#6f7bb5,#4a538a); color:#eef0ff; box-shadow:0 4px 14px rgba(74,83,138,.4); }
+  .btn-tarot { background:linear-gradient(135deg,#e0c074,#c49a3f); color:#2b2517; box-shadow:0 4px 14px rgba(196,154,63,.4); }
+  .btn-reset-all { background:transparent; color:#b8b2d6; border:1px solid #5a5478; }
+
+  /* ===== 扑克牌玩法样式 ===== */
+  .poker-section { margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid #2a2540; }
+  /* 扑克与塔罗共用 .card 宽度规则，图片宽度一致；居中排列保证上下对齐 */
+  .poker-section .cards { justify-content: center; }
+  .tarot-section .cards { justify-content: center; }
+  .sec-title { text-align:center; font-size:14px; color:#9c97b8; letter-spacing:2px; margin-bottom:8px; }
+  .sec-title .dot-sep { color:#4a4568; margin:0 6px; }
+</style>
+  <script src="poker_data.js"></script>
+</head>
+<body>
+  <div class="topnav">
+    <span class="brand">TAROT · 78</span>
+    <a href="#library" class="lib-link" id="libLink">📖 牌库</a>
+  </div>
+
+  <div class="header">
+    <h1>✦ 塔罗 · 扑克占卜 ✦</h1>
+    <p>扑克牌在上 · 塔罗牌在下 · 点击牌面查看含义</p>
+  </div>
+
+  <!-- ===== 统一顶部操作栏：左抽扑克 / 右抽塔罗 / 重置（全部） ===== -->
+  <div class="action-bar">
+    <div class="grp">
+      <span class="grp-label">🂠 扑克</span>
+      <button class="btn-draw btn-poker" id="btnDrawPoker">抽扑克</button>
+    </div>
+    <div class="grp">
+      <span class="grp-label">✦ 塔罗</span>
+      <button class="btn-draw btn-tarot" id="btnDraw">抽塔罗</button>
+    </div>
+    <button class="btn-reset btn-reset-all" id="btnReset">重置全部</button>
+  </div>
+
+  <!-- ===== 扑克牌玩法区域（上） ===== -->
+  <div class="poker-section" id="pokerSection">
+    <div class="sec-title">🂠 扑克牌<span class="dot-sep">·</span><span style="color:#d4b86a;">已抽 <b id="pokerCnt">0</b> / 54</span></div>
+    <div class="cards" id="pokerCards"></div>
+    <div class="empty" id="pokerEmpty">点击上方「抽扑克」开始</div>
+  </div>
+
+  <!-- ===== 塔罗牌区域（下） ===== -->
+  <div class="tarot-section" id="mainView">
+    <div class="sec-title">✦ 塔罗牌<span class="dot-sep">·</span><span style="color:#d4b86a;">已抽 <b id="cnt">0</b> / 78</span></div>
+    <div class="cards" id="cards"></div>
+    <div class="empty" id="empty">点击上方「抽塔罗」开始</div>
+    <div class="tip">图片随机正位 / 逆位显示 · 点击牌面查看详细含义</div>
+  </div>
+
+  <div class="lib-view" id="libView"><!-- 牌库内容由 JS 渲染 --></div>
+
+  <div class="modal" id="modal">
+    <div class="panel" id="panel"></div>
+  </div>
+
+<script>
+const CARDS = [{"name": "愚者", "group": "大阿卡纳", "image_path": "image/major_0.jpg", "upright_meaning": "自由奔放、冒险精神、追随本能、全新开始、天真无畏、凭直觉出发。", "reversed_meaning": "鲁莽冲动、缺乏方向、犹豫不决、错失良机、逃避责任、不顾后果。"}, {"name": "魔术师", "group": "大阿卡纳", "image_path": "image/major_1.jpg", "upright_meaning": "主动创造与显化、资源整合、专注意志、沟通说服、新计划启动。", "reversed_meaning": "能力受阻、眼高手低、意志涣散、沟通扭曲、自我怀疑、能量滥用。"}, {"name": "女祭司", "group": "大阿卡纳", "image_path": "image/major_2.jpg", "upright_meaning": "直觉敏锐、内在智慧、静默等待、潜意识觉醒、冷静洞察。", "reversed_meaning": "压抑情感、直觉阻塞、秘密隐瞒、过度被动、内心混乱。"}, {"name": "皇后", "group": "大阿卡纳", "image_path": "image/major_3.jpg", "upright_meaning": "丰盛滋养、温柔包容、创造力、感官享受、母性关怀、自然成长。", "reversed_meaning": "依赖他人、情感匮乏、过度放纵、缺乏自信、关系失衡。"}, {"name": "皇帝", "group": "大阿卡纳", "image_path": "image/major_4.jpg", "upright_meaning": "稳定秩序、权威领导、理性掌控、建立结构、果断决策。", "reversed_meaning": "专制僵化、控制欲强、缺乏弹性、权威受挑战、基础不稳。"}, {"name": "教皇", "group": "大阿卡纳", "image_path": "image/major_5.jpg", "upright_meaning": "传统指引、信仰精神、学习教导、寻求建议、遵循规范。", "reversed_meaning": "墨守成规、教条束缚、盲从权威、叛逆抗拒、缺乏独立思考。"}, {"name": "恋人", "group": "大阿卡纳", "image_path": "image/major_6.jpg", "upright_meaning": "选择与承诺、和谐关系、心灵契合、价值观一致、重要决定。", "reversed_meaning": "关系失衡、选择困难、价值观冲突、不忠诱惑、沟通不良。"}, {"name": "战车", "group": "大阿卡纳", "image_path": "image/major_7.jpg", "upright_meaning": "意志胜利、勇往直前、专注目标、克服障碍、自我掌控。", "reversed_meaning": "方向失控、缺乏专注、原地打转、冲突对立、意志消沉。"}, {"name": "力量", "group": "大阿卡纳", "image_path": "image/major_8.jpg", "upright_meaning": "内在力量、温柔坚持、勇气耐心、以柔克刚、自我控制。", "reversed_meaning": "软弱无力、缺乏自信、耐心不足、被恐惧支配、过度妥协。"}, {"name": "隐士", "group": "大阿卡纳", "image_path": "image/major_9.jpg", "upright_meaning": "独处内省、寻求真理、静心沉淀、内在指引、退隐思考。", "reversed_meaning": "孤独封闭、过度退缩、与人隔绝、固执己见、逃避社会。"}, {"name": "命运之轮", "group": "大阿卡纳", "image_path": "image/major_10.jpg", "upright_meaning": "命运转折、机缘巧合、周期变化、不可控的好运、顺势而为。", "reversed_meaning": "突发变故、运势低迷、抗拒改变、陷入混乱、无力感。"}, {"name": "正义", "group": "大阿卡纳", "image_path": "image/major_11.jpg", "upright_meaning": "公平公正、因果报应、诚实面对、理性裁决、责任承担。", "reversed_meaning": "不公不义、逃避责任、是非颠倒、法律纠纷、自欺欺人。"}, {"name": "倒吊人", "group": "大阿卡纳", "image_path": "image/major_12.jpg", "upright_meaning": "换个视角、牺牲奉献、暂停等待、以退为进、放下执念。", "reversed_meaning": "无谓牺牲、被动拖延、拒绝放手、停滞不前、内心纠结。"}, {"name": "死神", "group": "大阿卡纳", "image_path": "image/major_13.jpg", "upright_meaning": "结束与新生、彻底转变、放下旧有、必经的终结、浴火重生。", "reversed_meaning": "抗拒改变、恐惧结束、执迷不悟、拖延转变、无法释怀。"}, {"name": "节制", "group": "大阿卡纳", "image_path": "image/major_14.jpg", "upright_meaning": "平衡调和、耐心融合、中庸之道、心灵净化、稳步前行。", "reversed_meaning": "失衡失调、缺乏耐心、过度放纵、内外冲突、步调混乱。"}, {"name": "恶魔", "group": "大阿卡纳", "image_path": "image/major_15.jpg", "upright_meaning": "物质束缚、欲望执念、被控依赖、短期诱惑、直面阴影。", "reversed_meaning": "挣脱束缚、摆脱执念、拒绝诱惑、重获自由、走出阴影。"}, {"name": "高塔", "group": "大阿卡纳", "image_path": "image/major_16.jpg", "upright_meaning": "突发剧变、旧结构崩塌、顿悟觉醒、打破假象、剧烈冲击。", "reversed_meaning": "灾变余波、抗拒崩塌、逃避现实、内心崩溃、缓慢重建。"}, {"name": "星星", "group": "大阿卡纳", "image_path": "image/major_17.jpg", "upright_meaning": "希望重生、宁静疗愈、信念指引、清澈愿景、心灵抚慰。", "reversed_meaning": "希望渺茫、失去信心、理想幻灭、方向模糊、情感疏离。"}, {"name": "月亮", "group": "大阿卡纳", "image_path": "image/major_18.jpg", "upright_meaning": "潜意识、迷惘不安、隐藏真相、情绪起伏、直觉与梦境。", "reversed_meaning": "错觉欺骗、恐惧放大、真相不明、情绪失控、走出迷雾。"}, {"name": "太阳", "group": "大阿卡纳", "image_path": "image/major_19.jpg", "upright_meaning": "光明喜悦、成功活力、清晰肯定、纯真快乐、前景光明。", "reversed_meaning": "短暂阴霾、过度乐观、成功受阻、信心不足、需重拾光芒。"}, {"name": "审判", "group": "大阿卡纳", "image_path": "image/major_20.jpg", "upright_meaning": "觉醒召唤、总结回顾、因果清算、重新出发、内在声音。", "reversed_meaning": "抗拒召唤、自我否定、后悔犹豫、逃避审判、错失契机。"}, {"name": "世界", "group": "大阿卡纳", "image_path": "image/major_21.jpg", "upright_meaning": "圆满完成、周期达成、旅途终点的喜悦、整体和谐、成功。", "reversed_meaning": "未完成感、功亏一篑、延迟收尾、缺乏闭环、新循环待启。"}, {"name": "圣杯首牌", "group": "圣杯", "image_path": "image/cup_0.jpg", "upright_meaning": "新感情开启、爱与喜悦的礼物、直觉丰盈、情感新生。", "reversed_meaning": "情感阻滞、爱意未表达、错失机会、内心空虚。"}, {"name": "圣杯二", "group": "圣杯", "image_path": "image/cup_1.jpg", "upright_meaning": "平等互爱、真诚合作、两情相悦、伙伴关系和谐。", "reversed_meaning": "关系失衡、貌合神离、沟通匮乏、情感不对等。"}, {"name": "圣杯三", "group": "圣杯", "image_path": "image/cup_2.jpg", "upright_meaning": "欢庆喜悦、友谊团圆、社交丰收、共同庆祝。", "reversed_meaning": "过度玩乐、小团体排挤、虚假欢庆、关系表面化。"}, {"name": "圣杯四", "group": "圣杯", "image_path": "image/cup_3.jpg", "upright_meaning": "内省满足、静心沉淀、对现状的反思、情感停顿。", "reversed_meaning": "无聊不满、错失机会、情感冷淡、拒绝新可能。"}, {"name": "圣杯五", "group": "圣杯", "image_path": "image/cup_4.jpg", "upright_meaning": "失落失望、沉浸悲伤、关注损失、情感创伤。", "reversed_meaning": "走出伤痛、释怀放下、重拾希望、从失落中学习。"}, {"name": "圣杯六", "group": "圣杯", "image_path": "image/cup_5.jpg", "upright_meaning": "温馨回忆、童年纯真、旧情复燃、善意付出。", "reversed_meaning": "沉溺过去、依赖旧忆、拒绝成长、被过去牵绊。"}, {"name": "圣杯七", "group": "圣杯", "image_path": "image/cup_6.jpg", "upright_meaning": "幻想迷惘、多重选择、欲望浮现、需辨真假。", "reversed_meaning": "认清现实、从幻象醒悟、做出务实选择、放下空想。"}, {"name": "圣杯八", "group": "圣杯", "image_path": "image/cup_7.jpg", "upright_meaning": "离开不满、寻求更深满足、勇敢出走、情感转向。", "reversed_meaning": "犹豫不决、困于不满、害怕改变、原地纠结。"}, {"name": "圣杯九", "group": "圣杯", "image_path": "image/cup_8.jpg", "upright_meaning": "情感满足、心想事成、自我愉悦、愿望达成。", "reversed_meaning": "过度自我、物质满足但内心空虚、炫耀满足。"}, {"name": "圣杯十", "group": "圣杯", "image_path": "image/cup_9.jpg", "upright_meaning": "家庭幸福、情感圆满、和谐归宿、关系丰收。", "reversed_meaning": "家庭失和、关系表面圆满、情感疏离、未达预期。"}, {"name": "圣杯侍者", "group": "圣杯", "image_path": "image/cup_10.jpg", "upright_meaning": "敏感细腻、情感萌芽、善意倾听、创意灵感初现。", "reversed_meaning": "情绪化、多愁善感、情感不成熟、消息误传。"}, {"name": "圣杯骑士", "group": "圣杯", "image_path": "image/cup_11.jpg", "upright_meaning": "浪漫追求、温柔体贴、跟随内心、以情动人的行动。", "reversed_meaning": "优柔寡断、情感泛滥、不切实际、暧昧拖延。"}, {"name": "圣杯皇后", "group": "圣杯", "image_path": "image/cup_12.jpg", "upright_meaning": "温柔包容、共情滋养、直觉丰沛、情感成熟的女性。", "reversed_meaning": "情绪依赖、过度敏感、情感勒索、内心不安。"}, {"name": "圣杯国王", "group": "圣杯", "image_path": "image/cup_13.jpg", "upright_meaning": "从容沉稳、情感智慧、慈悲领导、成熟掌控感情。", "reversed_meaning": "情绪操控、冷漠压抑、感情用事、缺乏同理。"}, {"name": "宝剑首牌", "group": "宝剑", "image_path": "image/sword_0.jpg", "upright_meaning": "清晰洞察、破局新思、真相大白、果断决策。", "reversed_meaning": "思维混乱、判断失误、真相被掩、决策受阻。"}, {"name": "宝剑二", "group": "宝剑", "image_path": "image/sword_1.jpg", "upright_meaning": "进退两难、刻意平衡、回避冲突、内心对峙。", "reversed_meaning": "僵局难解、逃避选择、失衡对立、需勇敢面对。"}, {"name": "宝剑三", "group": "宝剑", "image_path": "image/sword_2.jpg", "upright_meaning": "心碎伤痛、情感受创、分离悲伤、直面痛苦。", "reversed_meaning": "走出伤痛、释怀疗愈、从背叛中学习、放下心结。"}, {"name": "宝剑四", "group": "宝剑", "image_path": "image/sword_3.jpg", "upright_meaning": "休整沉淀、暂停喘息、静养恢复、短暂退避。", "reversed_meaning": "迟迟不动、过度退缩、恢复缓慢、需要重新出发。"}, {"name": "宝剑五", "group": "宝剑", "image_path": "image/sword_4.jpg", "upright_meaning": "冲突纷争、以智取胜、胜负之争、代价性胜利。", "reversed_meaning": "和解息争、反思冲突、放下输赢、修复关系。"}, {"name": "宝剑六", "group": "宝剑", "image_path": "image/sword_5.jpg", "upright_meaning": "过渡转移、缓慢疗愈、带着伤痛前行、旅程过渡。", "reversed_meaning": "困于过去、疗愈受阻、过渡期拖延、难以放下。"}, {"name": "宝剑七", "group": "宝剑", "image_path": "image/sword_6.jpg", "upright_meaning": "以智取胜、出其不意、策略谋划、面对考验。", "reversed_meaning": "耍小聪明、策略失效、自欺欺人、需诚实面对。"}, {"name": "宝剑八", "group": "宝剑", "image_path": "image/sword_7.jpg", "upright_meaning": "自我束缚、受限焦虑、盲目恐惧、看似困顿实可脱身。", "reversed_meaning": "重获自由、看清束缚、走出焦虑、解除自我设限。"}, {"name": "宝剑九", "group": "宝剑", "image_path": "image/sword_8.jpg", "upright_meaning": "深夜焦虑、恐惧担忧、独自承受、内心煎熬。", "reversed_meaning": "走出恐惧、放下焦虑、寻求安慰、黑夜将尽。"}, {"name": "宝剑十", "group": "宝剑", "image_path": "image/sword_9.jpg", "upright_meaning": "痛苦终结、至暗时刻、一段艰难的结束、触底反弹。", "reversed_meaning": "苦难将尽、慢慢复原、转机初现、从谷底重生。"}, {"name": "宝剑侍者", "group": "宝剑", "image_path": "image/sword_10.jpg", "upright_meaning": "机敏好奇、信息灵通、善于观察、新想法涌现。", "reversed_meaning": "多疑善变、谣言散播、注意力分散、消息不实。"}, {"name": "宝剑骑士", "group": "宝剑", "image_path": "image/sword_11.jpg", "upright_meaning": "迅速行动、锐利思维、果断出击、风风火火。", "reversed_meaning": "鲁莽冲动、言辞尖锐、方向多变、缺乏耐心。"}, {"name": "宝剑皇后", "group": "宝剑", "image_path": "image/sword_12.jpg", "upright_meaning": "清晰理性、独立思考、敏锐洞察、冷静决断的女性。", "reversed_meaning": "冷酷严苛、尖酸刻薄、思虑过度、情感疏离。"}, {"name": "宝剑国王", "group": "宝剑", "image_path": "image/sword_13.jpg", "upright_meaning": "公正权威、战略思维、理性领导、原则分明。", "reversed_meaning": "专制冷酷、刚愎自用、权力滥用、缺乏弹性。"}, {"name": "权杖首牌", "group": "权杖", "image_path": "image/wand_0.jpg", "upright_meaning": "灵感点燃、新计划启动、热情开端、行动契机。", "reversed_meaning": "拖延起步、热情受阻、计划搁浅、缺乏行动力。"}, {"name": "权杖二", "group": "权杖", "image_path": "image/wand_1.jpg", "upright_meaning": "规划远望、权衡抉择、放眼未来、立足全局。", "reversed_meaning": "犹豫观望、计划难定、目光短浅、错失良机。"}, {"name": "权杖三", "group": "权杖", "image_path": "image/wand_2.jpg", "upright_meaning": "拓展布局、合作推进、初步成果、向外发展。", "reversed_meaning": "进展延迟、合作不顺、视野受限、需重新规划。"}, {"name": "权杖四", "group": "权杖", "image_path": "image/wand_3.jpg", "upright_meaning": "稳固根基、阶段成果、家园安定、欢庆小成。", "reversed_meaning": "基础动摇、不安定感、庆祝缺席、需巩固根基。"}, {"name": "权杖五", "group": "权杖", "image_path": "image/wand_4.jpg", "upright_meaning": "竞争冲突、多方角力、混乱中磨炼、试炼历练。", "reversed_meaning": "化解纷争、避免内耗、跳出混战、寻求合作。"}, {"name": "权杖六", "group": "权杖", "image_path": "image/wand_5.jpg", "upright_meaning": "胜利凯旋、获得认可、勇往直前的成功、众望所归。", "reversed_meaning": "短暂胜利、名不副实、受阻于竞争、需持续努力。"}, {"name": "权杖七", "group": "权杖", "image_path": "image/wand_6.jpg", "upright_meaning": "坚守立场、以少胜多、迎战挑战、捍卫主张。", "reversed_meaning": "压力山大、力不从心、立场动摇、选择退让。"}, {"name": "权杖八", "group": "权杖", "image_path": "image/wand_7.jpg", "upright_meaning": "迅速推进、消息速达、行动加速、势如破竹。", "reversed_meaning": "仓促忙乱、进度失控、沟通急促、欲速不达。"}, {"name": "权杖九", "group": "权杖", "image_path": "image/wand_8.jpg", "upright_meaning": "戒备坚守、以一敌众的余勇、防御中等待时机。", "reversed_meaning": "过度防备、疑神疑鬼、孤立无援、需卸下心防。"}, {"name": "权杖十", "group": "权杖", "image_path": "image/wand_9.jpg", "upright_meaning": "重任压身、独力承担、责任过载、一段周期的尾声。", "reversed_meaning": "卸下重担、分担责任、调整负荷、避免透支。"}, {"name": "权杖侍者", "group": "权杖", "image_path": "image/wand_10.jpg", "upright_meaning": "新奇点子、跃跃欲试、探索热情、行动初萌。", "reversed_meaning": "三分钟热度、计划不成熟、冲动冒进、缺乏恒心。"}, {"name": "权杖骑士", "group": "权杖", "image_path": "image/wand_11.jpg", "upright_meaning": "激情行动、冲劲十足、冒险进取、迅速出击。", "reversed_meaning": "鲁莽急躁、方向偏差、缺乏耐性、虎头蛇尾。"}, {"name": "权杖皇后", "group": "权杖", "image_path": "image/wand_12.jpg", "upright_meaning": "热情自信、行动力强的女性、魅力感染、果断执行。", "reversed_meaning": "急躁失控、情绪化主导、支配欲强、缺乏耐心。"}, {"name": "权杖国王", "group": "权杖", "image_path": "image/wand_13.jpg", "upright_meaning": "领袖气质、远见果断、激励他人、掌控全局的男性。", "reversed_meaning": "独断专行、脾气火爆、刚愎自用、掌控欲过强。"}, {"name": "星币首牌", "group": "星币", "image_path": "image/pentacle_0.jpg", "upright_meaning": "新财务契机、物质馈赠、稳健开始、具体成果。", "reversed_meaning": "财务延迟、错失机会、物质不稳、需务实规划。"}, {"name": "星币二", "group": "星币", "image_path": "image/pentacle_1.jpg", "upright_meaning": "收支平衡、灵活应对、权衡取舍、juggling 多重事务。", "reversed_meaning": "失衡失序、顾此失彼、财务压力、难以抉择。"}, {"name": "星币三", "group": "星币", "image_path": "image/pentacle_2.jpg", "upright_meaning": "团队合作、技艺精进、初步成就、共同建设。", "reversed_meaning": "团队协作差、技艺不精、缺乏配合、进展受阻。"}, {"name": "星币四", "group": "星币", "image_path": "image/pentacle_3.jpg", "upright_meaning": "守住资源、稳健保守、物质安全感、谨慎理财。", "reversed_meaning": "吝啬守财、过度控制、缺乏分享、财务僵化。"}, {"name": "星币五", "group": "星币", "image_path": "image/pentacle_4.jpg", "upright_meaning": "物质困顿、财务失落、暂时匮乏、外在困境。", "reversed_meaning": "走出困境、获得援助、转危为安、资源渐回稳。"}, {"name": "星币六", "group": "星币", "image_path": "image/pentacle_5.jpg", "upright_meaning": "分享施与、互助互利、公平分配、适度资助。", "reversed_meaning": "收支失衡、借贷纠纷、依赖关系、给予需有度。"}, {"name": "星币七", "group": "星币", "image_path": "image/pentacle_6.jpg", "upright_meaning": "评估等待、审视成果、耐心耕耘、静待收成。", "reversed_meaning": "急于求成、评估失准、耐心不足、需重新规划。"}, {"name": "星币八", "group": "星币", "image_path": "image/pentacle_7.jpg", "upright_meaning": "专注精进、技艺磨炼、踏实努力、稳步积累。", "reversed_meaning": "缺乏专注、工作乏味、技艺停滞、需找回热情。"}, {"name": "星币九", "group": "星币", "image_path": "image/pentacle_8.jpg", "upright_meaning": "独立富足、自给自足、辛勤得报、享受成果。", "reversed_meaning": "物质满足精神空虚、孤芳自赏、过度依赖财富。"}, {"name": "星币十", "group": "星币", "image_path": "image/pentacle_9.jpg", "upright_meaning": "家族财富、长久安稳、事业家庭双丰收、圆满富足。", "reversed_meaning": "家庭财务纷争、财富难守、表面富足、需重家庭价值。"}, {"name": "星币侍者", "group": "星币", "image_path": "image/pentacle_10.jpg", "upright_meaning": "踏实好学、理财初探、务实态度、新技能学习。", "reversed_meaning": "懈怠马虎、理财不慎、缺乏耐心、需更务实。"}, {"name": "星币骑士", "group": "星币", "image_path": "image/pentacle_11.jpg", "upright_meaning": "稳健前行、踏实执行、可靠努力、缓慢但确实。", "reversed_meaning": "进度缓慢、固执不前、缺乏弹性、效率偏低。"}, {"name": "星币皇后", "group": "星币", "image_path": "image/pentacle_12.jpg", "upright_meaning": "丰饶务实、持家有道、感性且稳重的女性、物质安全感。", "reversed_meaning": "过度物质、依赖安逸、缺乏进取、情感与物质失衡。"}, {"name": "星币国王", "group": "星币", "image_path": "image/pentacle_13.jpg", "upright_meaning": "事业有成、稳重可靠、理财有方、权威务实的男性。", "reversed_meaning": "固守成规、权力金钱至上、缺乏创新、刚硬保守。"}];
+
+const DETAIL_DATA = {
+  "愚者": `一个穿着夸张可笑衣服的人，很快乐的走近了悬崖边，他的表情似乎不知道自己已经在危险边缘了。旁边有一只狗跟着他，似乎是在提醒着他，危险就在眼前，似乎想唤回他，面对现实的世界，但"愚者"此时此刻的心，已经被快乐愉悦所笼罩了，他当下只想随心所欲，下一步怎么走，都还是未知数呢！
+愚人（正位）
+愚人牌对应风元素，像风一样自由自在，飘泊不定。他是中国神话中追日的夸父、民间传说中的济公，和金庸小说中的老顽童周伯通。他们都具有外表疯癫、我行我素、不计后果、笑骂由人的特质。在占卜上，愚人牌如果代表一个人，那么这个人可能形于外居无定所，形于内狂放不羁。他爱好冒险，会冲动的陷入恋情，但别期待他能安定下来，要他负责任很难，要他承诺更是天方夜谭。他无忧无虑，因单纯而大胆，因天真而无畏，也许还有些冲动，凭感觉行事，从不事先计划。外人看他疯疯癫癫孩子气，不遵守世俗规范，经常不按牌理出牌，语出惊人，行事盲目又什么话都听不进。不过，他心中明白他在做什么。也许他有目标，只是那个目标跟一般人不同。总之，他是个活在当下的乐观主义者。
+正如牌面上的愚人，刚刚背着行囊踏上一段新旅程，因此愚人牌还可以表示旅行，特别是漫无目的、未经详细计划的旅行。愚人到达悬崖末端后，将跳进一个未知的环境，所以也代表搬家、转学、大胆的行动。也许当事人会把事情看得太简单，没有经过缜密的思考和计划，但我们不能评断这是好或是坏，只能说是潜力无穷。在工作上，愚人牌表示你正处在和愚人一样的环境中，或是在工作上表现出愚人的特性，除非从事的是追求创意的另类工作，否则老板恐怕不会喜欢。在感情方面，愚人可能代表旅途中的恋情，或是今朝有酒今朝醉，两人并不考虑未来。如果愚人代表你的情人，则请你好好享受过程，不要期望结果。学生问考试，表示他太不用功了，或是准备方向错误，事倍功半。
+愚人（逆位）
+当愚人逆位时，暗示当你被要求有所承诺时，却想从责任当中寻求解脱。你正在找一个脱身之道，然而目前并不是这么做的时机。现在是你对自己的将来有所承诺，或是解决过去问题的时候了，如此你才能够重新过着自发性的生活。在你能够安全出发之前，还有某些未完成的事情需要你去处理。
+愚人逆位，可能暗示无法凭直觉行事或是逃避责任。你也许渴望自由，渴望以往过去、不顾将来，但这不是适当的时候。有时候它也可能是在形容由于恐惧，而没有在某些决定的时刻把握住机会，或是固执于以前所做的计划，或过分依赖他人的建议。再次，时机是关键之所在。而愚人倒立则很明确的显示时效掌握欠佳。要不是在机会来临没有行动，就是在不恰当的时间采取行动。
+大体而言，愚人逆位时，当事人容易做出的不明智的决定或举动，宜保持镇定客观理性行事。`,
+
+  "魔术师": `看看这个魔术师，似乎拥有无限的能力，台面上放着剑、杯、星和杖，但他却手持魔杖，作势像祈求上天赐予力量，唤起魔法似的。他到底能从这虚无之间，变化出什么来呢？
+魔法师（正位）
+在塔罗牌中魔法师拥有满身技艺，样样精通，能点石成金，所以这张牌在占卜上也显示当事人具备充足的技能来解决任务。实际占卜上，魔法师代表这是个开始新计划的好时机，当事人已经万事具备了。魔法师鼓励大家善用语言和沟通能力，运用原有的技能，再加入新鲜创意来实践你的想法。在行事风格上，请采取主动，保持专心一致。
+魔法师这张牌意味这是个着手新事物的适当时机。对的时间、对的机会、对的动机，使你的努力获得回报。对于展开行动、实现计划而言，这正是一个良好时机。由于你已为实现计划扎下良好基础，所以新的冒险很可能会实现。清楚的方向感和意志力的贯彻，大大的提升了成功的可能性。
+魔法师是形容一种扎根于现实的伙伴关系，没有受到物质上的种种限制。它暗示一种主动的两性关系，而且可能是伴侣中的一个提供灵感，另一位脚踏实地，让这些主意变成具体成果。魔法师意味着一个拥有强烈意志、受过训练的心智及清晰的目标感的人。对于自己的目标，他拥有很好的方向感，且打开心胸，接纳新的理念。
+魔法师（逆位）
+由於魔法师与天地连结的方向不正确了，会有许多紊乱的实际情况和心理状态。这位魔法师变不出把戏，成为一个虚伪的、无能的空言，只能以虚假的魔术来骗人，无法完成和无力肩担责任。更代表着一个人遇到阻碍，难以化解。也可能是较不正当的念头。原来拥有的能力和条件、运气都失灵失效了。健康和精神都转差，而原本有问题的情况都不易好转！
+倒立的魔法师可能是在暗示，由于不均衡的生活导致能量层次的波动。心理层面的问题如沮丧，情绪起伏。不过通常逆位的魔法师拍只是在暗示，需要有更多的运动来促进并维持身体的健康。
+当魔法师倒立时，意味他失去和土地或天空的联系。如果他失去了和土地的联系，可能会变得不切实际，而导致精神、情感或身体上出问题，他会变的漫无目标且缺乏自律。当倒立时，即使他自天空中接收到了能量，却无法成功的将它导入土地，这份能量相当的强而有力，在体内积累之后会导致精神和情绪上的困扰。
+倒立的魔法师可能是在形容某人，他并不了解那能量是经由他在传递，而非出自他本身。他可能会以逐渐毁掉对方的方式对别人进行控制，可能是暗中作梗，或以任何他想得到的方法。
+简单而言，魔法师倒立暗示你需要拥有和天空或土地更强的连接，因为此时你已经失去正确的动机、计划、热情或务实的态度，来完成你内心的愿望。当魔法师牌倒立，就仿佛是在马拉松比赛中，一开始或许你正在追求一个不切实际的目标。现在已经到了在设定和追求目标时，要看清各种限制和现实的时候了。`,
+
+  "女祭司": `女祭司相传是月亮的使者，虔诚、静默却又透着一种警觉和睿智，是直觉与智慧的象征。相对于魔术师的激情和主动，女祭司只有在深夜，才会手捧经书默默地祈祷着。如果说魔术师散发着阳刚的话，那么女祭司就是阴柔的代表，于静寂中突现沉稳，于寡言中突现睿智。`,
+  "皇后": `在女皇的法杖下，脚下金色的麦田和远处茂密的森林都呈现一派生机盎然的景象。在女皇红色的座椅下还有一个心形标记，上面刻着金星的符号，预示着母爱天性，象征女皇的包容，以及带给子民的富足。`,
+  "皇帝": `宝座上端坐着至高无上的皇帝，他头戴镶嵌着宝石的皇冠，手中掌握着象征权力和地位的权杖。阅历丰富的他面色凝重，即使已经是一国之君，但仍然身着铠甲，时刻准备为国家去迎接挑战。`,
+  "教皇": `面目庄严而神圣的"教皇"，正在宗教的殿堂里接受信徒的朝拜，指导着信徒的疑惑。他的右手指着天，属于古传教士的手势，代表他传教的身分;而他另一手的权杖，代表着身心灵三合一的整合。`,
+  "恋人": `以伊甸园为背景，亚当夏娃的爱情故事为题材，阐述了爱的真谛。牌图中亚当夏娃分列两边，他们脚下是肥饶的土地，生机央然，在天使的祝福声中感受着爱的浪漫与温馨。`,
+  "战车": `战车上的胜利者以一种强有力的姿态站在战车上，展现他在人世间的丰功伟业。拉动战车的一黑一白两只狮子，时刻准备继续前进。`,
+  "正义": `冷酷的正义女神端坐在石椅上，右手拿着一柄正义之剑，左手拿着一架辨识善恶天平。凭借这两样圣器正义女神能轻易地了解事情的来龙去脉与未来的发展，让她轻松面对眼前的 一切。同时也让世人知道因果循环的道理，警告人们要有宽容的心胸，遵守道德，坚持正义。`,
+  "隐士": `隐士身着长袍，提着一盏灯、拄着拐杖，在黑暗中孤独地摸索前进。这张牌代表独处，隐士试图放弃外在的诱惑，而达到内心的平静，进而在寂静的环境里通过冥想得到真理。寂静中只能听 到自己内心发出的声音，所以才能够更好地理解自己的想法，寻找到一个真正属于自我的最终目标。`,
+  "命运之轮": `中心的圆形象征命运之轮，轮外分别是胡狼、宝剑、狮子和蛇。牌面四角的动物分别是象征启示录中圣约翰在神的宝座前看到的四只活物。四者都有翅膀代表他们在变化中仍有保持稳定的能力，而阅读则代表在变化中汲取智慧。`,
+  "力量": `胜利女神弯着腰正在抚摸一头凶猛的狮子，并用她的温柔与爱来安抚着怀中代表恐惧的狮子，它是爱与坚强意志的象征。正是因为有了爱与意志，人类才能克服困难，在历史的长河中不断前进。狮子代表人类的本能，而美女则象征爱情和服从，二者必须保持和谐，互相支持才能成为征服世界的力量。此外它还意味着你有能力解决现在所面临的困难局面，并对自己内在的力量充满信心。`,
+  "倒吊人": `人虽然被倒吊着，但是正好提供了他完全不同的视野去观察，并由此获得不同的理解。倒吊人知道无谓的挣扎是没有用处的，只会让自己精疲力尽而已，还不如花这些力气去趁机省思自己。`,
+  "死神": `死神坐骑白马高高在上的样子，他正在俯视地上的生灵，在他的手中高举一面绘着蔷薇十字会图腾的黑色旗帜，无论是富贵还是贫穷、是男还是女，死亡都是一种不可抗拒的自然现象，是无法逃避也无需逃避的。`,
+  "节制": `天使双手拿着两只圣杯，它们分别代表"物质"和"精神"，她在不停地用圣杯相互倒水，试图使两只圣杯的水保持平衡。`,
+  "恶魔": `"恶魔"代表着罪恶，他拥有诱惑的力量，诱惑他人失去理智，做出邪恶之事。面对诱惑，每个人都需要做出选择，是选择光明还是黑暗，只在一念之间。`,
+  "高塔": `一座高耸入云的塔被闪电击毁了，两个人从坍塌中的高塔上跌落到地面上。突然而又不可预料的强烈变化让人无法接受，再高傲的人类也无法与自然的强大相提并论，挑战自然只会引来神的怒火。`,
+  "星星": `夜空中一大七小八颗星星，其中那颗大的据说是天狼星，可以为那些寻求帮助的人带来希望和信心。在闪烁的星空下，有一个全裸的女人，她左腿单膝着地跪在池边，右脚是踏人水中，正在不断地将两壶生命之水倾倒在池中和岸上。`,
+  "月亮": `月亮高挂在夜空之中，圆缺不定。月下有一只狼和一只狗正在仰望月空低吠，似乎是体会到了月亮的愁苦而报以同情，也像是在向月亮问着什么。池中的蝎子似乎也特别的向往月宫的样子，它正努力地爬出水面，准备沿着黄色弯曲的小路前往自己向往已久的地方。`,
+  "太阳": `一名满脸稚气、笑容甜美的孩子骑在马背上，从灰色的围墙中一跃而出。孩子的头上有一个维菊花环和一根似曾相识的羽毛，与愚人和死神头上的那根一模一样，据说是象征超越死亡和重获新生。在灰色的围墙后面种满了金灿灿的向日葵，似乎是一座人造花园。`,
+  "审判": `天使已经吹响了号角，在传播着上天的福音。而在声声催人振奋的号角中沉睡已久的灵魂一个个走出了自己内心的坟墓，或者说那是来自内心的困惑。他们站立在天使的翅膀下，满怀着一颗感恩的心，细心地聆听着上天的福音。`,
+  "世界": `世界代表着宇宙的重点，四方依然是狮子、飞鹰、天使和神牛，只是中间已经不再是命运之轮，而是一个在月桂花环中翩翩起舞的少女。她一手拿着一把钥匙正在为步入重点的人喝彩，又或是一种召唤，正在引导着胜利者来到智慧之门面前，接过她手中开启幸福的钥匙。`,
+  "权杖首牌": `权杖象征新能量，权杖首牌代表着无穷的潜能，它像火花一样，隐隐可见燎原之势。山峦，草原，树木，流水，远方的城堡;在广阔的大地之上，云端里伸出一支强劲有力的大手，紧握着一根象征气力的权杖。权杖很粗，上面长着绿色叶子，在空中飞舞。那只大手的四周，有白色的毫光，象征着这只手是至高无上的，转达着神的旨意。`,
+  "权杖二": `面对着大海，山峦，和人类居住的大地驰目远眺。他左手握着权杖，拄在刻着花纹的石礅上象征着以智慧和气力为基础。他右手所持既像地球状貌的缩影，又象神秘的水晶球，象征着支配的气力能源。`,
+  "权杖三": `站在山颠远眺海面的人，像一个成功的商人般样子容貌。他用右手撑着权杖，是在寻求权杖的支持。金黄的背景象征光明，海面辽阔和平静，恰是出航的大好机会，预示着成功。以统领姿势站立在山颠，象征着领导地位，登高远望象征着高瞻远瞩，目光长远。`,
+  "权杖四": `四根高大的权杖对称而中正的耸立在大地上，象征着稳固和坚定。权杖上缠绕着果实累累的长藤,象征着繁荣和富裕，权杖下两名艳服的女子举着花束飞舞，他们身后的人群更是欢呼着，似乎在庆祝丰收的喜悦，在欢庆安定富足的美满生活。权杖后高高的城堡更是固若金汤的表示，人们在这个安乐的避风港湾里，其乐融融。`,
+  "权杖五": `权杖代表的是火的元素，整个画面就像一场混战。每一个人都举着权杖为武器，彼此争斗。他们的神色中露出迷茫。他们的装束类似，形貌类似，象征着这是一场公平的战争。`,
+  "权杖六": `带着桂冠的男勇士胜利归来，骑着白马，受到众人的欢迎和拥戴。他手持的权杖上也挂着象征胜利的花环。权杖六着有荣耀的胜利，是外在的，众人可见的。白色的马和身披的绿色戒衣代表气力，勇士红色的外衣象征他的热衷和斗志。勇士昂首挺胸，布满自信，他是通过自己的努力取得成就的。`,
+  "权杖七": `权杖七的画面出现在战斗中。一个身着绿色服装的人举着手中的权杖应对着眼前向自己进攻权杖。他既像在进攻也像在防卸，也许两者都是。`,
+  "权杖八": `广袤的绿草原上一条河流横贯而过，河流的上空平行排列着八根权杖，权杖是倾斜的，仿佛有点击河流之势，这让人联想起摩西的拐杖，它是一切行动开始及结束的象征。`,
+  "权杖九": `权杖九中的人物显然经历了一段艰苦的岁月:缠满了绷带，靠一根权杖支撑身体。这个战士已经受了不少战争的浸礼。图中那位士兵固然已经伤痕累累，然而依然没有倒下，他顽强的站着，永不放弃。`,
+  "权杖十": `身穿红衣的男子抱着十根权杖，正费力的往前走去。前方有绿树，房屋，代表目的地，代表胜利然而男子已十分疲累了，他的腰弯了，举步维艰象征他承受了巨大的压力。这压力是超过它的负荷能力。`,
+  "权杖侍者": `图中的少年双手捂着权杖，白色的帽子象征他的纯交上面插着红色的羽毛让人联想起与人头上羽毛，所以可以想象权杖随从的天真，不稳定和不够成熟。固然他有愚昧的一部分，然而他的神态是认真的，他穿着金色的衣服，象征他的地位不俗，和拥有天赋的气力，衣服的里面是红色，象征他内心的热衷和勇敢。他有点古怪，他是活泼的。`,
+  "权杖骑士": `骑士带着头盔身穿盔甲全副武装，代表他随时作战的状态。盔甲外面黄色的外衣象征他的地位和胜利的可能。衣角翻飞成火险的外形，头盔上的红罂也似一团火，身后更像有一团火焰正在燃烧，象征着强烈的勇气和热情。骑士的马是红色的，跃蹄前奔的姿势，象征着勇往直前。`,
+  "权杖皇后": `皇后穿着金黄色的衣服，右手握着粗壮的权杖，象征她的尊贵和权利。外面披着白色的大耄，象征她公正无私可信赖。左手持着金黄的向日葵，象征旺盛的生命力和智慧。向日葵中间的红色代表热情。眼前的台阶上蹲着一只黑猫，象征她拥有的法力，和沉稳的决断力。她带着镶有月桂树叶子的皇冠，容光焕发，让人感受到光明而积极的气味，石座的两旁雕刻着狮子的头像，带着叛逆的意味。微微左仰的头事后不屈服，坚定果敢的象征。`,
+  "权杖国王": `权杖国王是一个开拓者与建国者，他的坐姿仿佛随时预备着站立起来，代表他有极强的行动力。金黄色的大耄象征他的统治气力。绿色的披肩代表智慧，以及调和了四元素而拥有的潜能。红色的衣服也象征了权杖国王的热情与行动力。金色火焰型的皇冠象征了权杖的火元素特质。`,
+  "圣杯首牌": `图中的圣杯是耶稣在最后的晚餐中使用的。耶稣死后，他的鲜血也是由这杯子盛着。白鸽个是天主教中圣灵点源象征耶稣身体的圣饼，自上而下是要进入圣杯，象征着灵魂进入物质世界。杯中涌出的五道水象征人的五种器官。下边水面上盛开着朵朵睡莲，象征着人类灵魂的觉醒。云中伸出的手轻轻托住圣杯，充满着无穷爱意。圣杯首牌常常代表新感情的开始。`,
+  "圣杯二": `头上带着一对花环的的男女面对彼此，持圣杯向对方敬意。男人身体前倾，象征着一种积极外相的阳性气力:女人站姿端凝如山，象征着一种含蓄内向的阴性气力。他们中间悬着两条蛇缠绕的杖，是商业与贸易的象征。杖上狮子头像象征沟通，张开的翅膀象征圣灵。整个画面透着一种结合或合作的神秘气力。`,
+  "圣杯三": `三个衣着艳丽的女子，头戴象征丰收的花环，彼此围成圆圈，高举圣杯互相庆祝。他们脸上洋溢着幸福，四周有南瓜及葫芦，以女子手提一串葡萄，副丰收景象。三位女子有不同颜色的头发与眸子衣着也很不同代表他们都是独立的个体有自己的个性，但他们又能融洽相处，围成圆圈的外形，表示他们之间无尊卑之分。`,
+  "圣杯四": `图中的男子背靠着树，一副百无聊赖的样子。他紧闭着双眼，双臂交于胸前，作出一副防卫的姿态。前方并列着三个杯子，象征着他的过去的经验，他默默地盯着，代表他陷于旧事不可自拔。云中伸出的一只杯子，象征着一个新的机会。`,
+  "圣杯五": `昏暗的天空下，一个身披黑色斗篷的男人，垂头哀悼眼前三个倾倒的杯子。他眼前河上有一座通往远处村落的桥，预示着他有选择另一个生活状态的机会。眼前的三个杯子倒了，身后还有两个杯子立着。`,
+  "圣杯六": `在色彩绚烂的花园里，一个小男孩捧嗅着圣杯里的鲜花，他似乎要把它献给眼前的小女孩。整个画面布满浓郁的童话般的色彩，然人重新拾起童年的回忆。`,
+  "圣杯七": `图中的男人看着眼前浮于云端上的七只圣杯，一副无奈的样子。他在为失去的叹息，他在为打翻的牛奶哭泣。另外，云层上摆放的这些东西也象征着一种空中楼阁的存在，那只是男人白日梦的幻想。`,
+  "圣杯八": `在一个明月之夜，一个红衣男子拄杖离开他辛劳搭建起来的八个圣杯而去。四周密布的池沼，象征着淤塞的情感。他离开是由于发现搭建的杯子上有个缺口。于是，他为了寻找一个杯子，抛弃了身后已搭建好的八个被子。他本来可以带着八个杯子去寻找那个杯子的，但他没有这么做。他穿着红色的衣鞋，象征着他的行动力。`,
+  "圣杯九": `图中的男人志得意满的坐在摆放整洁的一排圣杯之前，他得到了任何想要的，要整个画面布满着一种满足愉悦的气氛。不难看出，圣杯九代表的是一切感官的愉悦，包括视觉，味觉，触觉上的享受。`,
+  "圣杯十": `这是其乐融融的一家人，夫妻相拥各扬一只手迎向象征美好生活的圣杯与彩虹。可两个孩子在一旁快乐的嬉戏。远处是他们的家。这是一副温馨感人的画面。`,
+  "圣杯侍者": `一个年轻男子，又腰站在蔚蓝色大海前，兴奋着看着圣杯中喂养的鱼。他的天真让人想起一个善良无邪的孩子。他感情丰富，富有爱心，他是爱，温暖，亲密的象征。`,
+  "圣杯骑士": `骑士挺胸端坐于马背之上，手举着象征执著的圣杯，双目深情地注视着，马儿顽皮的低头盘旋。整个画面充盈着执著和浪漫的气氛。在这儿，骑士代表着感情丰富，相信感觉且有创意的一类人。`,
+  "圣杯皇后": `坐于宝座上的皇后，目光温柔的注视着手上的杯一幅多情而专一的神态。另外，皇后也代表着仁慈，善良，直觉。她是那种会让年轻小伙子爱上的成熟而有韵味的女人，不只因美貌，还由于她的同情心。`,
+  "圣杯国王": `圣杯国王坐于宝座之上，手执圣杯，目光注视前方，象征着他开拓的视野，有前瞻性的眼光。他披着的宽大衣耄象征着宽广的襟怀胸襟。同时,圣杯国王也代表着冷静，明智和圆滑。`,
+  "宝剑首牌": `在群峦之上，一只手破空而出，牢牢捉住宝剑，剑尖刺穿顶部的皇冠。整个画面象征着挑战欲望的坚定意志。宝剑代表着一种伤害，正像他的双刃一样，可伤人，则可伤己:可救人，则可杀人。宝剑在这里作为一种象征物，警示着使用它的人们稍有不慎，就可造成不良后果，就像图中剑刺穿王冠一样，轻易的刺穿象征权力的皇冠。`,
+  "宝剑二": `画面上，身穿灰色长袍的女人背对身后汹涌澎湃代表着感情的海洋。她坐在石凳上，眼蒙着象征逃避现实的白布，双手持剑，在胸前交叉着，做出一副自卫的状态。女人背对着代表感情的海洋，且双眼蒙布，表现出一副眼耳盗铃的自欺之态。她双剑较于脸前，即是交又在心前，表示她有颗封闭的心灵。女人静坐不动，两把宝剑斜又交立，像两股僵持的努力，相持不下，代表着一种尴尬的人际关系的处境。`,
+  "宝剑三": `三把剑协力刺穿一颗心，背景是昏暗的雨天。这是一幅令人触目惊心的画面，他直观的道出了这张牌的含义一伤心。然而，画面在混乱中仍保持着某种和谐，三把剑似在无意中形成一种对称的形态它一再告诉众人，悲伤是人人必须经历的，悲伤使人成长。`,
+  "宝剑四": `一个男人正在吊挂的三把剑的下方安静的休息，男人的身边还有一把剑，他随时可以起身行动。此牌较其他宝剑牌的画面安宁祥和，它通常是消极不动的状态。`,
+  "宝剑五": `战胜者收获了失败者的几把宝剑，看着手下败将的离去的身影，嘴角露出了微笑。可以说，看到失败者越沮丧，胜利者就越高兴。从画面上可看出，一场暴力争斗刚结束，胜者在洋洋得意中还没清醒过来。`,
+  "宝剑六": `插着六把宝剑的船与上面撑篙的船夫和一对母女向着远方向着光明未来的平静水域驶去，而船下的水汹涌起伏。象征伤害的的六把宝剑不能拔起，否则船会沉没。他们只能带着危险前行，与伤害结为旅伴。事情不很糟，但也不会很好。船夫手中的黑色竹篙，黑色象征潜力，以为将来会发生什么事情，不要因自己以为的事会发生将自己困死了，驶过汹涌就是无边的平静。`,
+  "宝剑七": `这是一个男人溜进军营偷剑的画面。他只偷了五把，另两把还留在原地。一个人的气力总是有限所以他没有办法光明正大地与敌人交锋，只能采取这种桀黠的手段，减弱敌人的战力。留在身后的两把剑代表着这种行为的危险性，稍有不慎，就会有惨烈的下场。`,
+  "宝剑八": `图中的女人被蒙眼缚手，困在剑阵之中。他伸不出手，看不见东西，不能自由的移动。她的家，在背后遥远的山上。宝剑八的象征是一种孤独无援的处境。但希望还是有的，背后暖和的家在召唤鼓舞着女人冲破险阻，奔向自由。`,
+  "宝剑九": `图中抚脸坐床上的男人痛苦不堪，被子已托到地上，九把像窗棂和肋骨一样的剑挂于身边的墙上。人们在晚上时，悲伤和悔很总是感觉尤其强烈，当白天让人分心的一些琐事结束后，人们总是沉静在自己的想法中，被折磨得彻夜难眠。`,
+  "宝剑十": `在灰色天空和朵朵乌云的笼罩下，一个俯首的男人，惨死在背上的十把剑下，其中一把穿插头部整个画面令人触目心惊。宝剑十是张坏牌，他的含义非常负面，包括惨痛，难过，痛苦等一切令人不适的情绪。这张牌的亮点是男人披着红色的红袍，象征着她对生命的热爱，而远方露出的鱼白肚则在告诉人们，黑暗马上要过去，路旁的水平静无波，和该组牌中其他水面汹涌的画面不同，预示:也许事情没有想象中那么糟，黑暗中的已经过去，黎明中的正在到来。`,
+  "宝剑侍者": `牌面上，一个男人双手举剑，目视前方，表情坚毅，仿佛没有一丝的犹豫。他站在山丘上，背后是万里晴空，充满着昂扬的气氛。他绝不是毫无胜算和考量就站在这里的，象征着一种既干练又沉稳的做事方式。同时，男人的这种姿势还有种防御的意味，所以宝剑侍从它也具有防御和警惕的含义。`,
+  "宝剑骑士": `牌面上，风驰电挚的骑士正手挥宝剑勇往直前，风吹得他的衣髦飘扬，整个画面洋溢着一股昂扬向上的力量。骑士虽勇敢无畏，但他的性急使他容易失去理智的力量。他代表着事业心强的人，他们可能缺乏情感，但不是冷漠，只是心不在焉。他们对异性有强烈的吸引力，却无法建立长期的关系。`,
+  "宝剑皇后": `牌面上的王后端坐于她的宝座之上，一手举剑，一手轻举做布道状，仿佛在像做裁决或是向她的臣民宣布些什么。她目视前方，神情镇定，气质悠闲，一副洞明世事和胸有成竹的样子。她就像是女战神典雅娜一般冷静而威严，手持宝剑的样子使她与其他牌组的王后牌区分开来，少了慈爱与包容，更多的是严肃和严谨的态度，随时都能排除阻碍她计划成功的事物。她具有水的直觉和风的智力，有非凡的沟通能力，是智者和所有胸怀宽广的象征。她通常单身，有独立的事业及价值观，所以这张牌也代表智慧与经验、悲伤与孤独。`,
+  "宝剑国王": `牌面上，一名威风凛凛的国王坐在他的宝座之上。国王身穿白色内衣、红色外衣和紫色的长袍，手擎宝剑，剑锋斜指苍天，一副唯我独尊的气势。他神情严肃，一副雷打不动的岿然之态，体现着他的老练与统治手腕的高明。他是天生的 君主，具有与生俱来的力量，他精明、睿智，但绝不仁慈，所以宝剑国王也代表着一种专业的态度。`,
+  "星币首牌": `从云端伸出一只捧着金币的手，金币在这里代表人间最实际的东西，包括金钱，财富与身体等;而图中的花园与道路，说明投资需要有门路;在地上的土，是所有元素当中最为稳定的物质，不像其他的元素具有行动与流动，故土本身即为稳定的代表。`,
+  "星币二": `牌面上，一个像马戏团小丑般的男人正在耍弄着两枚星币，星币的外面绕着8字形的带子，像是一个轮轴或是永恒的符号。他后面的海面起伏剧烈，船只在浪尖上行使。`,
+  "星币三": `牌面上，一位雕刻师正在教堂石柱上辛勤雕刻，他的身旁站着一个修士和一个修女，正在给他出谋划策。从他们聚精会神的讨论，看起来合作得很愉快，表示星币三经常代指团队工作。`,
+  "星币四": `牌面中的男人，从衣着上可以看出他的地位显赫，。他头顶的王冠上顶着一枚星币，双脚各踩着一枚星币，怀中还死死的抱着一枚星币，双手紧抱仿佛害怕被人偷走一般。他坐在一个小石座上，从表情上看，他很紧张，说明他十分害怕失去他的任何一点财产。他的背后是富饶的城市，就像是他所拥有或管辖下的一样。`,
+  "星币五": `牌面上是寒冷的冬季。风雪交加，一对衣衫褴褛的乞丐夫妻蹒跚而行，从象征物质、精神与庇护的教堂前路过，却视而不见。牌面中的男人柱着双拐，衣着褴褛，浑身是伤，象征着疾病与困厄。而牌面上的夫妇，虽然贫穷却也彼此扶持，象征着不渝的爱情。`,
+  "星币六": `牌面上，两个乞丐跪伏在商人模样的男子面前乞讨，男子右手在施舍，左手提着一柄象征平衡的天平。商人十分慷慨但也十分理智，施舍需要讲究公平，该给哪位多少就给多少。给太多，或是给太少，都不是恰当的援助。`,
+  "星币七": `牌面上的男子是一名劳动者，他的身旁繁茂的藤叶象征他曾经付出的努力。藤叶上挂着七颗星，代表丰沃的劳动果实。他表情看上去有些疲惫，但劳有所得，一切付出是值得欣慰的。`,
+  "星币八": `牌面中一名男子正专注的执锤雕刻星币。显然，他已经干了很长时间了，已经有七枚星币完成了，第八枚星币也雕刻得差不多多了。他为了能更专注的工作，远离了背后的城镇，以便更加集中留意力完成手头的工作。`,
+  "星币九": `星币九描述的是一位贵妇站在她的庄园中，四周葡萄茂盛，她右手扶在星币上，左手掌背上停着一只鸟，不过鸟却戴着头罩，无法飞翔，象征着为了成功所做的牺牲。`,
+  "星币十": `牌面中所展现的是一个温馨的家庭，老人正舒适的坐在屋里，两只象征家庭和睦的狗正围绕在他的身前，门外站着他的儿子和儿媳，小孙子站在母亲的身后调皮的摸着一只狗的尾巴。`,
+  "星币侍者": `星币侍从手上举起一枚金币，眼睛专注的凝视着这枚金币，这代表着专注学习一种技能，并且希望这个技能可以真实落实到生活中。其绿色的衣杉象征着自然科学及其旺盛的生命力。他的头上没有桂冠，而是戴着厚重的红色帽子，这也代表着他可能不是一个胜利者，更不是一个领导者。他脚下茂盛的草原象征丰富的知识和充实的未来。`,
+  "星币骑士": `星币骑士是务实的行动者，背后开阔垦荒的田野，表示正在进行大规模的耕作行为，马匹在四张宫廷骑士牌当中是走的最慢的一张，务实稳定，一步一步走的稳健，努力赚钱提升自己，正位时努力的工作，未来是可以期待的，预估的收获是正向的，马匹四肢脚皆走于陆地上也代表脚踏实地。`,
+  "星币皇后": `牌面上，星币王后被鲜花围绕着，草地上枝叶蕃庑，布满红色的果实，有小兔子在旁边奔跑，悠然似乎闻到春暖花开气味，一派宁静祥和。星币王后以温柔的姿势坐在自己的宝座上，慈爱看着手中的星币及四周的一草一木，仿佛在抚摸自己的孩子一般。白色的亵服代表她的纯洁，红色的长袍代表热情、好客、慈爱和母性；她金色的王冠下的绿色批巾代表她温涵的能力。`,
+  "星币国王": `星币国王是一名成功的统治者。他神情自信地坐在自己的宝座上，仿佛一切都在他的掌控之中。绿色的藤蔓布满他的四周还有身上，结满了象征智慧的果实。这代表在他的统治下，他的人民过着幸福而富裕的生活。他头上戴着象征胜利的月桂叶环和象征权力的金色王冠，上面镶玕着的红色花朵代表智慧和潜能，他身后雄伟的城堡也代表了他丰厚的财富。`
+};
+
+const $cards = document.getElementById('cards');
+const $cnt = document.getElementById('cnt');
+const $empty = document.getElementById('empty');
+const $modal = document.getElementById('modal');
+const $panel = document.getElementById('panel');
+const $btnDraw = document.getElementById('btnDraw');
+let detailExpanded = false;   // 记录完整解读的展开状态
+
+let drawn = [];
+
+function pickOne(){
+  const card = CARDS[Math.floor(Math.random()*CARDS.length)];
+  const reversed = Math.random() < 0.5;
+  drawn.push({card, reversed});
+  render();
+}
+
+function render(){
+  $cnt.textContent = drawn.length;
+  $empty.style.display = drawn.length ? 'none' : 'block';
+  $cards.innerHTML = '';
+  drawn.forEach((d, idx)=>{
+    const {card, reversed} = d;
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <div class="img-wrap"><img src="${card.image_path}" alt="${card.name}" class="${reversed?'reversed':''}" loading="lazy"></div>
+      <div class="name">${card.name}</div>
+      <div class="card-meta">
+        <span class="tag ${reversed?'rev':'up'}">${reversed?'逆位':'正位'}</span>
+        <span class="pos-label">第 ${idx+1} 张</span>
+      </div>`;
+    div.addEventListener('click', ()=> { _navList = drawn; _navIndex = idx; openModal(d); });
+    $cards.appendChild(div);
+  });
+  if(drawn.length){ const last = $cards.lastElementChild; if(last) last.scrollIntoView({behavior:'smooth', block:'nearest'}); }
+}
+
+let _navList = null;   // 当前弹层导航的来源列表
+let _navIndex = -1;      // 当前项在列表中的索引
+
+function openModal(d){
+  // 若无导航上下文（旧式单对象调用），仅展示该张，无导航
+  if(!_navList || _navIndex < 0){ _navList = null; _navIndex = -1; }
+  renderModal(d);
+  $modal.classList.add('show');
+}
+
+function renderModal(d){
+  const {card, reversed} = d;
+  const pos = reversed ? '逆位' : '正位';
+  const meaning = reversed ? card.reversed_meaning : card.upright_meaning;
+  const total = _navList ? _navList.length : 0;
+  const idx = _navIndex;
+  const isFirst = idx <= 0;
+  const isLast = idx >= total - 1;
+  const counterHtml = total > 1
+    ? `<div class="nav-counter">${idx+1} / ${total}</div>` : '';
+  
+$panel.innerHTML = `
+  <button class="nav-btn nav-prev" data-dir="prev" ${isFirst?'disabled':''}>‹</button>
+  <button class="nav-btn nav-next" data-dir="next" ${isLast?'disabled':''}>›</button>
+  <img src="${card.image_path}" alt="${card.name}" >
+  <div class="header-row">
+    <div class="header-left">
+    <span class="sub">${card.group}</span>
+      <h2>${card.name}</h2>
+      
+      <span class="pos-badge ${reversed?'rev':''}">${pos}</span>
+    </div>
+    ${total > 1 ? `<span class="nav-counter">${idx+1} / ${total}</span>` : ''}
+  </div>
+  <div class="sec">
+    <h3><span class="dot ${reversed?'rev':'up'}"></span>${pos}含义</h3>
+    <p>${meaning}</p>
+  </div>
+  <div class="sec">
+    <h3><span class="dot ${reversed?'up':'rev'}"></span>${reversed?'正位含义':'逆位含义'}</h3>
+    <p>${reversed? card.upright_meaning : card.reversed_meaning}</p>
+  </div>
+  <button class="close" id="closeModal">关闭</button>`;
+  
+// ===== 新增：完整解读按钮与区域（支持状态保持） =====
+const detailText = getDetail(card.name);
+if (detailText) {
+  const detailDiv = document.createElement('div');
+  detailDiv.className = 'detail-area';
+  detailDiv.style.display = detailExpanded ? 'block' : 'none';  // 根据全局状态
+  detailDiv.innerHTML = '<h3 style="font-size:13px;margin-bottom:4px;">📖 完整解读</h3><div class="detail-text">' + detailText + '</div>';
+  $panel.appendChild(detailDiv);
+
+  const toggleBtn = document.createElement('button');
+  toggleBtn.className = 'toggle-detail';
+  toggleBtn.textContent = detailExpanded ? '收起完整解读' : '查看完整解读';
+  toggleBtn.onclick = function () {
+    const area = this.previousElementSibling;
+    if (area.style.display === 'none') {
+      area.style.display = 'block';
+      this.textContent = '收起完整解读';
+      detailExpanded = true;   // 更新全局状态
+    } else {
+      area.style.display = 'none';
+      this.textContent = '查看完整解读';
+      detailExpanded = false;  // 更新全局状态
+    }
+  };
+  $panel.appendChild(toggleBtn);
+}
+
+  // 使用事件委托：将导航和关闭事件委托给 $panel
+  $panel._navHandler = $panel._navHandler || function(e){
+    const btn = e.target.closest('.nav-btn');
+    if(btn && !btn.disabled){
+      const dir = btn.dataset.dir;
+      if(dir === 'prev' && _navIndex > 0) navigateTo(_navIndex - 1);
+      if(dir === 'next' && _navIndex < (_navList ? _navList.length : 0) - 1) navigateTo(_navIndex + 1);
+      return;
+    }
+    if(e.target.id === 'closeModal'){
+      closeModal();
+    }
+  };
+  // 移除旧监听器，添加新监听器（避免重复绑定）
+  $panel.removeEventListener('click', $panel._navHandler);
+  $panel.addEventListener('click', $panel._navHandler);
+  // ===== 图片点击放大 =====
+  const mainImg = $panel.querySelector('img:first-of-type');
+  if (mainImg) {
+    mainImg.style.cursor = 'pointer';
+    mainImg.addEventListener('click', function(e) {
+      e.stopPropagation();           // 防止触发关闭弹窗
+      showImagePreview(this.src);     // 传入当前图片地址
+    });
+  }
+}
+
+function navigateTo(newIdx){
+  if(!_navList || newIdx < 0 || newIdx >= _navList.length) return;
+  _navIndex = newIdx;
+  const item = _navList[newIdx];
+  // 确保 item 有 card 和 reversed 属性
+  // 如果 item 是牌对象（来自 CARDS），则包装为 {card: item, reversed: false}
+  // 如果 item 已经是 {card, reversed} 结构（来自 drawn 数组），则直接使用
+  const modalData = item.card !== undefined ? item : {card: item, reversed: false};
+  renderModal(modalData);
+}
+
+function closeModal(){ $modal.classList.remove('show'); _navList=null; _navIndex=-1; }
+
+$modal.addEventListener('click', e=>{ if(e.target===$modal) closeModal(); });
+document.addEventListener('keydown', e=>{
+  if(!$modal.classList.contains('show')) return;
+  if(e.key==='Escape') closeModal();
+  if(e.key==='ArrowLeft') navigateTo(_navIndex - 1);
+  if(e.key==='ArrowRight') navigateTo(_navIndex + 1);
+});
+
+// 移动端左右滑动切换
+(function(){
+  let startX = null, startY = null, tracking = false;
+  $modal.addEventListener('touchstart', e=>{
+    if(!$modal.classList.contains('show')) return;
+    const t = e.changedTouches[0]; startX=t.clientX; startY=t.clientY; tracking=true;
+  }, {passive:true});
+  $modal.addEventListener('touchend', e=>{
+    if(!tracking || startX===null) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - startX, dy = t.clientY - startY;
+    if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)*1.2){
+      if(dx < 0) navigateTo(_navIndex + 1); else navigateTo(_navIndex - 1);
+    }
+    tracking=false; startX=null; startY=null;
+  }, {passive:true});
+})();
+
+document.getElementById('btnDraw').addEventListener('click', pickOne);
+// 重置全部：同时重置塔罗与扑克
+document.getElementById('btnReset').addEventListener('click', ()=>{ drawn=[]; render(); pokerDrawn=[]; renderPoker(); });
+
+/* ===== 牌库功能 ===== */
+const GROUP_ORDER = ["大阿卡纳","圣杯","宝剑","权杖","星币"];
+const GROUP_LABEL = {"大阿卡纳":"大阿卡纳 Major Arcana","圣杯":"圣杯 suit of Cups",
+  "宝剑":"宝剑 suit of Swords","权杖":"权杖 suit of Wands","星币":"星币 suit of Pentacles"};
+const $libView = document.getElementById('libView');
+const $mainView = document.getElementById('mainView');
+const $libLink = document.getElementById('libLink');
+
+function buildLibrary(){
+  // 每次打开都重新构建（确保扑克牌数据可用），先清空旧内容
+  $libView.innerHTML = '';
+  const frag = document.createDocumentFragment();
+
+  // ★ 返回按钮放在最前面
+  const back = document.createElement('button');
+  back.className = 'lib-back';
+  back.textContent = '← 返回占卜';
+  back.addEventListener('click', showMain);
+  frag.appendChild(back);
+
+  // ===== 塔罗牌库（78 张） =====
+  const groups = {};
+  CARDS.forEach(c=>{ (groups[c.group]=groups[c.group]||[]).push(c); });
+  GROUP_ORDER.forEach(g=>{
+    if(!groups[g]) return;
+    const block = document.createElement('div');
+    block.className = 'group-block';
+    const title = document.createElement('div');
+    title.className = 'group-title';
+    title.innerHTML = `<span>${g}</span><span class="gcount">${groups[g].length} 张</span><span class="gline"></span>`;
+    block.appendChild(title);
+    const wrap = document.createElement('div');
+    wrap.className = 'lib-cards';
+    groups[g].forEach(c=>{
+      const item = document.createElement('div');
+      item.className = 'lib-card';
+      item.innerHTML = `<div class="img-wrap"><img src="${c.image_path}" alt="${c.name}" loading="lazy"></div>
+        <div class="name">${c.name}</div><div class="grp">${GROUP_LABEL[g]||''}</div>`;
+      item.addEventListener('click', ()=> { _navList = CARDS; _navIndex = CARDS.indexOf(c); openModal({card:c, reversed:false}); });
+      wrap.appendChild(item);
+    });
+    block.appendChild(wrap);
+    frag.appendChild(block);
+  });
+
+  // ===== 扑克牌库（54 张，按花色分组） =====
+  if (window.POKER_CARDS && POKER_CARDS.length) {
+    const SUIT_ORDER = ["黑桃","红心","方块","梅花","王牌"];
+    const SUIT_LABEL = {"黑桃":"黑桃 Spades ♠","红心":"红心 Hearts ♥",
+      "方块":"方块 Diamonds ♦","梅花":"梅花 Clubs ♣","王牌":"Joker 王牌"};
+    const pGroups = {};
+    POKER_CARDS.forEach(p=>{ (pGroups[p.suit]=pGroups[p.suit]||[]).push(p); });
+    // 扑克区标题
+    const pHeader = document.createElement('div');
+    pHeader.className = 'group-block';
+    pHeader.innerHTML = `<div class="group-title"><span>🂠 扑克牌库</span><span class="gcount">${POKER_CARDS.length} 张</span><span class="gline"></span></div>`;
+    frag.appendChild(pHeader);
+    SUIT_ORDER.forEach(s=>{
+      if(!pGroups[s]) return;
+      const block = document.createElement('div');
+      block.className = 'group-block';
+      const title = document.createElement('div');
+      title.className = 'group-title';
+      title.innerHTML = `<span>${s}</span><span class="gcount">${pGroups[s].length} 张</span><span class="gline"></span>`;
+      block.appendChild(title);
+      const wrap = document.createElement('div');
+      wrap.className = 'lib-cards';
+      pGroups[s].forEach(p=>{
+        const item = document.createElement('div');
+        item.className = 'lib-card';
+        item.innerHTML = `<div class="img-wrap"><img src="${p.image_path}" alt="${p.name}" loading="lazy"></div>
+          <div class="name">${p.name}</div><div class="grp">${SUIT_LABEL[s]||''}</div>`;
+        item.addEventListener('click', ()=> { _navList = POKER_CARDS; _navIndex = POKER_CARDS.indexOf(p); openModal({card:p, reversed:false}); });
+        wrap.appendChild(item);
+      });
+      block.appendChild(wrap);
+      frag.appendChild(block);
+    });
+  }
+
+  $libView.appendChild(frag);
+}
+
+// ===== 最小化修复：进入牌库时滚动到牌库视图自身位置，而非页面顶部 =====
+function showLibrary(){ buildLibrary(); $mainView.classList.add('hide'); var ps=document.getElementById('pokerSection'); if(ps) ps.classList.add('hide'); $libView.classList.add('show'); $libView.scrollIntoView({behavior:'smooth', block:'start'}); }
+function showMain(){ $libView.classList.remove('show'); $mainView.classList.remove('hide'); var ps=document.getElementById('pokerSection'); if(ps) ps.classList.remove('hide'); window.scrollTo({top:0,behavior:'smooth'}); }
+
+$libLink.addEventListener('click', e=>{ e.preventDefault(); showLibrary(); });
+
+render();
+// ===== 新增：获取详细解读的函数 =====
+function getDetail(name) {
+  // 直接从 DETAIL_DATA 中查找（键名与 CARDS 中的 name 完全一致）
+  return DETAIL_DATA[name] || null;
+}
+// ===== 图片放大预览 =====
+// ===== 图片放大预览（支持缩放 + 跟随手指） =====
+function showImagePreview(src) {
+  let overlay = document.getElementById('imgPreviewOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'imgPreviewOverlay';
+    overlay.className = 'img-preview-overlay';
+    const img = document.createElement('img');
+    img.id = 'previewImg';
+    img.style.transformOrigin = '0 0'; // 改为左上角，便于计算位移
+
+    let scale = 1, translateX = 0, translateY = 0;
+    let lastDist = 0, lastCX = 0, lastCY = 0;
+
+    function updateTransform() {
+      img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    }
+
+    // 点击遮罩关闭
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) {
+        this.classList.remove('show');
+        scale = 1; translateX = 0; translateY = 0;
+        updateTransform();
+      }
+    });
+
+    // 鼠标滚轮缩放（桌面端）
+    img.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      const rect = this.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      const delta = e.deltaY > 0 ? -0.1 : 0.1;
+      const newScale = Math.min(Math.max(scale + delta, 0.5), 5);
+      // 以鼠标位置为中心缩放
+      translateX -= (mx - translateX) * (newScale / scale - 1);
+      translateY -= (my - translateY) * (newScale / scale - 1);
+      scale = newScale;
+      updateTransform();
+    }, { passive: false });
+
+    // 双指缩放（移动端）
+    img.addEventListener('touchstart', function(e) {
+      if (e.touches.length === 2) {
+        const t1 = e.touches[0], t2 = e.touches[1];
+        const dx = t1.clientX - t2.clientX;
+        const dy = t1.clientY - t2.clientY;
+        lastDist = Math.sqrt(dx*dx + dy*dy);
+        lastCX = (t1.clientX + t2.clientX) / 2;
+        lastCY = (t1.clientY + t2.clientY) / 2;
+      }
+    }, { passive: true });
+
+    img.addEventListener('touchmove', function(e) {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const t1 = e.touches[0], t2 = e.touches[1];
+        const dx = t1.clientX - t2.clientX;
+        const dy = t1.clientY - t2.clientY;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        const cx = (t1.clientX + t2.clientX) / 2;
+        const cy = (t1.clientY + t2.clientY) / 2;
+        if (lastDist > 0) {
+          const newScale = Math.min(Math.max(scale * (dist / lastDist), 0.5), 5);
+          // 以两指中心缩放
+          translateX -= (cx - translateX) * (newScale / scale - 1);
+          translateY -= (cy - translateY) * (newScale / scale - 1);
+          scale = newScale;
+          updateTransform();
+        }
+        lastDist = dist;
+        lastCX = cx; lastCY = cy;
+      }
+    }, { passive: false });
+
+    img.addEventListener('touchend', function(e) {
+      if (e.touches.length < 2) lastDist = 0;
+    }, { passive: true });
+
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
+  }
+
+  const imgEl = document.getElementById('previewImg');
+  imgEl.src = src;
+  imgEl.dataset.scale = 1;
+  imgEl.style.transform = 'translate(0,0) scale(1)';
+  overlay.classList.add('show');
+}
+
+// ===== 扑克牌玩法逻辑 =====
+var POKER_CARDS = window.buildPokerCards ? window.buildPokerCards() : [];
+var pokerDrawn = [];
+var $pokerCards = document.getElementById('pokerCards');
+var $pokerCnt = document.getElementById('pokerCnt');
+var $pokerEmpty = document.getElementById('pokerEmpty');
+
+function pickPokerOne(){
+  if(POKER_CARDS.length === 0) return;
+  var card = POKER_CARDS[Math.floor(Math.random()*POKER_CARDS.length)];
+  var reversed = Math.random() < 0.5;
+  pokerDrawn.push({card:card, reversed:reversed});
+  renderPoker();
+}
+function renderPoker(){
+  $pokerCnt.textContent = pokerDrawn.length;
+  $pokerEmpty.style.display = pokerDrawn.length ? 'none' : 'block';
+  $pokerCards.innerHTML = '';
+  pokerDrawn.forEach(function(d, idx){
+    var card = d.card, rev = d.reversed;
+    var div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML =
+      '<div class="img-wrap"><img src="'+card.image_path+'" alt="'+card.name+'" class="'+(rev?'reversed':'')+'" loading="lazy"></div>'+
+      '<div class="name">'+card.name+'</div>'+
+      '<div class="card-meta">'+
+        '<span class="tag '+(rev?'rev':'up')+'">'+(rev?'逆位':'正位')+'</span>'+
+        '<span class="pos-label">第 '+(idx+1)+' 张</span>'+
+      '</div>';
+    div.addEventListener('click', function(){ _navList=pokerDrawn; _navIndex=idx; openModal(d); });
+    $pokerCards.appendChild(div);
+  });
+  if(pokerDrawn.length){ var last=$pokerCards.lastElementChild; if(last) last.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+}
+document.getElementById('btnDrawPoker').addEventListener('click', pickPokerOne);
+// 扑克不再单独重置：统一由顶部「重置全部」按钮一并重置塔罗与扑克
+</script>
+</body>
+</html>
