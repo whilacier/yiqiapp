@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无镜道易学专用手写板 - 让易学讲解"画"繁为简</title>
+    <style>
+        :root {
+            --primary: #07C160;
+            --primary-dark: #059e4d;
+            --primary-light: #e8f8f0;
+            --bg: #ffffff;
+            --bg-light: #f7f8fa;
+            --bg-dark: #1a1a2e;
+            --text-main: #2d2d3d;
+            --text-secondary: #5a5a6e;
+            --text-muted: #8e8ea0;
+            --text-light: #b0b0c0;
+            --border: #e8e8f0;
+            --code-bg: #f0f4f8;
+            --code-color: #e74c3c;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.06);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-main);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            padding: 80px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 70%, rgba(7,193,96,0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(120,200,255,0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, 10px); }
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(7,193,96,0.2);
+            border: 1px solid rgba(7,193,96,0.4);
+            color: #4ddb94;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+        }
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff, #a8d8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 20px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 32px;
+            font-weight: 300;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(7,193,96,0.4);
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(7,193,96,0.5);
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        .hero-meta {
+            margin-top: 32px;
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .hero-meta span {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* ===== Section Common ===== */
+        section { padding: 60px 0; }
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .section-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+        .section-header p {
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 560px;
+            margin: 0 auto;
+        }
+        .section-tag {
+            display: inline-block;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        /* ===== Feature Grid ===== */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .feature-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), #4ddb94);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+            border-color: transparent;
+        }
+        .feature-card:hover::before { transform: scaleX(1); }
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .feature-card .shortcut {
+            display: inline-block;
+            background: var(--code-bg);
+            color: var(--code-color);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-top: 10px;
+        }
+
+        /* ===== Highlight Banner ===== */
+        .highlight-banner {
+            background: linear-gradient(135deg, var(--primary-light), #e8f4fd);
+            border-radius: var(--radius);
+            padding: 40px;
+            text-align: center;
+            margin: 40px 0;
+        }
+        .highlight-banner h3 {
+            font-size: 24px;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+        .highlight-banner p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        /* ===== Desktop Annotation Section ===== */
+        .annotation-section {
+            background: var(--bg-dark);
+            color: #fff;
+        }
+        .annotation-section .section-header h2 { color: #fff; }
+        .annotation-section .section-header p { color: rgba(255,255,255,0.6); }
+
+        .annotation-flow {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .flow-step {
+            text-align: center;
+            padding: 24px 16px;
+            background: rgba(255,255,255,0.05);
+            border-radius: var(--radius);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        .flow-step:hover {
+            background: rgba(7,193,96,0.1);
+            border-color: rgba(7,193,96,0.3);
+        }
+        .flow-step .step-num {
+            display: inline-block;
+            width: 36px; height: 36px;
+            line-height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .flow-step h4 { font-size: 15px; margin-bottom: 6px; }
+        .flow-step p { font-size: 13px; color: rgba(255,255,255,0.6); }
+
+        /* ===== Shortcut Table ===== */
+        .shortcut-category {
+            margin-bottom: 32px;
+        }
+        .shortcut-category h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .shortcut-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .shortcut-table tr {
+            border-bottom: 1px solid var(--border);
+        }
+        .shortcut-table tr:last-child { border-bottom: none; }
+        .shortcut-table td {
+            padding: 10px 12px;
+            font-size: 14px;
+            vertical-align: top;
+        }
+        .shortcut-table td:first-child {
+            width: 200px;
+            font-weight: 600;
+            color: var(--text-main);
+            white-space: nowrap;
+        }
+        .shortcut-table td:last-child {
+            color: var(--text-secondary);
+        }
+        kbd {
+            display: inline-block;
+            background: var(--bg-dark);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-weight: 600;
+        }
+
+        /* ===== Tech Stack ===== */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 32px;
+        }
+        .tech-item {
+            text-align: center;
+            padding: 24px 16px;
+            background: var(--bg-light);
+            border-radius: var(--radius);
+        }
+        .tech-item .tech-icon { font-size: 36px; margin-bottom: 12px; }
+        .tech-item h4 { font-size: 15px; margin-bottom: 4px; }
+        .tech-item p { font-size: 13px; color: var(--text-muted); }
+
+        /* ===== Download Section ===== */
+        .download-section {
+            background: linear-gradient(135deg, #f0fdf4, #e8f4fd);
+            text-align: center;
+        }
+        .download-card {
+            max-width: 560px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+        }
+        .download-card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+        .download-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+        .download-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 16px 32px;
+            background: var(--primary);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-bottom: 16px;
+        }
+        .download-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(7,193,96,0.4);
+        }
+        .download-meta {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background: var(--bg-dark);
+            color: rgba(255,255,255,0.6);
+            padding: 40px 0 30px;
+            text-align: center;
+        }
+        footer .footer-brand {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        footer a:hover { text-decoration: underline; }
+        footer .footer-links {
+            margin: 16px 0;
+            font-size: 13px;
+        }
+        footer .footer-links a { margin: 0 12px; }
+        footer .copyright {
+            font-size: 12px;
+            color: rgba(255,255,255,0.3);
+            margin-top: 16px;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 28px; }
+            .hero .subtitle { font-size: 16px; }
+            .section-header h2 { font-size: 24px; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .shortcut-table td:first-child { width: 140px; }
+            .download-card { padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== Hero ===== -->
+<div class="hero">
+    <div class="container hero-content">
+        <span class="hero-badge">🎯 Qt 6 / C++ 原生开发 · Windows 专属</span>
+        <h1>无镜道易学专用手写板</h1>
+        <p class="subtitle">让易学讲解"画"繁为简</p>
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="#download">⬇️ 立即下载</a>
+            <a class="btn btn-secondary" href="#features">✨ 功能一览</a>
+        </div>
+        <div class="hero-meta">
+            <span>🖥️ Windows 专用</span>
+            <span>🎨 数位板笔压支持</span>
+            <span>📦 绿色免安装</span>
+            <span>🔧 高度可配置</span>
+        </div>
+    </div>
+</div>
+
+<!-- ===== Intro ===== -->
+<section style="padding: 50px 0;">
+    <div class="container" style="max-width: 720px; text-align: center;">
+        <p style="font-size: 17px; color: var(--text-secondary); line-height: 1.9;">
+            在易学授课、风水勘测、命理推演的过程中，随手画个卦象、标个方位、圈个重点——
+            <strong style="color: var(--primary);">无镜道易学专用手写板</strong>
+            正是为易学从业者与爱好者量身打造的 Windows 桌面手写白板软件。
+            基于 Qt 6 + C++ 原生开发，性能流畅，支持数位板笔压感应，
+            配合系统托盘与全局快捷键，让每一次讲解都行云流水。
+        </p>
+    </div>
+</section>
+
+<!-- ===== Core Features ===== -->
+<section id="features" style="background: var(--bg-light);">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Core Features</span>
+            <h2>核心功能</h2>
+            <p>专为易学场景深度打磨，每一项功能都直击痛点</p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">✍️</div>
+                <h3>真实笔压，书写如纸</h3>
+                <p>完美支持数位板笔压感应，线条粗细、透明度随压力自然变化。轻描淡写是细线，重笔强调则粗犷有力，书写体验接近真实纸笔。</p>
+                <span class="shortcut">presets.json 可调</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>十组预设，一键切换</h3>
+                <p>数字键 <kbd>0-9</kbd> 快速切换十组预设笔色、粗细与线型。黑色细笔标注、红色粗笔强调、虚线辅助线，指尖一按即刻切换。</p>
+                <span class="shortcut">0-9 快捷键</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📐</div>
+                <h3>形状工具，规范图示</h3>
+                <p>矩形、圆形、箭头、直线，按住 <kbd>Shift</kbd> 还能画出正方形与正圆。画卦象、标方位、连关系，规范又高效。</p>
+                <span class="shortcut">P / R / O / A / L</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>临时笔迹，自动淡出</h3>
+                <p>按 <kbd>F</kbd> 切换临时笔迹，写下的内容会在设定时间后自动淡出，适合课堂上的临时强调、随写随消。</p>
+                <span class="shortcut">F 键切换</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🖼️</div>
+                <h3>贴图自由，缩放旋转</h3>
+                <p><kbd>Ctrl+I</kbd> 插入图片，或直接拖拽、粘贴。罗盘、卦图、照片均可轻松贴入，支持拖动、按比例缩放、自由旋转。</p>
+                <span class="shortcut">拖拽 / Ctrl+V</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🧹</div>
+                <h3>笔迹编辑，随心所欲</h3>
+                <p><kbd>Shift+划过</kbd> 擦除，<kbd>Ctrl+划圈</kbd> 圈选，<kbd>Ctrl+A</kbd> 全选。选中后可整体拖动、复制、剪切、删除，撤销重做最多 8 步。</p>
+                <span class="shortcut">Ctrl+Z / Ctrl+Y</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📄</div>
+                <h3>多页白板，课程连贯</h3>
+                <p><kbd>Ctrl+N</kbd> 新建下一页，<kbd>PageUp/PageDown</kbd> 自由翻页。一节课多页内容，随时切换，逻辑清晰不混乱。</p>
+                <span class="shortcut">多页管理</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🌫️</div>
+                <h3>透明背景，叠加讲解</h3>
+                <p><kbd>Ctrl+T</kbd> 一键切换透明/不透明背景。透明模式下，白板可悬浮于其他软件之上，边看资料边画重点。</p>
+                <span class="shortcut">Ctrl+T</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💾</div>
+                <h3>保存导出，分享便捷</h3>
+                <p>保存为 <code style="color:var(--code-color)">.wbd</code> 格式，完整保留所有页面、笔迹与贴图。导出 PNG 或 PDF，<kbd>Ctrl+M</kbd> 批量合并为 PDF。</p>
+                <span class="shortcut">.wbd / PNG / PDF</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Desktop Annotation (Highlight) ===== -->
+<section class="annotation-section" id="annotation">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag" style="color: #4ddb94;">Killer Feature</span>
+            <h2>🖥️ 桌面标注模式 · 核心亮点</h2>
+            <p>全屏透明覆盖层，直接在桌面或任意程序之上书写标注</p>
+        </div>
+
+        <div class="highlight-banner" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+            <h3 style="color: #fff;">🎯 一键进入标注 · 再按即隐</h3>
+            <p style="color: rgba(255,255,255,0.7);">
+                默认 <kbd style="background: var(--primary);">Ctrl+Alt+D</kbd> 进入全屏透明标注模式，
+                白板全屏显示、背景透明、窗口置顶，直接在桌面或任意程序之上书写标注。
+                再按一次同一快捷键，或按 <kbd>Esc</kbd>，即隐藏到托盘——不弹保存框，不打断思路。
+            </p>
+        </div>
+
+        <div class="annotation-flow">
+            <div class="flow-step">
+                <div class="step-num">1</div>
+                <h4>呼出白板</h4>
+                <p><kbd>Ctrl+Alt+W</kbd> 显示/隐藏白板</p>
+            </div>
+            <div class="flow-step">
+                <div class="step-num">2</div>
+                <h4>桌面标注</h4>
+                <p><kbd>Ctrl+Alt+D</kbd> 全屏透明标注</p>
+            </div>
+            <div class="flow-step">
+                <div class="step-num">3</div>
+                <h4>鼠标穿透</h4>
+                <p><kbd>Ctrl+Alt+X</kbd> 可点击桌面，笔迹保留</p>
+            </div>
+            <div class="flow-step">
+                <div class="step-num">4</div>
+                <h4>一键隐藏</h4>
+                <p><kbd>Esc</kbd> 隐藏到托盘，干净利落</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 40px;">
+            <div class="shortcut-category">
+                <h3>🔧 系统托盘与全局快捷键</h3>
+                <table class="shortcut-table" style="background: rgba(255,255,255,0.03); border-radius: 8px; overflow: hidden;">
+                    <tr><td><kbd>托盘图标</kbd></td><td>单击/双击 → 显示/隐藏白板；右键 → 打开白板 / 桌面标注 / 退出</td></tr>
+                    <tr><td><kbd>关闭按钮</kbd></td><td>默认最小化到托盘（可在"参数配置"里关闭）</td></tr>
+                    <tr><td><kbd>呼出快捷键</kbd></td><td>默认 Ctrl+Alt+W：按一次显示白板；再按一次直接隐藏到托盘</td></tr>
+                    <tr><td><kbd>桌面标注</kbd></td><td>默认 Ctrl+Alt+D：进入全屏透明标注模式；再按一次隐藏到托盘</td></tr>
+                    <tr><td><kbd>穿透切换</kbd></td><td>默认 Ctrl+Alt+X：仅在标注模式下有效，切换鼠标穿透</td></tr>
+                    <tr><td><kbd>Esc</kbd></td><td>标注模式下直接隐藏到托盘（不弹保存框、不还原普通窗口）</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Shortcuts ===== -->
+<section style="background: var(--bg-light);">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Shortcuts</span>
+            <h2>快捷键一览</h2>
+            <p>几乎所有操作都有快捷键，双手不离数位板，讲解行云流水</p>
+        </div>
+
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div class="shortcut-category">
+                <h3>✏️ 画笔与工具</h3>
+                <table class="shortcut-table">
+                    <tr><td><kbd>0</kbd> - <kbd>9</kbd></td><td>切换预设笔色 / 粗细 / 线形</td></tr>
+                    <tr><td><kbd>P</kbd> / <kbd>R</kbd> / <kbd>O</kbd> / <kbd>A</kbd> / <kbd>L</kbd></td><td>普通画笔 / 矩形 / 圆形 / 箭头 / 直线</td></tr>
+                    <tr><td><kbd>F</kbd></td><td>切换临时笔迹（自动淡出）</td></tr>
+                    <tr><td><kbd>+</kbd> / <kbd>-</kbd></td><td>临时调整当前笔宽（不影响预设，切预设后恢复）</td></tr>
+                </table>
+            </div>
+
+            <div class="shortcut-category">
+                <h3>🧹 笔迹编辑</h3>
+                <table class="shortcut-table">
+                    <tr><td><kbd>Shift</kbd> + 划过</td><td>删除划过的笔迹（笔画橡皮）</td></tr>
+                    <tr><td><kbd>Ctrl</kbd> + 划过</td><td>选中划过的笔迹 / 贴图</td></tr>
+                    <tr><td><kbd>Ctrl</kbd> + 划圈</td><td>选中圈内全部笔迹</td></tr>
+                    <tr><td><kbd>Ctrl</kbd> + <kbd>A</kbd></td><td>全选当前页所有笔迹 / 贴图</td></tr>
+                    <tr><td><kbd>Delete</kbd> / <kbd>Ctrl</kbd>+<kbd>Delete</kbd></td><td>删除选中 / 清空当前页</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd></td><td>撤销（最多 8 步）/ 重做</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>Ctrl</kbd>+<kbd>X</kbd></td><td>复制 / 剪切选中的笔迹 / 贴图</td></tr>
+                </table>
+            </div>
+
+            <div class="shortcut-category">
+                <h3>📁 文件操作</h3>
+                <table class="shortcut-table">
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>N</kbd></td><td>新建下一页</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>S</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td><td>保存 / 另存为</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>O</kbd></td><td>打开 .wbd 文件</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>E</kbd></td><td>导出 PNG 或 PDF</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>M</kbd></td><td>批量选择 wbd 文件合并为 PDF</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>R</kbd></td><td>重新载入 presets.json</td></tr>
+                </table>
+            </div>
+
+            <div class="shortcut-category">
+                <h3>🔍 视图操作</h3>
+                <table class="shortcut-table">
+                    <tr><td><kbd>Ctrl</kbd> + 滚轮</td><td>缩放画布（按视图中心）</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>0</kbd></td><td>恢复自动适配（按窗口宽度）</td></tr>
+                    <tr><td>滚轮</td><td>上下滚动页面；滚到边界自动翻页</td></tr>
+                    <tr><td><kbd>Space</kbd> + 拖动</td><td>平移画布</td></tr>
+                    <tr><td><kbd>Alt</kbd> + 拖动</td><td>移动窗口</td></tr>
+                    <tr><td><kbd>F11</kbd></td><td>全屏 / 退出全屏</td></tr>
+                </table>
+            </div>
+
+            <div class="shortcut-category">
+                <h3>⚙️ 配置与其他</h3>
+                <table class="shortcut-table">
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>,</kbd> / <kbd>F2</kbd></td><td>打开参数配置界面</td></tr>
+                    <tr><td><kbd>F1</kbd> / <kbd>H</kbd></td><td>打开 / 关闭帮助</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>T</kbd></td><td>透明 / 不透明背景</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>I</kbd></td><td>插入图片</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Tech & Config ===== -->
+<section>
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Technology</span>
+            <h2>技术架构 & 配置</h2>
+            <p>基于 Qt 6 原生渲染，高度可配置，代码结构清晰</p>
+        </div>
+
+        <div class="tech-grid">
+            <div class="tech-item">
+                <div class="tech-icon">⚡</div>
+                <h4>Qt 6 + C++</h4>
+                <p>原生性能，静态笔迹缓存，大页面多笔迹依旧顺滑</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">🎯</div>
+                <h4>OpenGL 加速</h4>
+                <p>QOpenGLWidget 硬件加速渲染，智能重绘</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">📦</div>
+                <h4>miniz 压缩</h4>
+                <p>.wbd = zip + JSON + WebP/PNG</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">🔧</div>
+                <h4>可视化配置</h4>
+                <p>多标签页配置界面，页面/笔压/预设/光标/托盘一目了然</p>
+            </div>
+        </div>
+
+        <div class="highlight-banner" style="margin-top: 48px;">
+            <h3>⚙️ presets.json 高度可配置</h3>
+            <p>
+                自定义页面尺寸（200-8000px）、笔压参数（曲线/透明度/变化阈值）、
+                十组预设笔色与线型、自定义光标文件（.cur/.png/.xpm）、
+                全局快捷键绑定、系统托盘行为……改完按 <kbd>Ctrl+R</kbd> 即时生效。
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Advantages ===== -->
+<section style="background: var(--bg-light);">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Why Us</span>
+            <h2>特色优势</h2>
+        </div>
+
+        <div class="feature-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>专为易学设计</h3>
+                <p>A4 逻辑尺寸、透明模式、贴图旋转缩放，处处贴合易学讲解习惯。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⌨️</div>
+                <h3>快捷键全覆盖</h3>
+                <p>几乎所有操作都有快捷键，双手不离数位板，讲解行云流水。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>性能流畅</h3>
+                <p>静态笔迹缓存、智能重绘、OpenGL 加速，大页面多笔迹依旧顺滑。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3>高度可配置</h3>
+                <p>基于 Qt 6，presets.json 可视化配置，可根据自身需求灵活调整。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💻</div>
+                <h3>Windows 专属</h3>
+                <p>专为 Windows 平台深度优化，全局快捷键、系统托盘完美适配。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🖱️</div>
+                <h3>数位板优化</h3>
+                <p>完美支持 Wacom 等数位板笔压，还原真实纸笔书写体验。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Use Cases & Audience ===== -->
+<section>
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Who & Where</span>
+            <h2>适用人群 & 使用场景</h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+            <div>
+                <h3 style="color: var(--primary); margin-bottom: 16px; font-size: 18px;">👥 适用人群</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">• 易学讲师、风水师、命理师</li>
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">• 中医、针灸、推拿从业者</li>
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">• 教师、培训师、需要手写演示的职场人士</li>
+                    <li style="padding: 8px 0;">• 任何需要轻量、专注、高效手写白板的 Windows 用户</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: var(--primary); margin-bottom: 16px; font-size: 18px;">🎬 使用场景</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">• 线上直播授课，边讲边画</li>
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">• 录播课程制作，重点标注</li>
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">• 现场勘测讲解，即时图示</li>
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">• 方案沟通，圈点批注</li>
+                    <li style="padding: 8px 0;">• 个人学习笔记，整理思路</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Download ===== -->
+<section id="download" class="download-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag">Download</span>
+            <h2>立即下载</h2>
+            <p>Windows 专用 · 绿色免安装 · 下载即用 · 支持数位板笔压</p>
+        </div>
+
+        <div class="download-card">
+            <h3>无镜道易学专用手写板</h3>
+            <p>Windows 桌面版，建议搭配手绘板使用效果更佳</p>
+            <a class="download-btn" href="https://pan.baidu.com/s/5p2rRJHSdMfjnLNjqNXMvRQ" target="_blank" rel="noopener">
+                📥 百度网盘下载（Windows 版）
+            </a>
+            <p style="font-size: 13px; color: var(--text-muted);">
+                备用链接：<a href="https://pan.baidu.com/s/5p2rRJHSdMfjnLNjqNXMvRQ" target="_blank" rel="noopener" style="color: var(--primary);">https://pan.baidu.com/s/5p2rRJHSdMfjnLNjqNXMvRQ</a>
+            </p>
+            <div class="download-meta">
+                <span>🖥️ Windows 专用</span>
+                <span>📦 绿色版</span>
+                <span>💾 免安装</span>
+                <span>🔄 持续更新</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+    <div class="container">
+        <div class="footer-brand">无镜道易学专用手写板</div>
+        <p style="font-size: 14px; color: rgba(255,255,255,0.5);">把复杂的易学图示变简单，把每一次讲解变生动。</p>
+        <div class="footer-links">
+            <a href="http://www.yitixin.cn" target="_blank">官网</a>
+            <a href="#features">功能</a>
+            <a href="#annotation">桌面标注</a>
+            <a href="#download">下载</a>
+        </div>
+        <p class="copyright">© 无镜道易学 · Windows 专用 · 基于 Qt 6 / C++ 开发 · .wbd 格式与 PySide6 版完全兼容</p>
+    </div>
+</footer>
+
+</body>
+</html>
