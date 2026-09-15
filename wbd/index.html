@@ -663,6 +663,27 @@
                 <p>保存为 <code style="color:var(--code-color)">.wbd</code> 格式，完整保留所有页面、笔迹与贴图。导出 PNG 或 PDF，<kbd>Ctrl+M</kbd> 批量合并为 PDF。</p>
                 <span class="shortcut">.wbd / PNG / PDF</span>
             </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📕</div>
+                <h3>导入 PDF，直接标注</h3>
+                <p><kbd>Ctrl+P</kbd> 导入 PDF，逐页渲染为白板背景，可直接在其上书写批注，再保存为 <code style="color:var(--code-color)">.wbd</code>。带书签的 PDF 可用 <kbd>Ctrl+L</kbd> 呼出目录面板，点击条目即跳转到对应页。</p>
+                <span class="shortcut">Ctrl+P / Ctrl+L</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🗂️</div>
+                <h3>图片库侧边栏</h3>
+                <p><kbd>Ctrl+H</kbd> 开关左侧图片库，把罗盘、卦图等常用素材拖到画布即可插入贴图，双击插入到画布中心。支持缩略图与文件名两种显示模式，宽度可调（150-600px），一键重新扫描文件夹。</p>
+                <span class="shortcut">Ctrl+H · 拖拽插入</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">✂️</div>
+                <h3>选中即编辑，拖放缩放</h3>
+                <p>选中笔迹或贴图后，拖动内部可整体移动；拖拽四角可缩放，拖顶部圆点旋转（按住 <kbd>Shift</kbd> 每 15° 吸附）。复制、剪切、删除一应俱全。</p>
+                <span class="shortcut">8 个锚点 + 旋转</span>
+            </div>
         </div>
     </div>
 </section>
@@ -839,12 +860,34 @@
             </div>
 
             <div class="shortcut-category">
+                <h3>🖼️ 贴图编辑</h3>
+                <table class="shortcut-table">
+                    <tr><td>拖动选中框内部</td><td>整体移动选中的笔迹 / 贴图</td></tr>
+                    <tr><td>拖拽四角</td><td>以对角为锚点自由缩放（右下角等比缩放）</td></tr>
+                    <tr><td>拖顶部圆点</td><td>以选中范围中心为锚点旋转（<kbd>Shift</kbd> 每 15° 吸附）</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>V</kbd></td><td>粘贴（优先白板内部对象，否则粘贴剪贴板图片）</td></tr>
+                </table>
+            </div>
+
+            <div class="shortcut-category">
+                <h3>📕 PDF 与图片库</h3>
+                <table class="shortcut-table">
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>P</kbd></td><td>导入 PDF（逐页渲染为白板背景，可直接标注）</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>L</kbd></td><td>显示 / 隐藏 PDF 目录面板（带书签的 PDF 可点击跳转）</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>H</kbd></td><td>显示 / 隐藏左侧图片库侧边栏</td></tr>
+                    <tr><td>拖拽 / 双击</td><td>把图片库的图片拖到画布插入，或双击插入到画布中心</td></tr>
+                    <tr><td>拖拽侧边栏右缘</td><td>调整侧边栏宽度（150-600px）</td></tr>
+                </table>
+            </div>
+
+            <div class="shortcut-category">
                 <h3>⚙️ 配置与其他</h3>
                 <table class="shortcut-table">
                     <tr><td><kbd>Ctrl</kbd>+<kbd>,</kbd> / <kbd>F2</kbd></td><td>打开参数配置界面</td></tr>
                     <tr><td><kbd>F1</kbd> / <kbd>H</kbd></td><td>打开 / 关闭帮助</td></tr>
                     <tr><td><kbd>Ctrl</kbd>+<kbd>T</kbd></td><td>透明 / 不透明背景</td></tr>
                     <tr><td><kbd>Ctrl</kbd>+<kbd>I</kbd></td><td>插入图片</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd></td><td>新建白板（有未保存修改时提示）</td></tr>
                 </table>
             </div>
         </div>
@@ -888,7 +931,10 @@
             <p>
                 自定义页面尺寸（200-8000px）、笔压参数（曲线/透明度/变化阈值）、
                 十组预设笔色与线型、自定义光标文件（.cur/.png/.xpm）、
-                全局快捷键绑定、系统托盘行为……改完按 <kbd>Ctrl+R</kbd> 即时生效。
+                全局快捷键绑定、系统托盘行为……
+                「图片库」设置图片文件夹与默认显示方式（支持 PNG/JPG/BMP/GIF/WebP，透明 PNG 保留透明）；
+                「托盘 / 快捷键」设置进入标注模式时是否保留上次笔迹……
+                改完按 <kbd>Ctrl+R</kbd> 即时生效。
             </p>
         </div>
     </div>
