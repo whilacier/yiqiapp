@@ -165,7 +165,7 @@
         .section-header p {
             font-size: 16px;
             color: var(--text-muted);
-            max-width: 560px;
+            max-width: 620px;
             margin: 0 auto;
         }
         .section-tag {
@@ -233,6 +233,18 @@
             font-family: 'SF Mono', 'Fira Code', monospace;
             margin-top: 10px;
         }
+        .feature-card .badge-new {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
 
         /* ===== Highlight Banner ===== */
         .highlight-banner {
@@ -293,6 +305,59 @@
         .flow-step h4 { font-size: 15px; margin-bottom: 6px; }
         .flow-step p { font-size: 13px; color: rgba(255,255,255,0.6); }
 
+        /* ===== Screen Tools Section ===== */
+        .screen-tools-section {
+            background: linear-gradient(135deg, #1a1a2e, #2d1b4e);
+            color: #fff;
+            padding: 70px 0;
+        }
+        .screen-tools-section .section-header h2 { color: #fff; }
+        .screen-tools-section .section-header p { color: rgba(255,255,255,0.6); }
+        .tool-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+        .tool-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            transition: all 0.3s ease;
+        }
+        .tool-card:hover {
+            background: rgba(7,193,96,0.08);
+            border-color: rgba(7,193,96,0.35);
+            transform: translateY(-4px);
+        }
+        .tool-card .tool-icon {
+            font-size: 36px;
+            margin-bottom: 14px;
+        }
+        .tool-card h4 {
+            font-size: 17px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .tool-card p {
+            font-size: 13.5px;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.7;
+        }
+        .tool-card .tool-key {
+            display: inline-block;
+            background: rgba(7,193,96,0.25);
+            border: 1px solid rgba(7,193,96,0.5);
+            color: #7dffb3;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-top: 12px;
+            font-weight: 700;
+        }
+
         /* ===== Shortcut Table ===== */
         .shortcut-category {
             margin-bottom: 32px;
@@ -320,7 +385,7 @@
             vertical-align: top;
         }
         .shortcut-table td:first-child {
-            width: 200px;
+            width: 220px;
             font-weight: 600;
             color: var(--text-main);
             white-space: nowrap;
@@ -505,7 +570,7 @@
             aspect-ratio: 16 / 9;
         }
 
-        /* ===== 灯箱样式（新增） ===== */
+        /* ===== 灯箱样式 ===== */
         .lightbox {
             display: none;
             position: fixed;
@@ -541,6 +606,31 @@
         }
         .lightbox-close:hover { color: #ccc; }
 
+        /* ===== Template Chips ===== */
+        .template-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+        .template-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            box-shadow: var(--shadow);
+        }
+        .template-chip .chip-icon {
+            font-size: 18px;
+        }
+
         /* ===== Responsive ===== */
         @media (max-width: 640px) {
             .gallery-grid { grid-template-columns: 1fr; gap: 20px; }
@@ -574,6 +664,7 @@
             <span>🎨 数位板笔压支持</span>
             <span>📦 绿色免安装</span>
             <span>🔧 高度可配置</span>
+            <span>🖼️ 多窗口独立</span>
         </div>
     </div>
 </div>
@@ -586,6 +677,7 @@
             <strong style="color: var(--primary);">无镜道易学专用手写板</strong>
             正是为易学从业者与爱好者量身打造的 Windows 桌面手写白板软件。
             基于 Qt 6 + C++ 原生开发，性能流畅，支持数位板笔压感应，
+            内置思维导图连接线、页面模板、图标库、屏幕截图 / 贴图 / OCR 等效率工具，
             配合系统托盘与全局快捷键，让每一次讲解都行云流水。
         </p>
     </div>
@@ -604,14 +696,14 @@
             <div class="feature-card">
                 <div class="feature-icon">✍️</div>
                 <h3>真实笔压，书写如纸</h3>
-                <p>完美支持数位板笔压感应，线条粗细、透明度随压力自然变化。轻描淡写是细线，重笔强调则粗犷有力，书写体验接近真实纸笔。</p>
+                <p>完美支持数位板笔压感应，线条粗细、透明度随压力自然变化。轻描淡写是细线，重笔强调则粗犷有力。抬笔时笔锋自然收细，还原真实书写质感。</p>
                 <span class="shortcut">presets.json 可调</span>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">🎨</div>
                 <h3>十组预设，一键切换</h3>
-                <p>数字键 <kbd>0-9</kbd> 快速切换十组预设笔色、粗细与线型。黑色细笔标注、红色粗笔强调、虚线辅助线，指尖一按即刻切换。</p>
+                <p>数字键 <kbd>0-9</kbd> 快速切换十组预设笔色、粗细与线型。黑色细笔标注、红色粗笔强调、虚线辅助线，指尖一按即刻切换。选中笔迹时按数字键可直接改色。</p>
                 <span class="shortcut">0-9 快捷键</span>
             </div>
 
@@ -620,6 +712,30 @@
                 <h3>形状工具，规范图示</h3>
                 <p>矩形、圆形、箭头、直线，按住 <kbd>Shift</kbd> 还能画出正方形与正圆。画卦象、标方位、连关系，规范又高效。</p>
                 <span class="shortcut">P / R / O / A / L</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="badge-new">NEW</div>
+                <div class="feature-icon">🔗</div>
+                <h3>思维导图连接线</h3>
+                <p>按 <kbd>C</kbd> 切换到连接线工具，可绘制两点之间的平滑 S 形贝塞尔曲线。起点、终点自动吸附已有连接线的端点，并显示绿色提示，按住 <kbd>Shift</kbd> 可临时禁用吸附，画导图、串逻辑一秒完成。</p>
+                <span class="shortcut">C 键</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="badge-new">NEW</div>
+                <div class="feature-icon">📋</div>
+                <h3>六种页面模板</h3>
+                <p>白纸、横格纸、方格纸、田字格、点阵纸、五线谱——按 <kbd>Ctrl+Shift+T</kbd> 呼出模板对话框，可选择仅当前页 / 当前页及后续 / 全部页面。线条颜色、粗细、间距均可在参数配置里调整，.wbd 文件按页记住各自模板。</p>
+                <span class="shortcut">Ctrl+Shift+T</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="badge-new">NEW</div>
+                <div class="feature-icon">⭐</div>
+                <h3>内置图标库</h3>
+                <p>按 <kbd>Ctrl+Shift+I</kbd> 呼出 Font Awesome 7 图标选择器，内置重要度、状态、方向、工具、文档、人物、图表、数字九大分类。支持自定义颜色、大小，双击插入即可连续添加，矢量渲染缩放不失真。</p>
+                <span class="shortcut">Ctrl+Shift+I</span>
             </div>
 
             <div class="feature-card">
@@ -632,22 +748,30 @@
             <div class="feature-card">
                 <div class="feature-icon">🖼️</div>
                 <h3>贴图自由，缩放旋转</h3>
-                <p><kbd>Ctrl+I</kbd> 插入图片，或直接拖拽、粘贴。罗盘、卦图、照片均可轻松贴入，支持拖动、按比例缩放、自由旋转。</p>
+                <p><kbd>Ctrl+I</kbd> 插入图片，或直接拖拽、粘贴。罗盘、卦图、照片均可轻松贴入，支持拖动、按比例缩放、自由旋转。透明背景 PNG 会保留透明。</p>
                 <span class="shortcut">拖拽 / Ctrl+V</span>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">🧹</div>
                 <h3>笔迹编辑，随心所欲</h3>
-                <p><kbd>Shift+划过</kbd> 擦除，<kbd>Ctrl+划圈</kbd> 圈选，<kbd>Ctrl+A</kbd> 全选。选中后可整体拖动、复制、剪切、删除，撤销重做最多 8 步。</p>
+                <p><kbd>Shift+划过</kbd> 擦除，<kbd>Ctrl+划过</kbd> 单个切换选中，<kbd>Ctrl+划圈</kbd> 圈选全部。选中后可整体拖动、复制、剪切、删除。撤销上限可在配置中调整，默认 8 步，最高 200 步。</p>
                 <span class="shortcut">Ctrl+Z / Ctrl+Y</span>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">📄</div>
                 <h3>多页白板，课程连贯</h3>
-                <p><kbd>Ctrl+N</kbd> 新建下一页，<kbd>PageUp/PageDown</kbd> 自由翻页。一节课多页内容，随时切换，逻辑清晰不混乱。</p>
+                <p><kbd>Ctrl+N</kbd> 新建下一页，<kbd>PageUp/PageDown</kbd> 平滑翻页动画。<kbd>Ctrl+G</kbd> 输入页码跳转，<kbd>Ctrl+Home/End</kbd> 直达首尾页，<kbd>Ctrl+Shift+←/→</kbd> 快跳 10 页。</p>
                 <span class="shortcut">多页管理</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="badge-new">NEW</div>
+                <div class="feature-icon">🪟</div>
+                <h3>多窗口，互不干扰</h3>
+                <p>双击 .wbd 文件或启动第二个实例时，会在主实例里新开一个完全独立的窗口，各自拥有独立的页面、撤销栈与选择状态。一份白板给讲师、一份给学员，同步对照不打架。</p>
+                <span class="shortcut">多窗口独立</span>
             </div>
 
             <div class="feature-card">
@@ -660,29 +784,50 @@
             <div class="feature-card">
                 <div class="feature-icon">💾</div>
                 <h3>保存导出，分享便捷</h3>
-                <p>保存为 <code style="color:var(--code-color)">.wbd</code> 格式，完整保留所有页面、笔迹与贴图。导出 PNG 或 PDF，<kbd>Ctrl+M</kbd> 批量合并为 PDF。</p>
+                <p>保存为 <code style="color:var(--code-color)">.wbd</code> 格式，完整保留所有页面、笔迹与贴图（zip + JSON + WebP/PNG 结构，与 PySide6 版完全兼容）。导出 PNG，或 300 DPI 打印级 PDF，<kbd>Ctrl+M</kbd> 批量合并为 PDF。</p>
                 <span class="shortcut">.wbd / PNG / PDF</span>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">📕</div>
                 <h3>导入 PDF，直接标注</h3>
-                <p><kbd>Ctrl+P</kbd> 导入 PDF，逐页渲染为白板背景，可直接在其上书写批注，再保存为 <code style="color:var(--code-color)">.wbd</code>。带书签的 PDF 可用 <kbd>Ctrl+L</kbd> 呼出目录面板，点击条目即跳转到对应页。</p>
+                <p><kbd>Ctrl+P</kbd> 导入 PDF，逐页渲染为白板背景（后台多线程渲染，UI 不卡顿），可直接在其上书写批注，再保存为 <code style="color:var(--code-color)">.wbd</code>，源 PDF 删除也不影响。带书签的 PDF 可用 <kbd>Ctrl+L</kbd> 呼出目录面板，点击条目即跳转。</p>
                 <span class="shortcut">Ctrl+P / Ctrl+L</span>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">🗂️</div>
                 <h3>图片库侧边栏</h3>
-                <p><kbd>Ctrl+H</kbd> 开关左侧图片库，把罗盘、卦图等常用素材拖到画布即可插入贴图，双击插入到画布中心。支持缩略图与文件名两种显示模式，宽度可调（150-600px），一键重新扫描文件夹。</p>
+                <p><kbd>Ctrl+H</kbd> 开关左侧图片库，把罗盘、卦图等常用素材拖到画布即可插入贴图，双击插入到画布中心。支持 PNG / JPG / BMP / GIF / WebP / SVG，缩略图带磁盘缓存。宽度可调，一键重新扫描文件夹。</p>
                 <span class="shortcut">Ctrl+H · 拖拽插入</span>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">✂️</div>
-                <h3>选中即编辑，拖放缩放</h3>
-                <p>选中笔迹或贴图后，拖动内部可整体移动；拖拽四角可缩放，拖顶部圆点旋转（按住 <kbd>Shift</kbd> 每 15° 吸附）。复制、剪切、删除一应俱全。</p>
+                <h3>选中即编辑，多选整组变换</h3>
+                <p>选中笔迹或贴图后，拖动内部可整体移动；拖拽四角可缩放（右下角等比、其余自由）；拖顶部圆点旋转（<kbd>Shift</kbd> 每 15° 吸附）。多选时支持整组缩放 / 旋转。</p>
                 <span class="shortcut">8 个锚点 + 旋转</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3>智能粘贴</h3>
+                <p>按 <kbd>Ctrl+V</kbd> 时自动识别剪贴板内容：白板内部对象 → 原位粘贴并选中；位图 → 贴为图片；图片文件 / SVG / PDF 首页 → 转为贴图；HTML 富文本 / Markdown / 颜色值 / 文件列表 → 自动渲染为精美图片贴入。</p>
+                <span class="shortcut">Ctrl+V</span>
+            </div>
+        </div>
+
+        <!-- 模板芯片 -->
+        <div style="text-align:center; margin-top: 48px;">
+            <h3 style="font-size: 18px; color: var(--text-main); margin-bottom: 8px;">📝 六种页面模板</h3>
+            <p style="color: var(--text-muted); font-size: 14px;">一键套用，易学卦象、书法练习、乐谱抄写都能找到合适的纸</p>
+            <div class="template-chips">
+                <div class="template-chip"><span class="chip-icon">📄</span>白纸</div>
+                <div class="template-chip"><span class="chip-icon">📏</span>横格纸</div>
+                <div class="template-chip"><span class="chip-icon">🔲</span>方格纸</div>
+                <div class="template-chip"><span class="chip-icon">🀄</span>田字格</div>
+                <div class="template-chip"><span class="chip-icon">⚪</span>点阵纸</div>
+                <div class="template-chip"><span class="chip-icon">🎵</span>五线谱</div>
             </div>
         </div>
     </div>
@@ -727,7 +872,7 @@
                 </div>
                 <div class="caption">
                     <h4>💪 笔压演示 · Pressure Sensitivity</h4>
-                    <p>完美支持数位板笔压感应，压力越大线条越粗越深，轻描淡写是细线，重笔强调则粗犷有力，书写体验接近真实纸笔</p>
+                    <p>完美支持数位板笔压感应，压力越大线条越粗越深，轻描淡写是细线，重笔强调则粗犷有力，抬笔自动收细成笔锋</p>
                 </div>
             </div>
 
@@ -790,7 +935,7 @@
             <div class="shortcut-category">
                 <h3>🔧 系统托盘与全局快捷键</h3>
                 <table class="shortcut-table" style="background: rgba(255,255,255,0.03); border-radius: 8px; overflow: hidden;">
-                    <tr><td><kbd>托盘图标</kbd></td><td>单击/双击 → 显示/隐藏白板；右键 → 打开白板 / 桌面标注 / 退出</td></tr>
+                    <tr><td><kbd>托盘图标</kbd></td><td>单击/双击 → 显示/隐藏白板；右键 → 打开白板 / 桌面标注 / 截图 / 贴图 / OCR / 退出</td></tr>
                     <tr><td><kbd>关闭按钮</kbd></td><td>默认最小化到托盘（可在"参数配置"里关闭）</td></tr>
                     <tr><td><kbd>呼出快捷键</kbd></td><td>默认 Ctrl+Alt+W：按一次显示白板；再按一次直接隐藏到托盘</td></tr>
                     <tr><td><kbd>桌面标注</kbd></td><td>默认 Ctrl+Alt+D：进入全屏透明标注模式；再按一次隐藏到托盘</td></tr>
@@ -799,6 +944,44 @@
                 </table>
             </div>
         </div>
+    </div>
+</section>
+
+<!-- ===== Screen Tools ===== -->
+<section class="screen-tools-section" id="screentools">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-tag" style="color: #4ddb94;">Efficiency Suite</span>
+            <h2>✂️ 屏幕效率套件</h2>
+            <p>截图 · 贴图 · OCR，全局快捷键一点即用，让屏幕上的内容随手可标注、可提取</p>
+        </div>
+
+        <div class="tool-cards">
+            <div class="tool-card">
+                <div class="tool-icon">📷</div>
+                <h4>屏幕截图</h4>
+                <p>全屏覆盖层带放大镜、十字准线与实时颜色值显示。移动鼠标 → 两次点击完成选区；按住 <kbd>Ctrl</kbd> 一键切换为窗口截图模式，光标所在窗口或子控件会被高亮，单击即可精确截取。截图完成后自动弹出"屏幕贴图"窗口，可直接在截图上标注。</p>
+                <span class="tool-key">Alt+Q</span>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon">📌</div>
+                <h4>屏幕贴图</h4>
+                <p>把剪贴板里的图片、图片文件，甚至一段文字，贴到屏幕任意位置。贴图窗口独立置顶，非标注模式下拖动即可移动，<kbd>Ctrl+滚轮</kbd> 以光标为锚点缩放，按 <kbd>空格</kbd> 切换标注模式后可直接在贴图上书写，按 <kbd>Esc</kbd> 把当前贴图（含标注）复制到剪贴板并关闭。</p>
+                <span class="tool-key">Alt+W</span>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-icon">🔍</div>
+                <h4>截屏 OCR 文字识别</h4>
+                <p>全屏框选任意屏幕区域，调用 Windows 10 / 11 系统内置 OCR 引擎（本地识别，无需联网）自动提取文字，结果弹窗显示，自动复制到剪贴板，也可一键转为贴图插入白板。系统自动匹配中英日韩等已安装语言包。</p>
+                <span class="tool-key">Alt+R</span>
+            </div>
+        </div>
+
+        <p style="text-align:center; color:rgba(255,255,255,0.5); font-size:13px; margin-top:32px;">
+            💡 全部快捷键均可在「参数配置 → 托盘 / 快捷键」里自由修改，若被其他程序占用会提示注册失败，换一个组合即可。
+        </p>
     </div>
 </section>
 
@@ -815,8 +998,9 @@
             <div class="shortcut-category">
                 <h3>✏️ 画笔与工具</h3>
                 <table class="shortcut-table">
-                    <tr><td><kbd>0</kbd> - <kbd>9</kbd></td><td>切换预设笔色 / 粗细 / 线形</td></tr>
+                    <tr><td><kbd>0</kbd> - <kbd>9</kbd></td><td>切换预设笔色 / 粗细 / 线形（选中对象时直接改色）</td></tr>
                     <tr><td><kbd>P</kbd> / <kbd>R</kbd> / <kbd>O</kbd> / <kbd>A</kbd> / <kbd>L</kbd></td><td>普通画笔 / 矩形 / 圆形 / 箭头 / 直线</td></tr>
+                    <tr><td><kbd>C</kbd></td><td>思维导图连接线（两端自动吸附已有点）</td></tr>
                     <tr><td><kbd>F</kbd></td><td>切换临时笔迹（自动淡出）</td></tr>
                     <tr><td><kbd>+</kbd> / <kbd>-</kbd></td><td>临时调整当前笔宽（不影响预设，切预设后恢复）</td></tr>
                 </table>
@@ -826,46 +1010,65 @@
                 <h3>🧹 笔迹编辑</h3>
                 <table class="shortcut-table">
                     <tr><td><kbd>Shift</kbd> + 划过</td><td>删除划过的笔迹（笔画橡皮）</td></tr>
-                    <tr><td><kbd>Ctrl</kbd> + 划过</td><td>选中划过的笔迹 / 贴图</td></tr>
-                    <tr><td><kbd>Ctrl</kbd> + 划圈</td><td>选中圈内全部笔迹</td></tr>
+                    <tr><td><kbd>Ctrl</kbd> + 划过</td><td>切换选中鼠标下的那一个笔迹 / 贴图</td></tr>
+                    <tr><td><kbd>Ctrl</kbd> + 划圈</td><td>圈选圈内全部笔迹</td></tr>
                     <tr><td><kbd>Ctrl</kbd> + <kbd>A</kbd></td><td>全选当前页所有笔迹 / 贴图</td></tr>
+                    <tr><td>拖动选中范围内部</td><td>整体移动选中的笔迹 / 贴图</td></tr>
+                    <tr><td>拖拽四角 / 顶部圆点</td><td>缩放（右下角等比）/ 旋转（<kbd>Shift</kbd> 每 15° 吸附）</td></tr>
                     <tr><td><kbd>Delete</kbd> / <kbd>Ctrl</kbd>+<kbd>Delete</kbd></td><td>删除选中 / 清空当前页</td></tr>
-                    <tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd></td><td>撤销（最多 8 步）/ 重做</td></tr>
-                    <tr><td><kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>Ctrl</kbd>+<kbd>X</kbd></td><td>复制 / 剪切选中的笔迹 / 贴图</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd></td><td>撤销 / 重做（步数可配置，默认 8，最高 200）</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>C</kbd> / <kbd>Ctrl</kbd>+<kbd>X</kbd> / <kbd>Ctrl</kbd>+<kbd>V</kbd></td><td>复制 / 剪切 / 智能粘贴</td></tr>
                 </table>
             </div>
 
             <div class="shortcut-category">
                 <h3>📁 文件操作</h3>
                 <table class="shortcut-table">
-                    <tr><td><kbd>Ctrl</kbd>+<kbd>N</kbd></td><td>新建下一页</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>N</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd></td><td>新建下一页 / 新建白板</td></tr>
                     <tr><td><kbd>Ctrl</kbd>+<kbd>S</kbd> / <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd></td><td>保存 / 另存为</td></tr>
-                    <tr><td><kbd>Ctrl</kbd>+<kbd>O</kbd></td><td>打开 .wbd 文件</td></tr>
-                    <tr><td><kbd>Ctrl</kbd>+<kbd>E</kbd></td><td>导出 PNG 或 PDF</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>O</kbd></td><td>打开 .wbd 文件（也支持拖入窗口）</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>E</kbd></td><td>导出 PNG（2× 高清）或 300 DPI PDF</td></tr>
                     <tr><td><kbd>Ctrl</kbd>+<kbd>M</kbd></td><td>批量选择 wbd 文件合并为 PDF</td></tr>
                     <tr><td><kbd>Ctrl</kbd>+<kbd>R</kbd></td><td>重新载入 presets.json</td></tr>
                 </table>
             </div>
 
             <div class="shortcut-category">
+                <h3>📝 页面模板</h3>
+                <table class="shortcut-table">
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd></td><td>调出页面模板选择（白纸 / 横格 / 方格 / 田字格 / 点阵 / 五线谱）</td></tr>
+                    <tr><td>应用范围</td><td>仅当前页 / 当前页及后续所有页 / 全部页面</td></tr>
+                </table>
+            </div>
+
+            <div class="shortcut-category">
+                <h3>🖼️ 贴图与图标</h3>
+                <table class="shortcut-table">
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>I</kbd></td><td>插入本地图片（也可拖拽、粘贴）</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd></td><td>插入 Font Awesome 图标（可调大小 / 颜色）</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>V</kbd></td><td>智能粘贴（内部对象 / 位图 / 图片文件 / SVG / PDF 首页 / 富文本 / Markdown / 颜色 / 文件列表）</td></tr>
+                </table>
+            </div>
+
+            <div class="shortcut-category">
                 <h3>🔍 视图操作</h3>
                 <table class="shortcut-table">
-                    <tr><td><kbd>Ctrl</kbd> + 滚轮</td><td>缩放画布（按视图中心）</td></tr>
+                    <tr><td><kbd>Ctrl</kbd> + 滚轮</td><td>缩放画布（页面超出屏幕时按鼠标位置，否则按页面中心）</td></tr>
                     <tr><td><kbd>Ctrl</kbd>+<kbd>0</kbd></td><td>恢复自动适配（按窗口宽度）</td></tr>
-                    <tr><td>滚轮</td><td>上下滚动页面；滚到边界自动翻页</td></tr>
+                    <tr><td>滚轮 / <kbd>↑</kbd> <kbd>↓</kbd></td><td>上下滚动页面；滚到边界自动翻页</td></tr>
                     <tr><td><kbd>Space</kbd> + 拖动</td><td>平移画布</td></tr>
-                    <tr><td><kbd>Alt</kbd> + 拖动</td><td>移动窗口</td></tr>
+                    <tr><td><kbd>Alt</kbd> + 拖动</td><td>移动窗口（标注模式下禁用）</td></tr>
                     <tr><td><kbd>F11</kbd></td><td>全屏 / 退出全屏</td></tr>
                 </table>
             </div>
 
             <div class="shortcut-category">
-                <h3>🖼️ 贴图编辑</h3>
+                <h3>📄 页面跳转</h3>
                 <table class="shortcut-table">
-                    <tr><td>拖动选中框内部</td><td>整体移动选中的笔迹 / 贴图</td></tr>
-                    <tr><td>拖拽四角</td><td>以对角为锚点自由缩放（右下角等比缩放）</td></tr>
-                    <tr><td>拖顶部圆点</td><td>以选中范围中心为锚点旋转（<kbd>Shift</kbd> 每 15° 吸附）</td></tr>
-                    <tr><td><kbd>Ctrl</kbd>+<kbd>V</kbd></td><td>粘贴（优先白板内部对象，否则粘贴剪贴板图片）</td></tr>
+                    <tr><td><kbd>PageUp</kbd> / <kbd>PageDown</kbd></td><td>上一页 / 下一页（带平滑翻页动画）</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>Home</kbd> / <kbd>Ctrl</kbd>+<kbd>End</kbd></td><td>跳到第一页 / 最后一页</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>G</kbd></td><td>输入页码跳转</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>←</kbd> / <kbd>→</kbd></td><td>向前 / 向后跳 10 页</td></tr>
                 </table>
             </div>
 
@@ -876,18 +1079,30 @@
                     <tr><td><kbd>Ctrl</kbd>+<kbd>L</kbd></td><td>显示 / 隐藏 PDF 目录面板（带书签的 PDF 可点击跳转）</td></tr>
                     <tr><td><kbd>Ctrl</kbd>+<kbd>H</kbd></td><td>显示 / 隐藏左侧图片库侧边栏</td></tr>
                     <tr><td>拖拽 / 双击</td><td>把图片库的图片拖到画布插入，或双击插入到画布中心</td></tr>
-                    <tr><td>拖拽侧边栏右缘</td><td>调整侧边栏宽度（150-600px）</td></tr>
+                    <tr><td>拖拽侧边栏右缘</td><td>调整侧边栏宽度</td></tr>
+                    <tr><td>↻ / 名 / 缩 按钮</td><td>重新扫描文件夹 / 切换缩略图与文件名模式</td></tr>
                 </table>
             </div>
 
             <div class="shortcut-category">
                 <h3>⚙️ 配置与其他</h3>
                 <table class="shortcut-table">
-                    <tr><td><kbd>Ctrl</kbd>+<kbd>,</kbd> / <kbd>F2</kbd></td><td>打开参数配置界面</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>,</kbd> / <kbd>F2</kbd></td><td>打开参数配置界面（非模态，主窗口可继续操作）</td></tr>
                     <tr><td><kbd>F1</kbd> / <kbd>H</kbd></td><td>打开 / 关闭帮助</td></tr>
                     <tr><td><kbd>Ctrl</kbd>+<kbd>T</kbd></td><td>透明 / 不透明背景</td></tr>
-                    <tr><td><kbd>Ctrl</kbd>+<kbd>I</kbd></td><td>插入图片</td></tr>
-                    <tr><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd></td><td>新建白板（有未保存修改时提示）</td></tr>
+                    <tr><td><kbd>Esc</kbd></td><td>取消选中 / 退出全屏 / 标注模式隐藏到托盘 / 关闭窗口</td></tr>
+                </table>
+            </div>
+
+            <div class="shortcut-category">
+                <h3>🌐 全局快捷键</h3>
+                <table class="shortcut-table">
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>W</kbd></td><td>呼出 / 隐藏白板</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>D</kbd></td><td>进入 / 退出桌面标注模式</td></tr>
+                    <tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>X</kbd></td><td>切换鼠标穿透（仅标注模式）</td></tr>
+                    <tr><td><kbd>Alt</kbd>+<kbd>Q</kbd></td><td>屏幕截图</td></tr>
+                    <tr><td><kbd>Alt</kbd>+<kbd>W</kbd></td><td>屏幕贴图</td></tr>
+                    <tr><td><kbd>Alt</kbd>+<kbd>R</kbd></td><td>截屏 OCR 文字识别</td></tr>
                 </table>
             </div>
         </div>
@@ -907,32 +1122,42 @@
             <div class="tech-item">
                 <div class="tech-icon">⚡</div>
                 <h4>Qt 6 + C++</h4>
-                <p>原生性能，静态笔迹缓存，大页面多笔迹依旧顺滑</p>
+                <p>原生性能，分块笔迹缓存（Tile），大页面多笔迹依旧顺滑</p>
             </div>
             <div class="tech-item">
                 <div class="tech-icon">🎯</div>
                 <h4>OpenGL 加速</h4>
-                <p>QOpenGLWidget 硬件加速渲染，智能重绘</p>
+                <p>QOpenGLWidget 硬件加速渲染，只失效有变化的区域</p>
             </div>
             <div class="tech-item">
                 <div class="tech-icon">📦</div>
                 <h4>miniz 压缩</h4>
-                <p>.wbd = zip + JSON + WebP/PNG</p>
+                <p>.wbd = zip + JSON + WebP/PNG，与 PySide6 版完全兼容</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">🧵</div>
+                <h4>PDF 后台线程</h4>
+                <p>导入 PDF 时后台多线程渲染，UI 全程不卡顿</p>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon">🪟</div>
+                <h4>多窗口架构</h4>
+                <p>AppController 统一管理主窗口 / 标注窗口 / 次级窗口</p>
             </div>
             <div class="tech-item">
                 <div class="tech-icon">🔧</div>
                 <h4>可视化配置</h4>
-                <p>多标签页配置界面，页面/笔压/预设/光标/托盘一目了然</p>
+                <p>多标签页配置界面：页面 / 笔压 / 预设 / 光标 / 图片库 / 托盘快捷键</p>
             </div>
         </div>
 
         <div class="highlight-banner" style="margin-top: 48px;">
             <h3>⚙️ presets.json 高度可配置</h3>
             <p>
-                自定义页面尺寸（200-8000px）、笔压参数（曲线/透明度/变化阈值）、
-                十组预设笔色与线型、自定义光标文件（.cur/.png/.xpm）、
-                全局快捷键绑定、系统托盘行为……
-                「图片库」设置图片文件夹与默认显示方式（支持 PNG/JPG/BMP/GIF/WebP，透明 PNG 保留透明）；
+                自定义页面尺寸（200-8000px）、笔压参数（曲线 / 线宽比 / 透明度 / 变化阈值 / 颜色随压力变化）、
+                十组预设笔色与线型、撤销步数上限（默认 8，最高 200）、自定义光标文件（.cur / .ico / .png / .xpm）、
+                全局快捷键绑定、系统托盘行为、页面模板线条颜色 / 粗细 / 间距……
+                「图片库」设置图片文件夹与默认显示方式（支持 PNG / JPG / BMP / GIF / WebP / SVG，透明 PNG 保留透明）；
                 「托盘 / 快捷键」设置进入标注模式时是否保留上次笔迹……
                 改完按 <kbd>Ctrl+R</kbd> 即时生效。
             </p>
@@ -952,32 +1177,32 @@
             <div class="feature-card">
                 <div class="feature-icon">🎯</div>
                 <h3>专为易学设计</h3>
-                <p>A4 逻辑尺寸、透明模式、贴图旋转缩放，处处贴合易学讲解习惯。</p>
+                <p>A4 逻辑尺寸、思维导图连接线、六种页面模板、透明模式、贴图旋转缩放，处处贴合易学讲解习惯。</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">⌨️</div>
                 <h3>快捷键全覆盖</h3>
-                <p>几乎所有操作都有快捷键，双手不离数位板，讲解行云流水。</p>
+                <p>几乎所有操作都有快捷键，双手不离数位板，讲解行云流水。全局热键可自由配置。</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🚀</div>
                 <h3>性能流畅</h3>
-                <p>静态笔迹缓存、智能重绘、OpenGL 加速，大页面多笔迹依旧顺滑。</p>
+                <p>分块笔迹缓存、智能重绘、OpenGL 加速、PDF 后台渲染，大页面多笔迹依旧顺滑。</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🔧</div>
-                <h3>高度可配置</h3>
-                <p>基于 Qt 6，presets.json 可视化配置，可根据自身需求灵活调整。</p>
+                <div class="feature-icon">🖼️</div>
+                <h3>多窗口独立</h3>
+                <p>多个 .wbd 文件可同时打开，各自独立页面与撤销栈，对照讲解不怕互相干扰。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✂️</div>
+                <h3>效率套件</h3>
+                <p>截图 / 贴图 / OCR 三位一体，全局热键一点即用，屏幕内容随手可标注、可提取。</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">💻</div>
                 <h3>Windows 专属</h3>
-                <p>专为 Windows 平台深度优化，全局快捷键、系统托盘完美适配。</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🖱️</div>
-                <h3>数位板优化</h3>
-                <p>完美支持 Wacom 等数位板笔压，还原真实纸笔书写体验。</p>
+                <p>专为 Windows 平台深度优化，全局快捷键、系统托盘、WinRT OCR 完美适配。</p>
             </div>
         </div>
     </div>
@@ -1007,7 +1232,8 @@
                     <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">• 线上直播授课，边讲边画</li>
                     <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">• 录播课程制作，重点标注</li>
                     <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">• 现场勘测讲解，即时图示</li>
-                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">• 方案沟通，圈点批注</li>
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">• PDF 讲义批注，纸质书电子化</li>
+                    <li style="padding: 8px 0; border-bottom: 1px solid var(--border);">• 截图 / 贴图 / OCR 提取屏幕信息</li>
                     <li style="padding: 8px 0;">• 个人学习笔记，整理思路</li>
                 </ul>
             </div>
@@ -1052,13 +1278,14 @@
             <a href="http://www.yitixin.cn" target="_blank">官网</a>
             <a href="#features">功能</a>
             <a href="#annotation">桌面标注</a>
+            <a href="#screentools">效率套件</a>
             <a href="#download">下载</a>
         </div>
-        <p class="copyright">© 无镜道易学 · Windows 专用 · 基于 Qt 6 / C++ 开发 </p>
+        <p class="copyright">© 无镜道易学 · Windows 专用 · 基于 Qt 6 / C++ 开发</p>
     </div>
 </footer>
 
-<!-- 灯箱 HTML（新增） -->
+<!-- 灯箱 HTML -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
     <span class="lightbox-close">&times;</span>
     <img id="lightbox-img" src="" alt="大图预览">
