@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卦数预测与风水 · 面授课程</title>
+    <script src="https://aisearch-task.bj.bcebos.com/static/tailwindcss-3.4.17.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <style>
+        :root {
+            --gold: #c9a962;
+            --gold-light: #e8d5a3;
+            --gold-dark: #9a7b3d;
+            --red: #8b2323;
+            --red-dark: #5c1515;
+            --ink: #2c2c2c;
+            --paper: #faf6ef;
+            --paper-dark: #f0e8d8;
+        }
+        
+        body {
+            font-family: 'PingFang SC', 'HarmonyOS Sans SC', 'Microsoft YaHei', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+        
+        .font-serif-cn {
+            font-family: 'Songti SC', 'STSong', 'SimSun', serif;
+        }
+        
+        .bg-paper-texture {
+            background-image: 
+                radial-gradient(ellipse at 20% 30%, rgba(201, 169, 98, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(139, 35, 35, 0.05) 0%, transparent 50%),
+                linear-gradient(180deg, #faf6ef 0%, #f5efe3 100%);
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, #1a0f0a 0%, #2d1810 30%, #3d1f15 60%, #1a0f0a 100%);
+            position: relative;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a962' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .gold-gradient {
+            background: linear-gradient(135deg, #c9a962 0%, #e8d5a3 25%, #d4b872 50%, #e8d5a3 75%, #c9a962 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gold-border {
+            border: 1px solid transparent;
+            background: linear-gradient(var(--paper), var(--paper)) padding-box,
+                        linear-gradient(135deg, var(--gold), var(--gold-light), var(--gold)) border-box;
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(139, 35, 35, 0.12);
+        }
+        
+        .glow-gold {
+            box-shadow: 0 0 30px rgba(201, 169, 98, 0.2);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 20px rgba(201, 169, 98, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(201, 169, 98, 0.6); }
+        }
+        
+        .pulse-gold {
+            animation: pulse-gold 2s ease-in-out infinite;
+        }
+        
+        .divider-ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .divider-ornament::before,
+        .divider-ornament::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            max-width: 120px;
+        }
+        
+        .module-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--red), var(--gold), var(--red));
+        }
+        
+        .bagua-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23c9a962' fill-opacity='0.04'%3E%3Cpath d='M40 40l20-20v40l-20-20zm0 0l-20-20v40l20-20z'/%3E%3Ccircle cx='40' cy='40' r='15' fill='none' stroke='%23c9a962' stroke-width='0.5'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(139, 35, 35, 0.4);
+        }
+        
+        .number-badge {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: white;
+            font-weight: bold;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(201, 169, 98, 0.1), rgba(201, 169, 98, 0.05));
+            border: 1px solid rgba(201, 169, 98, 0.2);
+            font-size: 1.75rem;
+        }
+        
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .ink-wash {
+            position: absolute;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        .sticky-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-paper-texture">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 sticky-nav bg-[rgba(250,246,239,0.9)] border-b border-[rgba(201,169,98,0.2)]">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">☯</span>
+                <span class="font-serif-cn font-bold text-lg" style="color: var(--red-dark);">卦数预测与风水</span>
+            </div>
+            <a href="#contact" class="hidden md:flex items-center gap-2 px-5 py-2 rounded-full text-white text-sm font-medium cta-button">
+                立即咨询报名
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-screen flex items-center justify-center relative pt-16">
+        <!-- Decorative Elements -->
+        <div class="absolute top-20 left-10 text-8xl opacity-10 float-animation">☰</div>
+        <div class="absolute bottom-40 right-10 text-8xl opacity-10 float-animation" style="animation-delay: -2s;">☷</div>
+        <div class="absolute top-1/2 left-20 text-6xl opacity-5 float-animation" style="animation-delay: -4s;">☯</div>
+        
+        <div class="max-w-4xl mx-auto px-4 py-20 text-center relative z-10">
+            <!-- Subtitle Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[rgba(201,169,98,0.3)] mb-8">
+                <span class="w-2 h-2 rounded-full bg-[var(--gold)] pulse-gold"></span>
+                <span class="text-[var(--gold-light)] text-sm tracking-wider">数字易经 · 风水传承 · 面授课程</span>
+            </div>
+            
+            <!-- Main Title -->
+            <h1 class="font-serif-cn text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                <span class="gold-gradient">卦数预测与风水</span>
+            </h1>
+            
+            <p class="font-serif-cn text-xl md:text-2xl text-[var(--gold-light)] mb-4 opacity-90">
+                传承千年智慧 · 解读数字玄机
+            </p>
+            
+            <p class="text-gray-400 text-base md:text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
+                源自苏方行恩师所创数字化易经，融合八宅、八卦、金锁玉关、形家、奇门等各派风水精华<br class="hidden md:block">
+                从预测到化解，从理论到实践，掌握0-13数字运算宇宙人生奥秘
+            </p>
+            
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#modules" class="px-8 py-4 rounded-full text-white font-medium text-lg cta-button">
+                    了解课程内容
+                </a>
+                <a href="#contact" class="px-8 py-4 rounded-full border border-[var(--gold)] text-[var(--gold-light)] font-medium text-lg hover:bg-[rgba(201,169,98,0.1)] transition-all">
+                    添加老师微信
+                </a>
+            </div>
+            
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-8 mt-16 max-w-lg mx-auto">
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold gold-gradient font-serif-cn">7</div>
+                    <div class="text-gray-500 text-sm mt-1">大核心模块</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold gold-gradient font-serif-cn">13</div>
+                    <div class="text-gray-500 text-sm mt-1">数字通万物</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold gold-gradient font-serif-cn">∞</div>
+                    <div class="text-gray-500 text-sm mt-1">事皆可占断</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator">
+            <div class="w-6 h-10 rounded-full border-2 border-[rgba(201,169,98,0.4)] flex justify-center pt-2">
+                <div class="w-1 h-3 rounded-full bg-[var(--gold)] opacity-8"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What You Can Learn Section -->
+    <section class="py-20 relative bagua-pattern">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <div class="divider-ornament mb-6">
+                    <span class="text-2xl" style="color: var(--gold);">✦</span>
+                </div>
+                <h2 class="font-serif-cn text-3xl md:text-4xl font-bold mb-4" style="color: var(--red-dark);">
+                    学完本课程，你将能够
+                </h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    从人生运势到风水布局，从即时占断到化解运筹，一门课程融会贯通
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                <div class="gold-border rounded-xl p-5 card-hover bg-white/60">
+                    <div class="text-3xl mb-3">🔮</div>
+                    <h3 class="font-bold mb-1" style="color: var(--ink);">人生运势</h3>
+                    <p class="text-sm text-gray-600">把握大运流年，知晓人生起伏</p>
+                </div>
+                <div class="gold-border rounded-xl p-5 card-hover bg-white/60">
+                    <div class="text-3xl mb-3">❤️</div>
+                    <h3 class="font-bold mb-1" style="color: var(--ink);">婚姻感情</h3>
+                    <p class="text-sm text-gray-600">看透姻缘缘分，经营幸福家庭</p>
+                </div>
+                <div class="gold-border rounded-xl p-5 card-hover bg-white/60">
+                    <div class="text-3xl mb-3">💰</div>
+                    <h3 class="font-bold mb-1" style="color: var(--ink);">财运事业</h3>
+                    <p class="text-sm text-gray-600">找准事业方向，催旺正财偏财</p>
+                </div>
+                <div class="gold-border rounded-xl p-5 card-hover bg-white/60">
+                    <div class="text-3xl mb-3">🏥</div>
+                    <h3 class="font-bold mb-1" style="color: var(--ink);">健康疾病</h3>
+                    <p class="text-sm text-gray-600">预知身体状况，提前防患未然</p>
+                </div>
+                <div class="gold-border rounded-xl p-5 card-hover bg-white/60">
+                    <div class="text-3xl mb-3">🏠</div>
+                    <h3 class="font-bold mb-1" style="color: var(--ink);">阴阳风水</h3>
+                    <p class="text-sm text-gray-600">勘察阳宅吉凶，调整环境磁场</p>
+                </div>
+                <div class="gold-border rounded-xl p-5 card-hover bg-white/60">
+                    <div class="text-3xl mb-3">🔍</div>
+                    <h3 class="font-bold mb-1" style="color: var(--ink);">寻人找物</h3>
+                    <p class="text-sm text-gray-600">即时起卦占断，快速定位方向</p>
+                </div>
+                <div class="gold-border rounded-xl p-5 card-hover bg-white/60">
+                    <div class="text-3xl mb-3">🎓</div>
+                    <h3 class="font-bold mb-1" style="color: var(--ink);">学业官运</h3>
+                    <p class="text-sm text-gray-600">助力文昌考试，把握仕途机遇</p>
+                </div>
+                <div class="gold-border rounded-xl p-5 card-hover bg-white/60">
+                    <div class="text-3xl mb-3">✨</div>
+                    <h3 class="font-bold mb-1" style="color: var(--ink);">化解改运</h3>
+                    <p class="text-sm text-gray-600">天地人神四维，破解各种难题</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Modules Section -->
+    <section id="modules" class="py-20 bg-gradient-to-b from-transparent to-[rgba(201,169,98,0.05)]">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <div class="divider-ornament mb-6">
+                    <span class="text-2xl" style="color: var(--gold);">❖</span>
+                </div>
+                <h2 class="font-serif-cn text-3xl md:text-4xl font-bold mb-4" style="color: var(--red-dark);">
+                    七大核心课程模块
+                </h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    系统化教学体系，从基础到精通，循序渐进，层层深入
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Module 1 -->
+                <div class="module-card bg-white rounded-2xl p-7 card-hover shadow-sm">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="number-badge">壹</div>
+                        <div>
+                            <h3 class="font-serif-cn text-xl font-bold" style="color: var(--red);">数字命理预测</h3>
+                            <p class="text-sm text-gray-500 mt-1">人生运势总览</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed pl-16">
+                        运用出生八字数字，全面预测人生大运与流年运势。涵盖性格特质、财运走向、官运事业、学业功名、健康疾病、婚姻感情、六亲关系、生儿育女、职业选择等人生各个方面，让你看透一生命数格局。
+                    </p>
+                </div>
+                
+                <!-- Module 2 -->
+                <div class="module-card bg-white rounded-2xl p-7 card-hover shadow-sm">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="number-badge">贰</div>
+                        <div>
+                            <h3 class="font-serif-cn text-xl font-bold" style="color: var(--red);">即时卦预测</h3>
+                            <p class="text-sm text-gray-500 mt-1">万事万物占断</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed pl-16">
+                        随时随地起卦，快速占断各类事情吉凶成败。合作成败、事业前景、财运得失、寻人找物、疾病发展、伤灾预兆、婚姻走向、学业考试、官非诉讼等，即时起卦即时断，一事一断精准快捷。
+                    </p>
+                </div>
+                
+                <!-- Module 3 -->
+                <div class="module-card bg-white rounded-2xl p-7 card-hover shadow-sm">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="number-badge">叁</div>
+                        <div>
+                            <h3 class="font-serif-cn text-xl font-bold" style="color: var(--red);">阳宅风水</h3>
+                            <p class="text-sm text-gray-500 mt-1">环境磁场调理</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed pl-16">
+                        融合八卦数字风水、八宅风水、形家风水、奇门砂水等各派精华。系统学习阳宅勘察方法，龙穴砂水向要诀，室内外砂水判断，各种形煞识别与化解，让你成为真正的风水实战高手。
+                    </p>
+                </div>
+                
+                <!-- Module 4 -->
+                <div class="module-card bg-white rounded-2xl p-7 card-hover shadow-sm">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="number-badge">肆</div>
+                        <div>
+                            <h3 class="font-serif-cn text-xl font-bold" style="color: var(--red);">读象预测</h3>
+                            <p class="text-sm text-gray-500 mt-1">高端断卦技法</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed pl-16">
+                        术数预测的高端心法，学会八卦读象预测法，让你的预测细致入微、出神入化。通过物象、卦象、数字象直读事物本质，达到"所见即所断"的高深境界，让求测者惊叹不已。
+                    </p>
+                </div>
+                
+                <!-- Module 5 -->
+                <div class="module-card bg-white rounded-2xl p-7 card-hover shadow-sm">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="number-badge">伍</div>
+                        <div>
+                            <h3 class="font-serif-cn text-xl font-bold" style="color: var(--red);">化解破解</h3>
+                            <p class="text-sm text-gray-500 mt-1">趋吉避凶秘法</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed pl-16">
+                        从天地人神四个层面进行全方位策划化解。系统传授各类化解破解方法，涵盖婚姻、财运、事业、健康、官非、小人、邪病等各种人生问题的化解方案，真正做到预测与化解并重。
+                    </p>
+                </div>
+                
+                <!-- Module 6 -->
+                <div class="module-card bg-white rounded-2xl p-7 card-hover shadow-sm">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="number-badge">陆</div>
+                        <div>
+                            <h3 class="font-serif-cn text-xl font-bold" style="color: var(--red);">运筹布局</h3>
+                            <p class="text-sm text-gray-500 mt-1">催旺运势实操</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed pl-16">
+                        风水技术结合数字八字，进行针对性催旺布局。催财、催事业、催婚姻、催学业、催桃花、旺文昌、旺贵人等各种布局方法，通过环境调整与数字运筹，主动创造有利磁场。
+                    </p>
+                </div>
+                
+                <!-- Module 7 - Full Width -->
+                <div class="module-card bg-white rounded-2xl p-7 card-hover shadow-sm md:col-span-2">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="number-badge">柒</div>
+                        <div>
+                            <h3 class="font-serif-cn text-xl font-bold" style="color: var(--red);">人生策划</h3>
+                            <p class="text-sm text-gray-500 mt-1">人生最优发展</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed pl-16">
+                        结合流年大运、风水布局、数字能量进行人生综合策划。包含流年策划、大运策划、事业规划、择业指导、合作选择、重大决策时机把握等，达到人生发展最优化。不仅是预测术，更是人生的智慧指南。同时还会传授微信头像、姓名学、观相术、号码学等实用技能。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Advantages Section -->
+    <section class="py-20 relative">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <div class="divider-ornament mb-6">
+                    <span class="text-2xl" style="color: var(--gold);">❈</span>
+                </div>
+                <h2 class="font-serif-cn text-3xl md:text-4xl font-bold mb-4" style="color: var(--red-dark);">
+                    课程独特优势
+                </h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    为什么选择本课程？这不仅仅是一门数字易经课程
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white/80 rounded-2xl p-6 card-hover border border-[rgba(201,169,98,0.15)]">
+                    <div class="feature-icon mb-4">📚</div>
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--ink);">博采众长，融合各派</h3>
+                    <p class="text-gray-600 text-[15px] leading-relaxed">
+                        师承苏方行三角定律，并拜访多位数字易经名师，融合八宅、八卦、金锁玉关、形家、奇门等各派风水精华，过滤筛选保留最实用的核心技法。
+                    </p>
+                </div>
+                
+                <div class="bg-white/80 rounded-2xl p-6 card-hover border border-[rgba(201,169,98,0.15)]">
+                    <div class="feature-icon mb-4">⬆️</div>
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--ink);">技法翻倍，准确度高</h3>
+                    <p class="text-gray-600 text-[15px] leading-relaxed">
+                        在原有三角定律基础上大量补充完善，新增知识点和技法多出一倍，断测覆盖面更广，断测维度更多，断测准确度更高，学术水平在同系统中处于高级水平。
+                    </p>
+                </div>
+                
+                <div class="bg-white/80 rounded-2xl p-6 card-hover border border-[rgba(201,169,98,0.15)]">
+                    <div class="feature-icon mb-4">🎯</div>
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--ink);">一门投入，多门收获</h3>
+                    <p class="text-gray-600 text-[15px] leading-relaxed">
+                        每期内容侧重点不同，报一门课可学到数字八字预测、卦数风水、卦数布局、号码学、微信头像、姓名学、观相术等多项技能，随着老师成长持续更新课程内容。
+                    </p>
+                </div>
+                
+                <div class="bg-white/80 rounded-2xl p-6 card-hover border border-[rgba(201,169,98,0.15)]">
+                    <div class="feature-icon mb-4">🔮</div>
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--ink);">预测化解，两者并重</h3>
+                    <p class="text-gray-600 text-[15px] leading-relaxed">
+                        不仅教你如何精准预测，更传授实用化解方法。从天地人神四个层面进行策划化解，催财催官催桃花，化煞解灾破小人，真正做到趋吉避凶。
+                    </p>
+                </div>
+                
+                <div class="bg-white/80 rounded-2xl p-6 card-hover border border-[rgba(201,169,98,0.15)]">
+                    <div class="feature-icon mb-4">🏠</div>
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--ink);">风水实战，断事如神</h3>
+                    <p class="text-gray-600 text-[15px] leading-relaxed">
+                        运用卦数预测法看风水，到家里转一圈即可断出该人家各年各人的运势吉凶，风水预测与预测风水双法并行，精准度令人惊叹。
+                    </p>
+                </div>
+                
+                <div class="bg-white/80 rounded-2xl p-6 card-hover border border-[rgba(201,169,98,0.15)]">
+                    <div class="feature-icon mb-4">💎</div>
+                    <h3 class="font-bold text-lg mb-2" style="color: var(--ink);">内容敞开，毫无保留</h3>
+                    <p class="text-gray-600 text-[15px] leading-relaxed">
+                        交流透明，内容敞开不保留。秉承"学其根本，诠释而不标新"的教学理念，传授老祖宗传承下来的真知灼见，避免学员做无用功，少走弯路。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teacher Introduction Section -->
+    <section class="py-20 bg-gradient-to-b from-[rgba(139,35,35,0.03)] to-transparent">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <div class="divider-ornament mb-6">
+                    <span class="text-2xl" style="color: var(--gold);">☯</span>
+                </div>
+                <h2 class="font-serif-cn text-3xl md:text-4xl font-bold mb-4" style="color: var(--red-dark);">
+                    主讲老师
+                </h2>
+            </div>
+            
+            <div class="gold-border rounded-2xl p-8 md:p-10 bg-white/80 glow-gold">
+                <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+                    <div class="flex-shrink-0">
+                        <div class="w-32 h-32 rounded-full flex items-center justify-center text-6xl" style="background: linear-gradient(135deg, var(--gold-light), var(--gold));">
+                            道
+                        </div>
+                    </div>
+                    <div class="flex-1 text-center md:text-left">
+                        <h3 class="font-serif-cn text-2xl font-bold mb-2" style="color: var(--red-dark);">无镜道老师</h3>
+                        <p class="text-[var(--gold-dark)] mb-4 font-medium">卦数预测风水学传承人</p>
+                        
+                        <div class="space-y-3 text-gray-600 leading-relaxed text-[15px]">
+                            <p>
+                                毕业于北京航空航天大学，硕士研究生学历。早年从事信息工程、网络数据、人工智能等高科技领域工作。2009年起探索身心灵领域，对生命和宇宙充满浓厚兴趣，研习大量灵性资料与修行典籍。
+                            </p>
+                            <p>
+                                拜访全国多位易学名师，被易经的博大智慧深深吸引，精研数字易经、奇门、法术、风水。发心成为光之工作者，服务他人，传播智慧，希望通过易学使更多人回归内在本我智慧，拥有健康富足人生。
+                            </p>
+                            <p>
+                                授课深入浅出，生动易懂。反对标新立异、故弄玄虚，秉承传统经典，传播真知。认为易学要诠释而不标新，创造回归简单，愿每位易友花最少的时间学到最宝贵的东西。
+                            </p>
+                        </div>
+                        
+                        <div class="flex flex-wrap justify-center md:justify-start gap-3 mt-6">
+                            <span class="px-3 py-1 rounded-full text-sm" style="background: rgba(201,169,98,0.1); color: var(--gold-dark);">数字易经</span>
+                            <span class="px-3 py-1 rounded-full text-sm" style="background: rgba(201,169,98,0.1); color: var(--gold-dark);">风水布局</span>
+                            <span class="px-3 py-1 rounded-full text-sm" style="background: rgba(201,169,98,0.1); color: var(--gold-dark);">奇门遁甲</span>
+                            <span class="px-3 py-1 rounded-full text-sm" style="background: rgba(201,169,98,0.1); color: var(--gold-dark);">化解改运</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lineage -->
+            <div class="text-center mt-8">
+                <p class="text-gray-500 text-sm">
+                    师承河南商丘 · <span class="font-bold" style="color: var(--red);">苏方行</span>  · 数字易经（三角定律）创始人
+                </p>
+                <p class="text-gray-400 text-sm mt-1 italic">
+                    "站在恩师的肩膀上，将数字易经学问发扬光大"
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Suitable For Section -->
+    <section class="py-20">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <div class="divider-ornament mb-6">
+                    <span class="text-2xl" style="color: var(--gold);">✦</span>
+                </div>
+                <h2 class="font-serif-cn text-3xl md:text-4xl font-bold mb-4" style="color: var(--red-dark);">
+                    适合人群
+                </h2>
+                <p class="text-gray-600">无论你是零基础还是有一定基础，都能从中收获</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-5">
+                <div class="flex items-start gap-4 p-5 rounded-xl bg-white/60 border border-[rgba(201,169,98,0.1)]">
+                    <span class="text-2xl flex-shrink-0">🌟</span>
+                    <div>
+                        <h4 class="font-bold mb-1">易学爱好者</h4>
+                        <p class="text-gray-600 text-sm">对易经、数字能量、风水感兴趣，想要系统学习一门实战预测术</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-5 rounded-xl bg-white/60 border border-[rgba(201,169,98,0.1)]">
+                    <span class="text-2xl flex-shrink-0">🔄</span>
+                    <div>
+                        <h4 class="font-bold mb-1">数字易进修者</h4>
+                        <p class="text-gray-600 text-sm">已学过数字易经但觉得不够深入、准确度不高，想要进阶提升</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-5 rounded-xl bg-white/60 border border-[rgba(201,169,98,0.1)]">
+                    <span class="text-2xl flex-shrink-0">🏡</span>
+                    <div>
+                        <h4 class="font-bold mb-1">风水从业者</h4>
+                        <p class="text-gray-600 text-sm">想要融合数字预测与风水技法，提升风水勘察与布局实战能力</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-5 rounded-xl bg-white/60 border border-[rgba(201,169,98,0.1)]">
+                    <span class="text-2xl flex-shrink-0">💼</span>
+                    <div>
+                        <h4 class="font-bold mb-1">职业预测师</h4>
+                        <p class="text-gray-600 text-sm">想要增加预测维度，融合多派技法，提升断事精准度与客户口碑</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-5 rounded-xl bg-white/60 border border-[rgba(201,169,98,0.1)]">
+                    <span class="text-2xl flex-shrink-0">🙏</span>
+                    <div>
+                        <h4 class="font-bold mb-1">修行与身心灵</h4>
+                        <p class="text-gray-600 text-sm">探索生命真相，想要通过易学了解宇宙规律，提升人生智慧</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-5 rounded-xl bg-white/60 border border-[rgba(201,169,98,0.1)]">
+                    <span class="text-2xl flex-shrink-0">👨‍👩‍👧</span>
+                    <div>
+                        <h4 class="font-bold mb-1">关注自身运势者</h4>
+                        <p class="text-gray-600 text-sm">想要了解自己与家人运势，调理家居风水，趋吉避凶改善生活</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial/Quote Section -->
+    <section class="py-16 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] font-serif-cn">易</div>
+        </div>
+        <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
+            <div class="text-6xl mb-6 opacity-30" style="color: var(--gold);">"</div>
+            <blockquote class="font-serif-cn text-xl md:text-2xl leading-relaxed text-gray-700 mb-6">
+                易学预测是趋势性的判断，不要过度神化。所谓绝招无一不是在大原则下的小变化，树是有根的，水是有源的，万变不离其宗。充分理解基础并多多实践，才是真正提高技术的办法。
+            </blockquote>
+            <p class="text-gray-500">—— 无镜道老师 学习心法</p>
+        </div>
+    </section>
+
+    <!-- Contact/CTA Section -->
+    <section id="contact" class="py-20 hero-bg relative">
+        <div class="max-w-4xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-10">
+                <h2 class="font-serif-cn text-3xl md:text-5xl font-bold mb-4">
+                    <span class="gold-gradient">开启你的易学智慧之旅</span>
+                </h2>
+                <p class="text-gray-400 text-lg">
+                    广结善缘，愿君同行
+                </p>
+            </div>
+            
+            <div class="gold-border rounded-2xl p-8 md:p-10 bg-[rgba(26,15,10,0.6)] backdrop-blur-sm">
+                <div class="text-center">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full mb-6" style="background: linear-gradient(135deg, var(--gold), var(--gold-dark));">
+                        <span class="text-4xl">📱</span>
+                    </div>
+                    
+                    <h3 class="font-serif-cn text-2xl font-bold text-white mb-2">添加老师微信咨询报名</h3>
+                    <p class="text-gray-400 mb-6">欢迎与老师单约，了解课程时间、费用、地点等详细信息</p>
+                    
+                    <div class="bg-[rgba(201,169,98,0.1)] rounded-xl p-6 mb-8 inline-block">
+                        <p class="text-[var(--gold-light)] text-sm mb-2">无镜道老师</p>
+                        <p class="text-white text-2xl md:text-3xl font-bold font-mono tracking-wider">
+                            155 1214 1951
+                        </p>
+                        <p class="text-gray-400 text-sm mt-2">微信电话同号</p>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="tel:15512141951" class="w-full sm:w-auto px-8 py-4 rounded-full text-white font-medium text-lg cta-button flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                            立即拨打电话
+                        </a>
+                    </div>
+                    
+                    <p class="text-gray-500 text-sm mt-8">
+                        ☯ 每期名额有限，欢迎提前预约 ☯
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 border-t border-[rgba(201,169,98,0.1)]" style="background: var(--paper-dark);">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <span class="text-2xl">☯</span>
+                <span class="font-serif-cn font-bold text-lg" style="color: var(--red-dark);">无镜易道</span>
+            </div>
+            <p class="text-gray-500 text-sm mb-2">卦数预测风水学 · 传承千年智慧，服务大众人生</p>
+            <p class="text-gray-400 text-xs">© 2024 无镜易道 出品 · 广结善缘，愿君同行</p>
+        </div>
+    </footer>
+
+    <!-- Smooth Scroll Script -->
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add subtle parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const decorElements = document.querySelectorAll('.float-animation');
+            decorElements.forEach((el, index) => {
+                const speed = 0.02 * (index + 1);
+                el.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
