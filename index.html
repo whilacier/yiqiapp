@@ -1325,9 +1325,9 @@ reveals.forEach(el => observer.observe(el));
 const modal = document.getElementById('consultModal');
 
 function openConsultModal() {
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    navLinks.classList.remove('open');
+            showToast('即将跳转课程详情页');
+            //window.location.href = 'app.html';
+            window.open('http://h.yitixin.cn/app/zhaosheng.html', '_blank', 'noopener,noreferrer');
 }
 
 function closeConsultModal() {
