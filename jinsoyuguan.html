@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金锁玉关现代环境学 · 无镜道米老师亲授</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;color:#3a2a18;line-height:1.8;}
+  body{
+    background:
+      radial-gradient(circle at 20% 10%,rgba(255,220,150,.25),transparent 40%),
+      radial-gradient(circle at 80% 80%,rgba(180,30,30,.12),transparent 40%),
+      linear-gradient(180deg,#fdf6e3 0%,#f7ecd0 50%,#f2e3b6 100%);
+    min-height:100vh;
+  }
+  /* 顶部装饰带 */
+  .top-bar{
+    background:linear-gradient(90deg,#7a1818,#b02a2a,#7a1818);
+    color:#ffd27a;
+    text-align:center;
+    padding:8px 12px;
+    font-size:14px;
+    letter-spacing:2px;
+  }
+  /* Hero */
+  .hero{
+    position:relative;
+    text-align:center;
+    padding:60px 20px 50px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse at center,rgba(255,255,255,.3),transparent 60%);
+    pointer-events:none;
+  }
+  .hero-seal{
+    display:inline-block;
+    width:80px;height:80px;border:3px solid #7a1818;
+    border-radius:8px;
+    color:#7a1818;font-weight:bold;
+    line-height:1.1;font-size:18px;
+    padding:8px;
+    transform:rotate(-6deg);
+    margin-bottom:18px;
+    background:rgba(255,248,220,.6);
+    letter-spacing:2px;
+  }
+  .hero h1{
+    font-size:clamp(30px,6vw,52px);
+    color:#5a1010;
+    letter-spacing:6px;
+    margin-bottom:14px;
+    text-shadow:1px 1px 0 rgba(255,255,255,.6);
+  }
+  .hero .sub{
+    font-size:clamp(15px,2.8vw,20px);
+    color:#7a3a1a;
+    letter-spacing:3px;
+    margin-bottom:24px;
+  }
+  .hero .author{
+    display:inline-block;
+    font-size:16px;
+    color:#5a1010;
+    padding:6px 20px;
+    border-top:1px solid #7a1818;
+    border-bottom:1px solid #7a1818;
+    letter-spacing:4px;
+  }
+  .divider{
+    text-align:center;
+    margin:10px auto;
+    color:#b02a2a;
+    font-size:20px;
+    letter-spacing:8px;
+  }
+  /* 通用容器 */
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px;}
+  section{padding:46px 0;}
+  .sec-title{
+    text-align:center;
+    font-size:clamp(22px,4vw,30px);
+    color:#5a1010;
+    letter-spacing:4px;
+    margin-bottom:8px;
+    position:relative;
+  }
+  .sec-title::before,.sec-title::after{
+    content:"❋";color:#c9a04a;margin:0 14px;font-size:18px;
+  }
+  .sec-sub{
+    text-align:center;color:#7a5030;
+    font-size:15px;letter-spacing:2px;margin-bottom:32px;
+  }
+  /* 痛点板块 */
+  .pain{
+    background:
+      linear-gradient(180deg,rgba(122,24,24,.04),rgba(122,24,24,0));
+    border-top:1px dashed #c9a04a;
+    border-bottom:1px dashed #c9a04a;
+  }
+  .pain-intro{
+    text-align:center;color:#5a3018;
+    font-size:16px;max-width:720px;margin:0 auto 28px;
+  }
+  .tag-cloud{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
+  }
+  .tag{
+    padding:7px 14px;
+    border:1px solid #b02a2a;
+    color:#7a1818;
+    background:#fff8ea;
+    border-radius:20px;
+    font-size:14px;
+    letter-spacing:1px;
+    transition:all .3s;
+  }
+  .tag:hover{background:#b02a2a;color:#fff8ea;transform:translateY(-2px);}
+  .tag.warn{border-color:#7a1818;background:#fde0d6;color:#7a1818;font-weight:600;}
+  /* 效果板块 */
+  .gain-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:16px;
+    margin-top:20px;
+  }
+  .gain-card{
+    background:linear-gradient(180deg,#fff8ea,#fcecc6);
+    border:1px solid #c9a04a;
+    border-radius:10px;
+    padding:22px 16px;
+    text-align:center;
+    position:relative;
+    box-shadow:0 4px 12px rgba(122,24,24,.08);
+  }
+  .gain-card::before{
+    content:"";position:absolute;top:-1px;left:-1px;right:-1px;height:4px;
+    background:linear-gradient(90deg,#c9a04a,#e8c070,#c9a04a);
+    border-radius:10px 10px 0 0;
+  }
+  .gain-card .ic{
+    font-size:30px;margin-bottom:8px;
+  }
+  .gain-card .t{
+    color:#5a1010;font-size:18px;font-weight:700;letter-spacing:2px;margin-bottom:6px;
+  }
+  .gain-card .d{
+    color:#6a4a28;font-size:13px;line-height:1.7;
+  }
+  /* 老师介绍 */
+  .teacher{
+    background:#fff8ea;
+    border-radius:14px;
+    padding:36px 30px;
+    border:2px solid #c9a04a;
+    position:relative;
+    box-shadow:0 8px 24px rgba(122,24,24,.1);
+  }
+  .teacher::before{
+    content:"师";position:absolute;top:-22px;left:50%;transform:translateX(-50%);
+    width:44px;height:44px;border-radius:50%;
+    background:#7a1818;color:#ffd27a;
+    font-size:22px;font-weight:bold;
+    display:flex;align-items:center;justify-content:center;
+    border:3px solid #fdf6e3;
+  }
+  .teacher h3{
+    text-align:center;color:#5a1010;font-size:24px;letter-spacing:3px;margin-bottom:4px;
+  }
+  .teacher .title-sub{
+    text-align:center;color:#9a7040;font-size:14px;letter-spacing:4px;margin-bottom:20px;
+  }
+  .teacher ul{list-style:none;}
+  .teacher li{
+    padding:8px 0 8px 28px;position:relative;
+    font-size:15px;color:#4a3018;border-bottom:1px dashed #e0c896;
+  }
+  .teacher li::before{
+    content:"◆";color:#c9a04a;position:absolute;left:4px;top:10px;font-size:10px;
+  }
+  .teacher li:last-child{border:none;}
+  .teacher-motto{
+    margin-top:18px;padding:16px;
+    background:linear-gradient(90deg,rgba(122,24,24,.06),rgba(201,160,74,.1),rgba(122,24,24,.06));
+    border-left:4px solid #7a1818;
+    color:#5a1010;font-style:italic;font-size:15px;
+    line-height:1.9;
+  }
+  /* 课程大纲 */
+  .outline{
+    columns:2;column-gap:24px;
+    background:#fff8ea;
+    border:1px solid #c9a04a;
+    border-radius:12px;
+    padding:28px 32px;
+  }
+  .outline .chap{
+    break-inside:avoid;
+    margin-bottom:18px;
+  }
+  .outline .chap h4{
+    color:#7a1818;font-size:16px;letter-spacing:2px;
+    padding:6px 10px;background:linear-gradient(90deg,#fcecc6,transparent);
+    border-left:4px solid #b02a2a;margin-bottom:6px;
+  }
+  .outline .chap p{
+    color:#5a4030;font-size:13.5px;line-height:1.8;padding-left:12px;
+  }
+  @media (max-width:640px){
+    .outline{columns:1;padding:22px 18px;}
+  }
+  /* 适合人群 */
+  .who-grid{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:14px;margin-top:10px;
+  }
+  .who-card{
+    background:#fff8ea;border:1px solid #e0c896;
+    border-radius:8px;padding:18px;
+    border-top:3px solid #b02a2a;
+  }
+  .who-card h5{color:#5a1010;font-size:16px;margin-bottom:6px;letter-spacing:2px;}
+  .who-card p{color:#6a4a28;font-size:14px;}
+  /* CTA报名 */
+  .cta-section{
+    background:linear-gradient(135deg,#7a1818 0%,#a02020 50%,#7a1818 100%);
+    color:#ffd27a;
+    border-radius:16px;
+    padding:44px 28px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(122,24,24,.3);
+    margin:20px 0;
+  }
+  .cta-section::before,.cta-section::after{
+    content:"";position:absolute;width:200px;height:200px;border:2px solid rgba(255,210,122,.2);
+    border-radius:50%;
+  }
+  .cta-section::before{top:-80px;left:-80px;}
+  .cta-section::after{bottom:-80px;right:-80px;}
+  .cta-section h2{
+    font-size:clamp(22px,4vw,32px);letter-spacing:6px;margin-bottom:12px;position:relative;
+  }
+  .cta-section .tip{
+    font-size:15px;opacity:.9;margin-bottom:22px;letter-spacing:2px;position:relative;
+  }
+  .contact-box{
+    display:inline-block;background:rgba(255,248,220,.12);
+    border:2px dashed #ffd27a;border-radius:12px;
+    padding:20px 32px;position:relative;
+  }
+  .contact-box .lbl{font-size:14px;letter-spacing:3px;opacity:.9;margin-bottom:8px;}
+  .contact-box .name{font-size:22px;color:#fff8ea;letter-spacing:4px;margin-bottom:6px;}
+  .contact-box .phone{
+    font-size:clamp(24px,5vw,34px);color:#ffd27a;font-weight:bold;
+    letter-spacing:3px;
+    text-decoration:none;
+    display:inline-block;
+  }
+  .contact-box .act{
+    margin-top:10px;font-size:13px;opacity:.85;letter-spacing:2px;
+  }
+  .cta-btn{
+    display:inline-block;margin-top:24px;
+    background:linear-gradient(90deg,#ffd27a,#f0b84a);
+    color:#5a1010;
+    padding:14px 44px;border-radius:30px;
+    font-size:18px;font-weight:bold;letter-spacing:4px;
+    text-decoration:none;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);
+    transition:transform .3s;
+    position:relative;
+  }
+  .cta-btn:hover{transform:translateY(-3px) scale(1.03);}
+  /* 底部 */
+  footer{
+    text-align:center;padding:30px 16px;
+    color:#8a6040;font-size:13px;letter-spacing:2px;
+    border-top:1px solid #e0c896;margin-top:20px;
+  }
+  /* 浮动按钮 */
+  .float-btn{
+    position:fixed;right:16px;bottom:22px;z-index:99;
+    background:linear-gradient(135deg,#7a1818,#b02a2a);
+    color:#ffd27a;
+    padding:12px 18px;border-radius:30px;
+    font-size:14px;font-weight:bold;letter-spacing:2px;
+    text-decoration:none;
+    box-shadow:0 6px 18px rgba(122,24,24,.4);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 6px 18px rgba(122,24,24,.4);}
+    50%{box-shadow:0 6px 26px rgba(255,210,122,.6);}
+  }
+  @media (max-width:640px){
+    .hero{padding:40px 16px 30px;}
+    section{padding:34px 0;}
+    .teacher{padding:28px 18px;}
+    .cta-section{padding:34px 18px;}
+    .contact-box{padding:16px 20px;}
+    .float-btn{right:10px;bottom:14px;padding:10px 14px;font-size:13px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">★ 传承千年经典 · 回归环境根本 · 学会看房子·选房子·布房子 ★</div>
+
+<section class="hero">
+  <div class="hero-seal">金锁<br>玉关</div>
+  <h1>金锁玉关现代环境学</h1>
+  <div class="sub">真传一句话 · 假传万卷书 · 砂水断吉凶</div>
+  <div class="author">无镜道 · 米老师 亲授</div>
+</section>
+
+<div class="divider">❋ ❋ ❋</div>
+
+<!-- 痛点板块 -->
+<section class="pain">
+  <div class="wrap">
+    <h2 class="sec-title">你的房子，正在悄悄影响你吗？</h2>
+    <p class="sec-sub">不识环境吉凶，如同盲人骑瞎马</p>
+    <p class="pain-intro">
+      很多人奔波劳碌却存不下钱、感情不顺总遇烂人、家人疾病缠身、孩子叛逆早恋、
+      生意冷清顾客不进门……你可曾想过，这一切或许与你所居住的环境有关？
+      课程将带您一眼识别以下房形问题：
+    </p>
+    <div class="tag-cloud">
+      <span class="tag warn">渣男房 · 渣女房</span>
+      <span class="tag warn">外遇房 · 烂桃花房</span>
+      <span class="tag warn">吵架房 · 离婚房</span>
+      <span class="tag warn">男人不回家房</span>
+      <span class="tag warn">妻不贤子不孝房</span>
+      <span class="tag warn">不守财房 · 破财房</span>
+      <span class="tag warn">顾客不成交房</span>
+      <span class="tag warn">奔波劳碌房 · 流荡房</span>
+      <span class="tag warn">疾病房 · 腰酸背痛房</span>
+      <span class="tag warn">阳痿早泄房 · 性功能不调房</span>
+      <span class="tag warn">老母短寿房 · 老父短寿房</span>
+      <span class="tag warn">牢狱房 · 官非房</span>
+      <span class="tag warn">小偷房 · 易被盗房</span>
+      <span class="tag warn">涉黑房 · 土匪盗贼房</span>
+      <span class="tag warn">阴邪见鬼房 · 精神病房</span>
+      <span class="tag warn">抑郁自卑房</span>
+      <span class="tag warn">泼妇悍妇房 · 母老虎房</span>
+      <span class="tag warn">流产堕胎房 · 伤胎房</span>
+      <span class="tag warn">克妻房 · 克夫房</span>
+      <span class="tag warn">黄赌毒房 · 败家房</span>
+      <span class="tag warn">宅男房 · 女孩早恋房</span>
+      <span class="tag warn">孩子多动叛逆房</span>
+      <span class="tag warn">少亡早亡房 · 伤残房</span>
+      <span class="tag warn">先天不足房</span>
+      <span class="tag">缺德房 · 特殊职业房</span>
+      <span class="tag">吃喝玩乐嫖赌房</span>
+      <span class="tag">头脑糊涂房</span>
+      <span class="tag">怕老婆房</span>
+    </div>
+  </div>
+</section>
+
+<!-- 效果板块 -->
+<section>
+  <div class="wrap">
+    <h2 class="sec-title">学完之后你将获得</h2>
+    <p class="sec-sub">不仅学会看问题，更要学会化解、选房、布局</p>
+    <div class="gain-grid">
+      <div class="gain-card">
+        <div class="ic">💰</div>
+        <div class="t">发财房 · 横财房</div>
+        <div class="d">布财局、催旺正偏财，打造丁财两旺格局</div>
+      </div>
+      <div class="gain-card">
+        <div class="ic">🏯</div>
+        <div class="t">升官房 · 官财两旺</div>
+        <div class="d">布升迁局、文昌局，助事业官运步步登高</div>
+      </div>
+      <div class="gain-card">
+        <div class="ic">❤</div>
+        <div class="t">婚姻和合房</div>
+        <div class="d">化解烂桃花，稳固夫妻感情，贤妻良母好家风</div>
+      </div>
+      <div class="gain-card">
+        <div class="ic">🎓</div>
+        <div class="t">文昌状元房</div>
+        <div class="d">利学业考学，孩子聪明上进，金榜题名</div>
+      </div>
+      <div class="gain-card">
+        <div class="ic">🌿</div>
+        <div class="t">健康长寿房</div>
+        <div class="d">化煞祛病，父母安康长寿，子孙满堂</div>
+      </div>
+      <div class="gain-card">
+        <div class="ic">👑</div>
+        <div class="t">老板房 · 事业房</div>
+        <div class="d">企业店铺风水、办公室布局，助业绩长红</div>
+      </div>
+      <div class="gain-card">
+        <div class="ic">🌸</div>
+        <div class="t">正桃花 · 安胎求子</div>
+        <div class="d">招正缘、利生育，生儿育女文武双全</div>
+      </div>
+      <div class="gain-card">
+        <div class="ic">🔮</div>
+        <div class="t">名医房 · 修行玄学房</div>
+        <div class="d">适合中医、玄学、修行之人开悟增慧</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider">❋ ❋ ❋</div>
+
+<!-- 老师介绍 -->
+<section>
+  <div class="wrap">
+    <h2 class="sec-title">导师简介</h2>
+    <p class="sec-sub">理工科出身 · 北航硕士 · 实修实证 · 拒绝故弄玄虚</p>
+    <div class="teacher">
+      <h3>米老师 · 无镜道</h3>
+      <div class="title-sub">北京航空航天大学硕士 · 光之工作者</div>
+      <ul>
+        <li>毕业于北京航空航天大学，硕士研究生学历；毕业后从事信息工程、网络数据、人工智能相关工作。</li>
+        <li>2009年起探索身心灵领域，研习大量灵性与修行资料，拜访全国多位易学名师。</li>
+        <li>精研<strong style="color:#7a1818;">数字易经、奇门、法术、风水</strong>，融汇贯通形成独特的思维模式。</li>
+        <li>课程深入浅出、生动易懂，发心传播易学智慧，愿每位易友花最少时间学到最宝贵的真传。</li>
+        <li>反对标新立异、故弄玄虚；秉承传统经典，拒绝过度包装、失去价值的伪学。</li>
+        <li>广结善缘，愿与同修一道回归内在本我智慧，拥有健康富足人生。</li>
+      </ul>
+      <div class="teacher-motto">
+        "易学的博大精深，要诠释而不标新，要创造回归简单。愿广大易友花最少的时间，学到老祖宗传承下来的真正好东西。" —— 无镜道
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 课程大纲 -->
+<section style="background:rgba(255,248,220,.5);">
+  <div class="wrap">
+    <h2 class="sec-title">课程大纲 · 十三章真传</h2>
+    <p class="sec-sub">从基础砂水到化解布局，层层深入，可学即用</p>
+    <div class="outline">
+      <div class="chap"><h4>第一章 基础知识</h4><p>砂水要义、八方砂水吉凶、砂水相对性、排行与属相落宫、五行、八宫卦象义、四象、地支关系、二十四山、五黄点、罗盘择日、水力强弱。</p></div>
+      <div class="chap"><h4>第二章 八卦精解</h4><p>乾坤艮巽震兑坎离八卦人物、人体、部门、吉凶、主病、主灾，结合实例断吉凶。</p></div>
+      <div class="chap"><h4>第三章 二十四山砂水</h4><p>逐卦逐山（壬子癸·未坤申·甲卯乙·辰巽巳·戌乾亥·庚酉辛·丑艮寅·丙午丁）论砂论水，砂水点窍直指要害。</p></div>
+      <div class="chap"><h4>第四章 十二生肖风水</h4><p>十二生肖性格、婚配、运势、风水调理、流年飞星影响、马星桃花、生儿育女属相选择。</p></div>
+      <div class="chap"><h4>第五章 城市阳宅风水</h4><p>阳宅砂水定义、入户门、窗户、神位、缺角、多角、高楼平房、选房方法、室内风水、搬家立灶、风水物使用（画、屏风、鱼缸、盆栽、五帝钱、泰山石、葫芦等）。</p></div>
+      <div class="chap"><h4>第六章 企业店铺风水</h4><p>企业风水、办公室风水、饭店风水布局要点。</p></div>
+      <div class="chap"><h4>第七章 风水化解布局</h4><p>化煞原理、高架桥/门对门/楼梯/卫生间/缺角/穿堂煞/横梁压顶等化法、布财局、布文昌局、升迁局、桃花局、婚姻和合局、讨债局、斗太岁化五黄。</p></div>
+      <div class="chap"><h4>第八章 坐山朝向</h4><p>东西向、东北西南向、南北向、西北东南向选向要诀。</p></div>
+      <div class="chap"><h4>第九章 面相风水</h4><p>面色体型看风水断病症，面部八卦分区诊断。</p></div>
+      <div class="chap"><h4>第十章 风水与健康</h4><p>卦位犯风、各类疾病诊断与治疗、环境致病断法。</p></div>
+      <div class="chap"><h4>第十一章 金锁玉关天罡诀</h4><p>传承口诀，直指断事核心。</p></div>
+      <div class="chap"><h4>第十二章 常见居家煞气化解</h4><p>常见煞气识别与实用化解方法汇总。</p></div>
+      <div class="chap"><h4>第十三章 风水百问</h4><p>常见风水问题答疑解惑，学完即能用。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 适合人群 -->
+<section>
+  <div class="wrap">
+    <h2 class="sec-title">适合人群</h2>
+    <p class="sec-sub">不论零基础还是有基础，皆可学有所成</p>
+    <div class="who-grid">
+      <div class="who-card"><h5>🏠 关注居家环境者</h5><p>想为自己家选房、看房、布局，让家人健康平安、财运兴旺。</p></div>
+      <div class="who-card"><h5>💼 企业老板与创业者</h5><p>想调整办公室、店铺、企业风水，提升业绩、聚拢客源、官财两旺。</p></div>
+      <div class="who-card"><h5>💑 感情婚姻不顺者</h5><p>想化解烂桃花、稳固婚姻、招正缘，构建和美的家庭关系。</p></div>
+      <div class="who-card"><h5>👨‍👩‍👧 为子女父母着想者</h5><p>望孩子学业有成、老人健康长寿，求安胎育儿、子孙满堂。</p></div>
+      <div class="who-card"><h5>🔮 易学风水爱好者</h5><p>希望系统学习金锁玉关真传，避免被伪学误导，走上正途。</p></div>
+      <div class="who-card"><h5>🧘 身心灵修行者</h5><p>希望借环境学领悟天地阴阳之道，辅助修行开悟、增长智慧。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="wrap">
+    <div class="cta-section">
+      <h2>立即咨询 · 预约学习</h2>
+      <p class="tip">欢迎与老师单约一对一咨询，名额有限，先到先得</p>
+      <div class="contact-box">
+        <div class="lbl">授课老师</div>
+        <div class="name">无镜道 · 米老师</div>
+        <a class="phone" href="tel:15512141951">155 1214 1951</a>
+        <div class="act">微信同号 · 添加请备注"金锁玉关"</div>
+      </div>
+      <br>
+      <a class="cta-btn" href="tel:15512141951">一键拨打咨询</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  金锁玉关现代环境学 · 无镜道 出品<br>
+  真传一句话 · 广结善缘 · 愿君同行
+</footer>
+
+<a class="float-btn" href="tel:15512141951">📞 咨询米老师</a>
+
+</body>
+</html>

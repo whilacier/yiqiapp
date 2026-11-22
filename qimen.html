@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>九天道法奇门遁甲 | 无镜道老师亲授面授班</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", "SimSun", sans-serif;
+            background: #0F0F1A;
+            color: #F5F5DC;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        /* 金色渐变文字 */
+        .gold-text {
+            background: linear-gradient(135deg, #D4AF37 0%, #F4E4BC 50%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .gold-shadow { text-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+
+        /* 导航栏 */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(8, 8, 16, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+            height: 64px; padding: 0 20px;
+        }
+        .logo {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 20px; font-weight: bold;
+        }
+        .logo-icon { font-size: 26px; }
+        .nav-links { display: flex; gap: 32px; font-size: 14px; }
+        .nav-links a { color: rgba(245, 245, 220, 0.8); transition: color 0.3s; }
+        .nav-links a:hover { color: #D4AF37; }
+        .btn-consult {
+            background: rgba(212, 175, 55, 0.2); color: #D4AF37;
+            padding: 8px 16px; border-radius: 6px; transition: all 0.3s;
+        }
+        .btn-consult:hover { background: rgba(212, 175, 55, 0.3); }
+        .menu-btn { display: none; background: none; border: none; color: #D4AF37; font-size: 24px; cursor: pointer; }
+        .mobile-menu {
+            display: none; background: #080810;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 16px 20px;
+        }
+        .mobile-menu.open { display: block; }
+        .mobile-menu a { display: block; padding: 10px 0; color: rgba(245, 245, 220, 0.8); }
+        .mobile-menu .btn-consult { text-align: center; margin-top: 8px; }
+
+        /* 通用区块 */
+        section { padding: 80px 20px; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-sub { color: rgba(212, 175, 55, 0.6); font-size: 14px; letter-spacing: 4px; }
+        .section-h2 {
+            font-size: 32px; font-weight: bold; margin-top: 8px;
+            font-family: "SimSun", "STSong", serif;
+        }
+        .section-line {
+            width: 96px; height: 2px; margin: 20px auto 0;
+            background: linear-gradient(to right, transparent, #D4AF37, transparent);
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        /* Hero区域 */
+        .hero {
+            min-height: 100vh; padding-top: 64px;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; text-align: center;
+            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.03) 0%, transparent 70%);
+        }
+        .hero-bg-rings { position: absolute; inset: 0; overflow: hidden; opacity: 0.15; pointer-events: none; }
+        .ring {
+            position: absolute; border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.3);
+            animation: pulse-ring 4s ease-in-out infinite;
+        }
+        .ring-1 { width: 380px; height: 380px; top: 20%; left: 20%; }
+        .ring-2 { width: 260px; height: 260px; top: 30%; right: 20%; animation-delay: 1s; }
+        .ring-3 { width: 320px; height: 320px; bottom: 20%; left: 35%; animation-delay: 2s; }
+        @keyframes pulse-ring { 0%,100%{opacity:0.3;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.05)} }
+        .hero-content { position: relative; z-index: 1; max-width: 800px; }
+        .hero-tag { color: rgba(212, 175, 55, 0.8); font-size: 14px; letter-spacing: 8px; margin-bottom: 20px; }
+        .hero-h1 {
+            font-size: clamp(40px, 8vw, 72px); font-weight: 900;
+            line-height: 1.2; margin-bottom: 20px;
+            font-family: "SimSun", "STSong", serif;
+        }
+        .hero-slogan { font-size: clamp(18px, 3vw, 24px); color: rgba(245, 245, 220, 0.8); margin-bottom: 12px; }
+        .hero-desc { font-size: 16px; color: rgba(245, 245, 220, 0.6); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; }
+        .btn-primary {
+            background: linear-gradient(to right, #D4AF37, #C9A227);
+            color: #0F0F1A; font-weight: bold; padding: 14px 32px;
+            border-radius: 8px; font-size: 18px; transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3); }
+        .btn-outline {
+            border: 1px solid rgba(212, 175, 55, 0.5); color: #D4AF37;
+            padding: 14px 32px; border-radius: 8px; font-size: 18px; transition: all 0.3s;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-outline:hover { background: rgba(212, 175, 55, 0.1); }
+        .hero-points { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .point-card {
+            background: rgba(8, 8, 16, 0.6); border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px; padding: 16px; transition: all 0.3s;
+        }
+        .point-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15); }
+        .point-icon { font-size: 24px; margin-bottom: 8px; }
+        .point-text { font-size: 14px; }
+        .scroll-down {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            color: rgba(212, 175, 55, 0.5); font-size: 20px; animation: bounce 2s infinite;
+        }
+        @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-8px)} }
+
+        /* 传承区块 */
+        .dark-bg { background: #080810; }
+        .inherit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+        .inherit-text p { color: rgba(245, 245, 220, 0.8); margin-bottom: 20px; line-height: 1.8; }
+        .inherit-nums { display: flex; gap: 32px; padding-top: 16px; }
+        .num-item { text-align: center; }
+        .num-val { font-size: 28px; font-weight: bold; }
+        .num-label { font-size: 13px; color: rgba(245, 245, 220, 0.6); }
+        .inherit-circle {
+            aspect-ratio: 1; width: 100%; max-width: 400px; margin: 0 auto;
+            border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.2);
+            background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(139,0,0,0.08));
+            display: flex; align-items: center; justify-content: center;
+        }
+        .inherit-card {
+            width: 70%; aspect-ratio: 3/4; background: #080810;
+            border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px;
+            padding: 24px; text-align: center;
+        }
+        .inherit-card .taiji { font-size: 56px; margin-bottom: 16px; }
+        .inherit-card h3 { color: #D4AF37; font-family: "SimSun", serif; font-size: 20px; margin-bottom: 12px; }
+        .inherit-card p { font-size: 14px; color: rgba(245, 245, 220, 0.7); line-height: 1.7; }
+
+        /* 导师区块 */
+        .teacher-grid { display: grid; grid-template-columns: 2fr 3fr; gap: 32px; align-items: start; }
+        .teacher-photo {
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(139,0,0,0.15));
+            border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: relative;
+        }
+        .teacher-badge {
+            position: absolute; bottom: -12px; right: -12px;
+            background: #D4AF37; color: #0F0F1A; padding: 8px 16px;
+            border-radius: 4px; font-weight: bold; font-size: 14px;
+        }
+        .teacher-avatar { font-size: 96px; color: rgba(212, 175, 55, 0.6); margin-bottom: 16px; }
+        .teacher-name { font-size: 24px; color: #D4AF37; font-family: "SimSun", serif; font-weight: bold; }
+        .teacher-subtitle { color: rgba(245, 245, 220, 0.6); margin-top: 8px; }
+        .teacher-card {
+            background: rgba(8, 8, 16, 0.5); border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 8px; padding: 24px; margin-bottom: 16px; transition: all 0.3s;
+        }
+        .teacher-card:hover { transform: translateX(4px); box-shadow: 0 4px 20px rgba(212, 175, 55, 0.1); }
+        .teacher-card h4 { color: #D4AF37; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+        .teacher-card p { color: rgba(245, 245, 220, 0.8); line-height: 1.8; }
+
+        /* 收获区块 */
+        .benefit-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .benefit-card {
+            background: rgba(15, 15, 26, 0.5); border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px; padding: 24px; text-align: center; transition: all 0.3s;
+        }
+        .benefit-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15); }
+        .benefit-icon {
+            width: 64px; height: 64px; background: rgba(212, 175, 55, 0.1);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px; font-size: 26px;
+        }
+        .benefit-card h3 { font-size: 18px; font-weight: bold; margin-bottom: 8px; }
+        .benefit-card p { font-size: 13px; color: rgba(245, 245, 220, 0.6); line-height: 1.6; }
+
+        /* 优势区块 */
+        .advantage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .advantage-card {
+            background: #080810; border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px; padding: 32px; transition: all 0.3s;
+        }
+        .advantage-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15); border-color: rgba(212, 175, 55, 0.4); }
+        .adv-num { color: #D4AF37; font-size: 36px; font-weight: bold; margin-bottom: 12px; opacity: 0.7; }
+        .advantage-card h3 { color: #D4AF37; font-family: "SimSun", serif; font-size: 20px; font-weight: bold; margin-bottom: 16px; }
+        .advantage-card p { color: rgba(245, 245, 220, 0.7); line-height: 1.8; }
+
+        /* 课程内容手风琴 */
+        .accordion-item {
+            background: rgba(15, 15, 26, 0.5); border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px; margin-bottom: 16px; overflow: hidden;
+        }
+        .accordion-btn {
+            width: 100%; background: none; border: none; color: inherit;
+            padding: 24px; display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; text-align: left; font-size: 18px; font-weight: bold;
+            font-family: "SimSun", serif;
+        }
+        .accordion-btn:hover { background: rgba(212, 175, 55, 0.05); }
+        .accordion-btn .acc-title { display: flex; align-items: center; gap: 14px; }
+        .accordion-btn .acc-icon { color: #D4AF37; font-size: 22px; }
+        .accordion-arrow { color: #D4AF37; transition: transform 0.3s; font-size: 14px; }
+        .accordion-btn.open .accordion-arrow { transform: rotate(180deg); }
+        .accordion-panel { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+        .accordion-panel.open { max-height: 800px; }
+        .accordion-inner { padding: 0 24px 24px 60px; }
+        .check-list { list-style: none; }
+        .check-list li { color: rgba(245, 245, 220, 0.8); padding: 6px 0; }
+        .check-list li::before { content: "✓"; color: rgba(212, 175, 55, 0.6); margin-right: 10px; font-weight: bold; }
+        .check-list.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+
+        /* 承诺区块 */
+        .promise-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .promise-card {
+            background: rgba(8, 8, 16, 0.5); border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px; padding: 28px; display: flex; gap: 20px; transition: all 0.3s;
+        }
+        .promise-card:hover { border-color: rgba(212, 175, 55, 0.4); }
+        .promise-icon { font-size: 32px; flex-shrink: 0; }
+        .promise-card h3 { color: #D4AF37; font-weight: bold; margin-bottom: 8px; }
+        .promise-card p { color: rgba(245, 245, 220, 0.7); font-size: 14px; line-height: 1.7; }
+
+        /* 适合人群 */
+        .crowd-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .crowd-item {
+            background: rgba(8, 8, 16, 0.5); border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 8px; padding: 20px; text-align: center; transition: all 0.3s;
+        }
+        .crowd-item:hover { border-color: rgba(212, 175, 55, 0.4); background: rgba(212, 175, 55, 0.05); }
+        .crowd-icon { font-size: 32px; margin-bottom: 10px; }
+        .crowd-item p { font-size: 14px; color: rgba(245, 245, 220, 0.8); }
+
+        /* 联系CTA区块 */
+        .contact-section {
+            background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(139,0,0,0.08));
+            text-align: center;
+        }
+        .contact-box {
+            max-width: 600px; margin: 0 auto;
+            background: rgba(8, 8, 16, 0.8); border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px; padding: 48px;
+        }
+        .contact-box h2 { font-family: "SimSun", serif; font-size: 28px; margin-bottom: 16px; }
+        .contact-box > p { color: rgba(245, 245, 220, 0.7); margin-bottom: 32px; }
+        .contact-info { display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }
+        .contact-row {
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            font-size: 18px;
+        }
+        .contact-row .c-icon { font-size: 24px; }
+        .contact-row strong { color: #D4AF37; }
+        .contact-row a { color: #D4AF37; font-weight: bold; font-size: 22px; }
+        .qrcode-area {
+            width: 180px; height: 180px; margin: 20px auto;
+            border: 2px dashed rgba(212, 175, 55, 0.4); border-radius: 8px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: rgba(245, 245, 220, 0.5); font-size: 14px;
+        }
+        .qrcode-area .qr-icon { font-size: 48px; margin-bottom: 8px; }
+        .contact-tip { font-size: 13px; color: rgba(245, 245, 220, 0.5); margin-top: 16px; }
+
+        /* 浮动按钮 */
+        .float-btn {
+            position: fixed; bottom: 24px; right: 24px; z-index: 999;
+            background: linear-gradient(135deg, #D4AF37, #B8941F);
+            color: #0F0F1A; width: 56px; height: 56px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+            cursor: pointer; transition: all 0.3s; text-decoration: none;
+        }
+        .float-btn:hover { transform: scale(1.1); }
+
+        /* 页脚 */
+        footer {
+            background: #050508; text-align: center; padding: 32px 20px;
+            color: rgba(245, 245, 220, 0.4); font-size: 13px;
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .menu-btn { display: block; }
+            .hero-points { grid-template-columns: repeat(2, 1fr); }
+            .inherit-grid { grid-template-columns: 1fr; }
+            .teacher-grid { grid-template-columns: 1fr; }
+            .teacher-photo { max-width: 280px; margin: 0 auto; }
+            .benefit-grid { grid-template-columns: repeat(2, 1fr); }
+            .advantage-grid { grid-template-columns: 1fr; }
+            .promise-grid { grid-template-columns: 1fr; }
+            .crowd-grid { grid-template-columns: repeat(2, 1fr); }
+            .check-list.grid-2 { grid-template-columns: 1fr; }
+            .contact-box { padding: 32px 20px; }
+            .hero-btns { flex-direction: column; align-items: center; }
+            .btn-primary, .btn-outline { width: 100%; max-width: 280px; justify-content: center; }
+            .inherit-nums { justify-content: center; flex-wrap: wrap; gap: 20px; }
+            section { padding: 60px 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-inner">
+            <div class="logo">
+                <span class="logo-icon">☯</span>
+                <span class="gold-text">九天道法奇门</span>
+            </div>
+            <div class="nav-links">
+                <a href="#about">课程介绍</a>
+                <a href="#teacher">导师简介</a>
+                <a href="#content">课程内容</a>
+                <a href="#benefit">学员收获</a>
+                <a href="#contact" class="btn-consult">立即咨询</a>
+            </div>
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#about" onclick="closeMenu()">课程介绍</a>
+            <a href="#teacher" onclick="closeMenu()">导师简介</a>
+            <a href="#content" onclick="closeMenu()">课程内容</a>
+            <a href="#benefit" onclick="closeMenu()">学员收获</a>
+            <a href="#contact" class="btn-consult" onclick="closeMenu()">立即咨询</a>
+        </div>
+    </nav>
+
+    <!-- Hero区域 -->
+    <section class="hero">
+        <div class="hero-bg-rings">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring ring-3"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-tag">帝王之学 · 道家秘传</div>
+            <h1 class="hero-h1 gold-text gold-shadow">九天道法<br>奇门遁甲</h1>
+            <p class="hero-slogan">学会奇门遁，来人不用问</p>
+            <p class="hero-desc">无镜道老师口传心授，绝招心法毫无保留<br>简单易学，化解破解实用灵验的帝王之术</p>
+            <div class="hero-btns">
+                <a href="#contact" class="btn-primary">💬 立即报名咨询</a>
+                <a href="#content" class="btn-outline">📖 了解课程详情</a>
+            </div>
+            <div class="hero-points">
+                <div class="point-card">
+                    <div class="point-icon">✅</div>
+                    <div class="point-text">不分级别 无套路</div>
+                </div>
+                <div class="point-card">
+                    <div class="point-icon">⭐</div>
+                    <div class="point-text">绝招心法 全保留</div>
+                </div>
+                <div class="point-card">
+                    <div class="point-icon">🗺️</div>
+                    <div class="point-text">口传心授 真传承</div>
+                </div>
+                <div class="point-card">
+                    <div class="point-icon">🔄</div>
+                    <div class="point-text">内容更新 共成长</div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-down">▼</div>
+    </section>
+
+    <!-- 奇门传承 -->
+    <section class="dark-bg" id="inherit">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-sub">奇门溯源</div>
+                <h2 class="section-h2 gold-text">九天玄女道法传承</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="inherit-grid">
+                <div class="inherit-text">
+                    <p>九天玄女是深谙道法、军事的战神和正义之神。经典记载黄帝与蚩尤大战，蚩尤呼风唤雨，黄帝不能取胜。危难之际，九天玄女降临，传授黄帝战法与兵符，黄帝摆下奇门遁甲阵法后，打败蚩尤。</p>
+                    <p>奇门遁甲最早起源于九天玄女，远古时代即为天地间原始真仙所传，后被道教信奉，是九天道法之祖，符咒祭坛神。历代各种战法，均与九天玄女安邦定国之术密切相关。</p>
+                    <div class="inherit-nums">
+                        <div class="num-item">
+                            <div class="num-val gold-text">4320</div>
+                            <div class="num-label">远古局数</div>
+                        </div>
+                        <div class="num-item">
+                            <div class="num-val gold-text">1080</div>
+                            <div class="num-label">风后演局</div>
+                        </div>
+                        <div class="num-item">
+                            <div class="num-val gold-text">72</div>
+                            <div class="num-label">张良简化</div>
+                        </div>
+                        <div class="num-item">
+                            <div class="num-val gold-text">18</div>
+                            <div class="num-label">阴阳十八局</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="inherit-circle">
+                    <div class="inherit-card">
+                        <div class="taiji">☯</div>
+                        <h3>帝王之术</h3>
+                        <p>奇门遁甲为道家秘传，自古为帝王将相所用，掌天地之变，察阴阳之理，断吉凶祸福，调风水气场，实为中华民族智慧之瑰宝。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 导师简介 -->
+    <section id="teacher" style="background: #0F0F1A;">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-sub">明师引路</div>
+                <h2 class="section-h2 gold-text">导师简介</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="teacher-grid">
+                <div>
+                    <div class="teacher-photo">
+                        <div class="teacher-avatar">👤</div>
+                        <div class="teacher-name">无镜道老师</div>
+                        <div class="teacher-subtitle">米老师 · 无镜道</div>
+                        <div class="teacher-badge">北航硕士</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="teacher-card">
+                        <h4>🎓 学术背景</h4>
+                        <p>毕业于北京航空航天大学，获得硕士研究生学位。毕业后从事信息工程、网络数据、人工智能等相关工作，具备深厚的科学素养与逻辑思维能力。</p>
+                    </div>
+                    <div class="teacher-card">
+                        <h4>📚 求道历程</h4>
+                        <p>2009年起开始探索身心灵领域，研习大量灵性资料、修行资料，拜访全国多位易学名师，精研数字易经、奇门遁甲、道法法术、风水堪舆，融汇贯通形成独特的教学体系。</p>
+                    </div>
+                    <div class="teacher-card">
+                        <h4>❤️ 教学理念</h4>
+                        <p>反对标新立异、故弄玄虚，秉承传统经典，传播真知，让每位易友学到真正老祖宗传承下来的精华。课程深入浅出，生动易懂，愿广大易友花最少的时间学到最宝贵的东西。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 学习收获 -->
+    <section id="about" class="dark-bg">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-sub">课程目标</div>
+                <h2 class="section-h2 gold-text">学完能解决什么问题</h2>
+                <div class="section-line"></div>
+                <p style="margin-top: 20px; color: rgba(245,245,220,0.7); max-width: 600px; margin-left: auto; margin-right: auto;">使每位学员能够灵活运用奇门遁甲风水进行全方位的预测、策划与化解</p>
+            </div>
+            <div class="benefit-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">💼</div>
+                    <h3>事业财运</h3>
+                    <p>企业策划、生财布局、事业升迁、催债讨债、项目招标</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎓</div>
+                    <h3>学业文昌</h3>
+                    <p>文昌布局、聪明智慧局、考试升学、学业提升</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💕</div>
+                    <h3>婚姻感情</h3>
+                    <p>桃花姻缘、夫妻和合、感情复合、拆第三者、婆媳关系</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">❤️‍🩹</div>
+                    <h3>健康疾病</h3>
+                    <p>疾病调理、安胎孕育、生儿育女、伤灾化解</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚖️</div>
+                    <h3>官非口舌</h3>
+                    <p>官司化解、小人是非、避险护身、逢凶化吉</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏠</div>
+                    <h3>阳宅风水</h3>
+                    <p>选房买房、风水调整、财地官地、文昌吉地识别</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">✨</div>
+                    <h3>法术破解</h3>
+                    <p>奇门四害化解、移星换斗、寻时借运、奇门护体</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧬</div>
+                    <h3>终身运势</h3>
+                    <p>终身局预测、终身财局、终身感情局、人生命理</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 课程优势 -->
+    <section style="background: #0F0F1A;">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-sub">课程优势</div>
+                <h2 class="section-h2 gold-text">为什么选择我们</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="advantage-grid">
+                <div class="advantage-card">
+                    <div class="adv-num">01</div>
+                    <h3>真传一句话 假传万卷书</h3>
+                    <p>课程不分级别，没有套路，老师教学不保留。绝招、心法、经验毫无保留，口传心授一些不能见于字面的心法，让你少走十年弯路。</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="adv-num">02</div>
+                    <h3>内容丰富 体系完整</h3>
+                    <p>每期内容侧重点不同，涵盖奇门预测、奇门风水、奇门布局、奇门法术、奇门数字、八卦风水、八宅风水、金锁玉关、形家风水等多重体系。</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="adv-num">03</div>
+                    <h3>实战实用 即学即用</h3>
+                    <p>反对故弄玄虚、反对过度包装，注重实战落地。从预测到化解，从风水到法术，所学技术均可直接应用，帮助自己和他人解决实际问题。</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="adv-num">04</div>
+                    <h3>侧重风水 阳宅为重</h3>
+                    <p>重点讲解阳宅风水的选择与调整，教你如何看财地、官地、文昌地，如何辨别阳宅吉凶，如何选房调宅，各种实用风水布局技术倾囊相授。</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="adv-num">05</div>
+                    <h3>持续更新 共同成长</h3>
+                    <p>随着老师不断成长修行，课程内容会持续更新增加，学员可跟随老师不断学习进阶，与老师共同学习、共同成长。</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="adv-num">06</div>
+                    <h3>单约辅导 因材施教</h3>
+                    <p>欢迎与老师单约学习，根据学员基础和需求进行针对性辅导，确保每位学员都能真正掌握技术，灵活运用。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 课程内容 -->
+    <section id="content" class="dark-bg">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-sub">课程体系</div>
+                <h2 class="section-h2 gold-text">课程核心内容</h2>
+                <div class="section-line"></div>
+            </div>
+            <div>
+                <div class="accordion-item">
+                    <button class="accordion-btn" onclick="toggleAccordion(this)">
+                        <span class="acc-title"><span class="acc-icon">👁️</span>奇门预测体系</span>
+                        <span class="accordion-arrow">▼</span>
+                    </button>
+                    <div class="accordion-panel">
+                        <div class="accordion-inner">
+                            <ul class="check-list">
+                                <li>奇门遁甲基础理论：阴阳五行、八卦象义、天干地支</li>
+                                <li>奇门起局方法：终身局、时局、刻局三种起局方式</li>
+                                <li>九宫八卦、星门神仪完整解读</li>
+                                <li>十天干、八神、八门、九星基础象义与实战运用</li>
+                                <li>奇门终身局预测与化解技术</li>
+                                <li>事业、财运、感情、健康、官非等各类事项预测</li>
+                                <li>企业策划、项目投资、合作谈判专项预测</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-btn" onclick="toggleAccordion(this)">
+                        <span class="acc-title"><span class="acc-icon">🏠</span>风水堪舆体系</span>
+                        <span class="accordion-arrow">▼</span>
+                    </button>
+                    <div class="accordion-panel">
+                        <div class="accordion-inner">
+                            <ul class="check-list">
+                                <li><strong style="color:#D4AF37">奇门风水</strong>：环境风水、行为风水、心理风水三位一体</li>
+                                <li><strong style="color:#D4AF37">八卦风水</strong>：八卦类象与风水断法精髓</li>
+                                <li><strong style="color:#D4AF37">八宅风水</strong>：八宅派真诀，东西四命配东西四宅</li>
+                                <li><strong style="color:#D4AF37">金锁玉关</strong>：过路阴阳，砂水断诀真传</li>
+                                <li><strong style="color:#D4AF37">形家风水</strong>：形峦断事，一眼断吉凶</li>
+                                <li>阳宅选址：如何看财地、官地、文昌地，辨别阳宅吉凶</li>
+                                <li>选房秘诀：帮助他人选择吉宅，规避风水煞地</li>
+                                <li>阳宅调整：各类风水问题的诊断与调整化解方法</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-btn" onclick="toggleAccordion(this)">
+                        <span class="acc-title"><span class="acc-icon">🔲</span>风水布局与化解技术</span>
+                        <span class="accordion-arrow">▼</span>
+                    </button>
+                    <div class="accordion-panel">
+                        <div class="accordion-inner">
+                            <ul class="check-list grid-2">
+                                <li>布财局 · 生财旺财</li>
+                                <li>文昌学业局 · 聪明智慧局</li>
+                                <li>升官升迁局 · 事业发展局</li>
+                                <li>催债讨债局 · 催合作局</li>
+                                <li>夫妻感情和合局</li>
+                                <li>安胎局 · 生儿育女局</li>
+                                <li>妻贤子孝局 · 婆媳关系调整</li>
+                                <li>健康疾病调理局</li>
+                                <li>桃花局 · 催婚催结合</li>
+                                <li>拆第三者 · 感情复合</li>
+                                <li>公司项目招标局</li>
+                                <li>奇门四害化解技术</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-btn" onclick="toggleAccordion(this)">
+                        <span class="acc-title"><span class="acc-icon">✨</span>奇门法术与拓展技术</span>
+                        <span class="accordion-arrow">▼</span>
+                    </button>
+                    <div class="accordion-panel">
+                        <div class="accordion-inner">
+                            <ul class="check-list grid-2">
+                                <li>奇门护体 · 护身保命法</li>
+                                <li>寻时借运 · 借运改运法</li>
+                                <li>移星换斗 · 高级化解术</li>
+                                <li>法术破解技术真传</li>
+                                <li>终身感情局 · 终身财局</li>
+                                <li>奇门数字 · 数字能量</li>
+                                <li>号码学 · 手机号吉凶与调整</li>
+                                <li>姓名学 · 起名改名秘诀</li>
+                                <li>头像学 · 微信头像风水</li>
+                                <li>更多秘传内容课堂传授</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 教学承诺 -->
+    <section id="benefit" style="background: #0F0F1A;">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-sub">学习承诺</div>
+                <h2 class="section-h2 gold-text">我们的教学承诺</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="promise-grid">
+                <div class="promise-card">
+                    <div class="promise-icon">🚫</div>
+                    <div>
+                        <h3>不分级别 无任何套路</h3>
+                        <p>不设初中高级别层层收费，一期课程倾囊相授，没有任何套路与隐藏内容，不用反复缴费进修。</p>
+                    </div>
+                </div>
+                <div class="promise-card">
+                    <div class="promise-icon">🔓</div>
+                    <div>
+                        <h3>绝招心法 毫无保留</h3>
+                        <p>不藏私、不保守，所有实战经验、秘传心法、破解技术全部口传心授，包括不能见于字面的内容。</p>
+                    </div>
+                </div>
+                <div class="promise-card">
+                    <div class="promise-icon">💡</div>
+                    <div>
+                        <h3>不故弄玄虚 简单易学</h3>
+                        <p>反对标新立异、神化自己，用最通俗的语言讲透最核心的道理，让零基础学员也能快速入门上手。</p>
+                    </div>
+                </div>
+                <div class="promise-card">
+                    <div class="promise-icon">📖</div>
+                    <div>
+                        <h3>秉承经典 回归本源</h3>
+                        <p>所有内容均源于传统经典传承，不编造理论、不歪曲原意，教授老祖宗真正传承下来的精华。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 适合人群 -->
+    <section class="dark-bg">
+        <div class="container">
+            <div class="section-title">
+                <div class="section-sub">招生对象</div>
+                <h2 class="section-h2 gold-text">适合人群</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="crowd-grid">
+                <div class="crowd-item">
+                    <div class="crowd-icon">🔮</div>
+                    <p>对奇门遁甲、传统文化感兴趣的零基础爱好者</p>
+                </div>
+                <div class="crowd-item">
+                    <div class="crowd-icon">🏠</div>
+                    <p>想改善自家风水、提升家运的朋友</p>
+                </div>
+                <div class="crowd-item">
+                    <div class="crowd-icon">💼</div>
+                    <p>企业老板、创业者，希望用奇门做商业决策</p>
+                </div>
+                <div class="crowd-item">
+                    <div class="crowd-icon">🧘</div>
+                    <p>身心灵、玄学、易学从业者，提升专业技能</p>
+                </div>
+                <div class="crowd-item">
+                    <div class="crowd-icon">👨‍👩‍👧</div>
+                    <p>被感情、健康、事业等问题困扰的朋友</p>
+                </div>
+                <div class="crowd-item">
+                    <div class="crowd-icon">⚰️</div>
+                    <p>从事风水、命理咨询的职业从业者</p>
+                </div>
+                <div class="crowd-item">
+                    <div class="crowd-icon">🎯</div>
+                    <p>想掌握一技之长、助人助己的有识之士</p>
+                </div>
+                <div class="crowd-item">
+                    <div class="crowd-icon">🌟</div>
+                    <p>对道法法术、改运化煞有兴趣的修行者</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 报名咨询 -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="contact-box">
+                <h2 class="gold-text">立即报名咨询</h2>
+                <p>名额有限，欢迎添加老师微信咨询详情<br>支持单约一对一辅导，因材施教</p>
+                <div class="contact-info">
+                    <div class="contact-row">
+                        <span class="c-icon">🧑‍🏫</span>
+                        <span>授课老师：<strong>无镜道老师</strong></span>
+                    </div>
+                    <div class="contact-row">
+                        <span class="c-icon">📱</span>
+                        <span>微信/电话：<a href="tel:15512141951">15512141951</a></span>
+                    </div>
+                </div>
+                <div class="qrcode-area">
+                    <div class="qr-icon"></div>
+                    <div><img src="images/wx.webp" alt="无镜道微信" loading="lazy" width="120" height="120"><br>添加好友请备注"奇门学习"</div>
+                </div>
+                <a href="tel:15512141951" class="btn-primary" style="margin-top: 20px;">📞 一键拨打电话咨询</a>
+                <p class="contact-tip">温馨提示：面授班每期名额有限，请提前预约锁定席位</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 浮动咨询按钮 -->
+    <a href="tel:15512141951" class="float-btn" title="电话咨询">📞</a>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>九天道法奇门遁甲 · 无镜道老师亲授</p>
+        <p style="margin-top: 8px;">学会奇门遁，来人不用问 — 传承中华智慧，造福有缘之人</p>
+    </footer>
+
+    <script>
+        // 移动端菜单
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('open');
+        }
+        function closeMenu() {
+            document.getElementById('mobileMenu').classList.remove('open');
+        }
+
+        // 手风琴
+        function toggleAccordion(btn) {
+            const panel = btn.nextElementSibling;
+            const isOpen = btn.classList.contains('open');
+            // 关闭所有
+            document.querySelectorAll('.accordion-btn').forEach(b => b.classList.remove('open'));
+            document.querySelectorAll('.accordion-panel').forEach(p => p.classList.remove('open'));
+            // 如果之前没打开，则打开当前
+            if (!isOpen) {
+                btn.classList.add('open');
+                panel.classList.add('open');
+            }
+        }
+        // 默认展开第一个
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstBtn = document.querySelector('.accordion-btn');
+            if (firstBtn) toggleAccordion(firstBtn);
+        });
+    </script>
+</body>
+</html>

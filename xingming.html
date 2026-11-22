@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正宗中华姓名学 · 无镜道</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+            background-color: #fcf8f0;
+            color: #2f2f2f;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        
+        .font-serif-cn {
+            font-family: "Songti SC", "STSong", "SimSun", "宋体", serif;
+        }
+        
+        /* 宣纸纹理背景 - 纯CSS内联SVG，无外部文件 */
+        .paper-texture {
+            background-color: #fcf8f0;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+        
+        /* 红色印章效果 */
+        .seal {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background-color: #b22222;
+            color: #fff;
+            font-family: "SimSun", "宋体", serif;
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 1.2;
+            text-align: center;
+            border-radius: 4px;
+            transform: rotate(-5deg);
+            box-shadow: 2px 2px 8px rgba(178,34,34,0.3);
+            border: 3px solid #8b0000;
+        }
+        
+        /* 卡片悬浮效果 */
+        .feature-card {
+            transition: all 0.4s cubic-bezier(.2,.8,.2,1);
+            background: rgba(255,255,255,0.85);
+            border: 1px solid rgba(139,69,19,0.1);
+            border-radius: 16px;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(139,69,19,0.15);
+            border-color: rgba(139,69,19,0.3);
+        }
+        
+        /* 分割线装饰 */
+        .divider-ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 48px 0;
+        }
+        
+        .divider-line {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #b8860b, transparent);
+        }
+        
+        .divider-diamond {
+            width: 10px;
+            height: 10px;
+            background: #b8860b;
+            transform: rotate(45deg);
+        }
+        
+        /* 标题装饰 */
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #b8860b, #8b4513);
+            border-radius: 2px;
+        }
+        
+        /* 动画入场 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 八卦图标动画 - 纯CSS绘制八卦 */
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .bagua-rotate {
+            animation: rotate 60s linear infinite;
+        }
+        
+        .bagua {
+            width: 160px;
+            height: 160px;
+            position: relative;
+        }
+        
+        .bagua-outer {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid #8b4513;
+            position: relative;
+            background: linear-gradient(to right, #fff 50%, #2f2f2f 50%);
+        }
+        
+        .bagua-yin {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #2f2f2f;
+            top: 0;
+            left: 40px;
+        }
+        
+        .bagua-yang {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #fff;
+            bottom: 0;
+            left: 40px;
+        }
+        
+        .bagua-dot-yin {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            top: 30px;
+            left: 70px;
+        }
+        
+        .bagua-dot-yang {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2f2f2f;
+            bottom: 30px;
+            left: 70px;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        /* 联系方式按钮 */
+        .contact-btn {
+            background: linear-gradient(135deg, #b22222 0%, #8b0000 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .contact-btn:hover::before {
+            left: 100%;
+        }
+        
+        .contact-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(178,34,34,0.4);
+        }
+        
+        /* 教学内容手风琴 */
+        details {
+            background: rgba(255,255,255,0.7);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(139,69,19,0.1);
+            overflow: hidden;
+        }
+        
+        details summary {
+            padding: 16px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #2f2f2f;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        
+        details summary::after {
+            content: '▸';
+            color: #8b4513;
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        details[open] summary {
+            background: rgba(139,69,19,0.05);
+            color: #8b4513;
+        }
+        
+        details[open] summary::after {
+            transform: rotate(90deg);
+        }
+        
+        details .detail-content {
+            padding: 0 20px 20px;
+            color: #555;
+        }
+        
+        /* 标签样式 */
+        .tag {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(184,134,11,0.1);
+            color: #8b6914;
+            border-radius: 20px;
+            font-size: 14px;
+            margin: 4px;
+            border: 1px solid rgba(184,134,11,0.2);
+        }
+        
+        /* 五行颜色 */
+        .element-wood { color: #228b22; border: 1px solid rgba(34,139,34,0.3); background: rgba(34,139,34,0.05); border-radius: 12px; padding: 24px 16px; text-align: center; }
+        .element-fire { color: #dc143c; border: 1px solid rgba(220,20,60,0.3); background: rgba(220,20,60,0.05); border-radius: 12px; padding: 24px 16px; text-align: center; }
+        .element-earth { color: #b8860b; border: 1px solid rgba(184,134,11,0.3); background: rgba(184,134,11,0.05); border-radius: 12px; padding: 24px 16px; text-align: center; }
+        .element-metal { color: #708090; border: 1px solid rgba(112,128,144,0.3); background: rgba(112,128,144,0.05); border-radius: 12px; padding: 24px 16px; text-align: center; }
+        .element-water { color: #1e90ff; border: 1px solid rgba(30,144,255,0.3); background: rgba(30,144,255,0.05); border-radius: 12px; padding: 24px 16px; text-align: center; }
+        
+        /* 导航 */
+        nav {
+            background: rgba(252,248,240,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139,69,19,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-link {
+            position: relative;
+            padding: 8px 0;
+            color: #4a4a4a;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: #8b4513;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #b22222;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* 背景装饰圆 - 纯CSS */
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.12;
+            pointer-events: none;
+        }
+        
+        /* 布局类 */
+        .max-w-6xl { max-width: 1152px; margin: 0 auto; }
+        .max-w-5xl { max-width: 1024px; margin: 0 auto; }
+        .max-w-4xl { max-width: 896px; margin: 0 auto; }
+        .px-4 { padding-left: 16px; padding-right: 16px; }
+        .py-20 { padding-top: 80px; padding-bottom: 80px; }
+        .py-16 { padding-top: 64px; padding-bottom: 64px; }
+        .py-10 { padding-top: 40px; padding-bottom: 40px; }
+        .p-8 { padding: 32px; }
+        .p-6 { padding: 24px; }
+        .p-5 { padding: 20px; }
+        .p-4 { padding: 16px; }
+        .p-3 { padding: 12px; }
+        .mb-16 { margin-bottom: 64px; }
+        .mb-12 { margin-bottom: 48px; }
+        .mb-10 { margin-bottom: 40px; }
+        .mb-8 { margin-bottom: 32px; }
+        .mb-6 { margin-bottom: 24px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mb-3 { margin-bottom: 12px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mt-12 { margin-top: 48px; }
+        .mt-10 { margin-top: 40px; }
+        .mt-8 { margin-top: 32px; }
+        .mt-6 { margin-top: 24px; }
+        .mt-4 { margin-top: 16px; }
+        .mt-3 { margin-top: 12px; }
+        .mt-2 { margin-top: 8px; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .w-full { width: 100%; }
+        .w-24 { width: 96px; }
+        .w-16 { width: 64px; height: 64px; }
+        .w-12 { width: 48px; height: 48px; }
+        .w-44 { width: 176px; height: 176px; }
+        .min-h-[85vh] { min-height: 85vh; }
+        .rounded-2xl { border-radius: 16px; }
+        .rounded-xl { border-radius: 12px; }
+        .rounded-lg { border-radius: 8px; }
+        .rounded-full { border-radius: 9999px; }
+        .flex { display: flex; }
+        .grid { display: grid; }
+        .hidden { display: none; }
+        .block { display: block; }
+        .inline-flex { display: inline-flex; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .flex-col { flex-direction: column; }
+        .flex-wrap { flex-wrap: wrap; }
+        .shrink-0 { flex-shrink: 0; }
+        .gap-8 { gap: 32px; }
+        .gap-6 { gap: 24px; }
+        .gap-4 { gap: 16px; }
+        .gap-3 { gap: 12px; }
+        .gap-2 { gap: 8px; }
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-5xl { font-size: 3rem; font-weight: 900; }
+        .text-4xl { font-size: 2.25rem; font-weight: 700; }
+        .text-3xl { font-size: 1.875rem; font-weight: 700; }
+        .text-2xl { font-size: 1.5rem; font-weight: 700; }
+        .text-xl { font-size: 1.25rem; font-weight: 600; }
+        .text-lg { font-size: 1.125rem; }
+        .text-base { font-size: 1rem; }
+        .text-sm { font-size: 0.875rem; }
+        .font-bold { font-weight: 700; }
+        .font-black { font-weight: 900; }
+        .font-medium { font-weight: 500; }
+        .leading-tight { line-height: 1.25; }
+        .leading-relaxed { line-height: 1.8; }
+        .tracking-[0.3em] { letter-spacing: 0.3em; }
+        .tracking-wider { letter-spacing: 0.05em; }
+        .text-white { color: #fff; }
+        .text-[#2f2f2f] { color: #2f2f2f; }
+        .text-[#4a4a4a] { color: #4a4a4a; }
+        .text-[#555] { color: #555; }
+        .text-[#666] { color: #666; }
+        .text-[#8b4513] { color: #8b4513; }
+        .text-[#b8860b] { color: #b8860b; }
+        .text-[#b22222] { color: #b22222; }
+        .text-white/80 { color: rgba(255,255,255,0.8); }
+        .text-white/70 { color: rgba(255,255,255,0.7); }
+        .text-white/60 { color: rgba(255,255,255,0.6); }
+        .bg-[#b22222] { background-color: #b22222; }
+        .bg-[#8b4513] { background-color: #8b4513; }
+        .bg-white { background-color: #fff; }
+        .bg-white/80 { background-color: rgba(255,255,255,0.8); }
+        .bg-[rgba(178,34,34,0.05)] { background-color: rgba(178,34,34,0.05); }
+        .bg-[rgba(139,69,19,0.03)] { background-color: rgba(139,69,19,0.03); }
+        .bg-gradient-hero {
+            background: linear-gradient(135deg, #8b4513 0%, #5d2e0c 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .bg-gradient-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .border-l-4 { border-left-width: 4px; border-left-style: solid; }
+        .border-[#b22222] { border-color: #b22222; }
+        .border { border-width: 1px; border-style: solid; border-color: rgba(139,69,19,0.1); }
+        .pl-4 { padding-left: 16px; }
+        .py-3 { padding-top: 12px; padding-bottom: 12px; }
+        .px-8 { padding-left: 32px; padding-right: 32px; }
+        .list-disc { list-style-type: disc; }
+        .list-inside { list-style-position: inside; }
+        .space-y-3 > * + * { margin-top: 12px; }
+        .shadow-sm { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .relative { position: relative; }
+        .absolute { position: absolute; }
+        .inset-0 { top:0; right:0; bottom:0; left:0; }
+        .z-10 { z-index: 10; }
+        .opacity-90 { opacity: 0.9; }
+        
+        /* 滚动平滑 */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* 响应式 */
+        @media (min-width: 768px) {
+            .md\:flex { display: flex; }
+            .md\:hidden { display: none; }
+            .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+            .md\:grid-cols-5 { grid-template-columns: repeat(5, 1fr); }
+            .md\:w-2\/5 { width: 40%; }
+            .md\:w-3\/5 { width: 60%; }
+            .md\:text-left { text-align: left; }
+            .md\:text-7xl { font-size: 4rem; font-weight: 900; }
+            .md\:text-5xl { font-size: 3rem; font-weight: 700; }
+            .md\:text-2xl { font-size: 1.5rem; }
+            .md\:text-xl { font-size: 1.25rem; }
+            .md\:p-10 { padding: 40px; }
+            .md\:flex-row { flex-direction: row; }
+            .md\:gap-12 { gap: 48px; }
+        }
+        
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+        }
+        
+        @media (max-width: 767px) {
+            .grid-cols-1 { grid-template-columns: 1fr; }
+            .text-5xl { font-size: 2rem; }
+            .text-3xl { font-size: 1.5rem; }
+            .text-2xl { font-size: 1.25rem; }
+            .text-xl { font-size: 1.1rem; }
+            .contact-btn { padding: 14px 30px; font-size: 16px; }
+        }
+        
+        /* 断法卡片 */
+        .method-card {
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+        .method-card:hover {
+            border-color: #b22222;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(178,34,34,0.1);
+        }
+        
+        /* 大纲数字圆 */
+        .num-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #b22222, #8b0000);
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        /* 警告框 */
+        .warning-box {
+            background: rgba(178,34,34,0.05);
+            border-left: 4px solid #b22222;
+            padding: 20px 24px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+        
+        /* 咨询卡片 */
+        .contact-card {
+            background: linear-gradient(135deg, #fff9f0 0%, #fff 100%);
+            border: 2px solid #b8860b;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        /* 二维码占位 - 纯CSS绘制 */
+        .qrcode-placeholder {
+            width: 180px;
+            height: 180px;
+            background: #fff;
+            border: 8px solid #2f2f2f;
+            margin: 0 auto;
+            position: relative;
+            background-image: 
+                linear-gradient(45deg, #2f2f2f 25%, transparent 25%),
+                linear-gradient(-45deg, #2f2f2f 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #2f2f2f 75%),
+                linear-gradient(-45deg, transparent 75%, #2f2f2f 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        .qrcode-corner {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 8px solid #2f2f2f;
+            background: #fff;
+        }
+        .qrcode-corner::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: #2f2f2f;
+            top: 6px;
+            left: 6px;
+        }
+        .qrcode-corner.tl { top: 0; left: 0; }
+        .qrcode-corner.tr { top: 0; right: 0; }
+        .qrcode-corner.bl { bottom: 0; left: 0; }
+    </style>
+</head>
+<body class="paper-texture">
+    <!-- 导航栏 -->
+    <nav class="py-3 px-4">
+        <div class="max-w-6xl flex justify-between items-center">
+            <div class="font-serif-cn text-xl font-bold text-[#8b4513]">无镜道 · 姓名学</div>
+            <div class="hidden md:flex gap-6 items-center">
+                <a href="#intro" class="nav-link">课程简介</a>
+                <a href="#system" class="nav-link">学术体系</a>
+                <a href="#method" class="nav-link">断法技法</a>
+                <a href="#syllabus" class="nav-link">教学大纲</a>
+                <a href="#harvest" class="nav-link">学习收获</a>
+                <a href="#contact" class="nav-link">报名咨询</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首屏 Hero -->
+    <section class="bg-gradient-hero text-white py-20 px-4 relative">
+        <div class="bg-circle" style="width:400px;height:400px;background:#b8860b;top:-100px;right:-100px;"></div>
+        <div class="bg-circle" style="width:300px;height:300px;background:#b22222;bottom:-50px;left:-50px;"></div>
+        
+        <div class="max-w-6xl relative z-10 flex flex-col md:flex-row items-center gap-8">
+            <div class="md:w-3/5 text-center md:text-left">
+                <div class="inline-block px-4 py-1 rounded-full bg-white/10 border border-white/20 text-sm mb-6 tracking-wider">
+                    中华易学正宗传承 · 拒绝伪学
+                </div>
+                <h1 class="font-serif-cn text-5xl md:text-7xl font-black leading-tight mb-6">
+                    正宗汉字<br>姓名学
+                </h1>
+                <p class="text-xl text-white/80 mb-8 leading-relaxed max-w-2xl">
+                    绝非市面流传的五格剖象伪学。回归汉字本源，以阴阳五行为根，八卦四象为法，传承千年先贤智慧，观字知人，明象见运。
+                </p>
+                <a href="#contact" class="contact-btn">
+                    <span>立即咨询报名</span>
+                    <span style="margin-left:8px;">→</span>
+                </a>
+            </div>
+            <div class="md:w-2/5 flex justify-center">
+                <div class="bagua-rotate">
+                    <div class="bagua">
+                        <div class="bagua-outer">
+                            <div class="bagua-yin"></div>
+                            <div class="bagua-yang"></div>
+                            <div class="bagua-dot-yin"></div>
+                            <div class="bagua-dot-yang"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 课程核心优势 -->
+    <section id="intro" class="py-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="section-title font-serif-cn text-3xl font-bold text-[#2f2f2f] mb-4">正本清源</h2>
+                <p class="text-[#666] mt-8">破除伪学迷雾，传承正宗姓名学</p>
+            </div>
+            
+            <div class="warning-box mb-10">
+                <p class="font-bold text-[#b22222] mb-2">⚠️ 警惕五格剖象伪姓名学</p>
+                <p class="text-[#555] leading-relaxed">
+                    汉字是老祖宗留下的大智慧，是象形文字，有音、有形、有意。靠数笔画数来测姓名、起名的五格剖象法，是对中华传统文化的歪曲，也是对先贤智慧的不敬。
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="feature-card p-6">
+                    <div class="w-12 bg-[rgba(178,34,34,0.1)] rounded-lg flex items-center justify-center text-[#b22222] text-xl mb-4">
+                        ☯
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 font-serif-cn">易学正宗传承</h3>
+                    <p class="text-[#555]">以阴阳、五行、八卦、四象、天干、地支为理论根基，是真正源于中华易学的正统姓名学。</p>
+                </div>
+                <div class="feature-card p-6">
+                    <div class="w-12 bg-[rgba(139,69,19,0.1)] rounded-lg flex items-center justify-center text-[#8b4513] text-xl mb-4">
+                        🔮
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 font-serif-cn">实战预测精准</h3>
+                    <p class="text-[#555]">可预测大运流年、健康财运、事业学业、婚姻感情、六亲关系、性格长相、伤病官灾等人生各方面。</p>
+                </div>
+                <div class="feature-card p-6">
+                    <div class="w-12 bg-[rgba(184,134,11,0.1)] rounded-lg flex items-center justify-center text-[#b8860b] text-xl mb-4">
+                        ✦
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 font-serif-cn">体系完整高级</h3>
+                    <p class="text-[#555]">包含阴阳断、五行断、九宫八卦断、发音断、字形象法、拆合断法等十余种高级断法，绝非坊间皮毛之术。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider-ornament">
+        <div class="divider-line"></div>
+        <div class="divider-diamond"></div>
+        <div class="divider-line"></div>
+    </div>
+
+    <!-- 理论基础 - 五行 -->
+    <section id="system" class="py-16 px-4 bg-[rgba(139,69,19,0.03)]">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="section-title font-serif-cn text-3xl font-bold text-[#2f2f2f] mb-4">理论根基</h2>
+                <p class="text-[#666] mt-8">阴阳五行八卦为基，回归汉字本源智慧</p>
+            </div>
+            
+            <h3 class="text-xl font-bold text-center mb-8 font-serif-cn text-[#8b4513]">五行学说</h3>
+            <div class="grid md:grid-cols-5 gap-4 mb-12">
+                <div class="element-wood">
+                    <div class="text-3xl mb-2">木</div>
+                    <div class="text-sm">曲直 · 生发</div>
+                    <div class="text-xs mt-1 opacity-80">主仁 · 肝胆</div>
+                </div>
+                <div class="element-fire">
+                    <div class="text-3xl mb-2">火</div>
+                    <div class="text-sm">炎上 · 升腾</div>
+                    <div class="text-xs mt-1 opacity-80">主礼 · 心脏</div>
+                </div>
+                <div class="element-earth">
+                    <div class="text-3xl mb-2">土</div>
+                    <div class="text-sm">稼穑 · 承载</div>
+                    <div class="text-xs mt-1 opacity-80">主信 · 脾胃</div>
+                </div>
+                <div class="element-metal">
+                    <div class="text-3xl mb-2">金</div>
+                    <div class="text-sm">从革 · 收敛</div>
+                    <div class="text-xs mt-1 opacity-80">主义 · 肺脏</div>
+                </div>
+                <div class="element-water">
+                    <div class="text-3xl mb-2">水</div>
+                    <div class="text-sm">润下 · 下行</div>
+                    <div class="text-xs mt-1 opacity-80">主智 · 肾脏</div>
+                </div>
+            </div>
+            
+            <h3 class="text-xl font-bold text-center mb-8 font-serif-cn text-[#8b4513]">姓名学基础</h3>
+            <div class="flex flex-wrap justify-center gap-3">
+                <span class="tag">阴阳</span>
+                <span class="tag">五行</span>
+                <span class="tag">先后天八卦</span>
+                <span class="tag">天干地支</span>
+                <span class="tag">六亲</span>
+                <span class="tag">汉字知识</span>
+                <span class="tag">观象立意</span>
+                <span class="tag">四象学说</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider-ornament">
+        <div class="divider-line"></div>
+        <div class="divider-diamond"></div>
+        <div class="divider-line"></div>
+    </div>
+
+    <!-- 十二大高级断法 -->
+    <section id="method" class="py-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="section-title font-serif-cn text-3xl font-bold text-[#2f2f2f] mb-4">十二大高级断法</h2>
+                <p class="text-[#666] mt-8">多维度断事，精准入微</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="method-card p-5 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-2">
+                        <span class="text-[#b22222] font-bold mr-2">壹</span>
+                        <h4 class="font-bold">阴阳断法</h4>
+                    </div>
+                    <p class="text-sm text-[#666]">明辨阴阳平衡，察气血盛衰</p>
+                </div>
+                <div class="method-card p-5 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-2">
+                        <span class="text-[#b22222] font-bold mr-2">贰</span>
+                        <h4 class="font-bold">五行断法</h4>
+                    </div>
+                    <p class="text-sm text-[#666]">五行生克制化，断吉凶祸福</p>
+                </div>
+                <div class="method-card p-5 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-2">
+                        <span class="text-[#b22222] font-bold mr-2">叁</span>
+                        <h4 class="font-bold">九宫八卦断法</h4>
+                    </div>
+                    <p class="text-sm text-[#666]">八卦类象，九宫定位</p>
+                </div>
+                <div class="method-card p-5 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-2">
+                        <span class="text-[#b22222] font-bold mr-2">肆</span>
+                        <h4 class="font-bold">发音断法</h4>
+                    </div>
+                    <p class="text-sm text-[#666]">五音对应五脏，听声知运</p>
+                </div>
+                <div class="method-card p-5 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-2">
+                        <span class="text-[#b22222] font-bold mr-2">伍</span>
+                        <h4 class="font-bold">字形象法</h4>
+                    </div>
+                    <p class="text-sm text-[#666]">观字形象意，察外相体态</p>
+                </div>
+                <div class="method-card p-5 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-2">
+                        <span class="text-[#b22222] font-bold mr-2">陆</span>
+                        <h4 class="font-bold">字义断法</h4>
+                    </div>
+                    <p class="text-sm text-[#666]">解字中本义，明性情际遇</p>
+                </div>
+                <div class="method-card p-5 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-2">
+                        <span class="text-[#b22222] font-bold mr-2">柒</span>
+                        <h4 class="font-bold">太极点断法</h4>
+                    </div>
+                    <p class="text-sm text-[#666]">找准姓名太极点，一断定乾坤</p>
+                </div>
+                <div class="method-card p-5 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-2">
+                        <span class="text-[#b22222] font-bold mr-2">捌</span>
+                        <h4 class="font-bold">六亲断法</h4>
+                    </div>
+                    <p class="text-sm text-[#666]">父母兄弟妻子，六亲关系一目了然</p>
+                </div>
+                <div class="method-card p-5 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-2">
+                        <span class="text-[#b22222] font-bold mr-2">玖</span>
+                        <h4 class="font-bold">六神断法</h4>
+                    </div>
+                    <p class="text-sm text-[#666]">青龙白虎朱雀玄武，断性情吉凶</p>
+                </div>
+                <div class="method-card p-5 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-2">
+                        <span class="text-[#b22222] font-bold mr-2">拾</span>
+                        <h4 class="font-bold">数字卦断法</h4>
+                    </div>
+                    <p class="text-sm text-[#666]">姓名起卦，梅花易数断事</p>
+                </div>
+                <div class="method-card p-5 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-2">
+                        <span class="text-[#b22222] font-bold mr-2">拾壹</span>
+                        <h4 class="font-bold">奇门断法</h4>
+                    </div>
+                    <p class="text-sm text-[#666]">奇门遁甲融入姓名，运筹帷幄</p>
+                </div>
+                <div class="method-card p-5 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-2">
+                        <span class="text-[#b22222] font-bold mr-2">拾贰</span>
+                        <h4 class="font-bold">拆合断法</h4>
+                    </div>
+                    <p class="text-sm text-[#666]">拆字合字，玄机暗藏，妙断无穷</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider-ornament">
+        <div class="divider-line"></div>
+        <div class="divider-diamond"></div>
+        <div class="divider-line"></div>
+    </div>
+
+    <!-- 教学大纲 -->
+    <section id="syllabus" class="py-16 px-4 bg-[rgba(139,69,19,0.03)]">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="section-title font-serif-cn text-3xl font-bold text-[#2f2f2f] mb-4">完整教学大纲</h2>
+                <p class="text-[#666] mt-8">系统学习，从入门到精通</p>
+            </div>
+            
+            <div class="space-y-3">
+                <details open>
+                    <summary>
+                        <span><span class="num-circle">1</span>姓名学基础理论</span>
+                    </summary>
+                    <div class="detail-content">
+                        <p>阴阳学说、五行生克、先后天八卦、天干地支、六亲定位、汉字音形意基础理论，建立正宗姓名学思维框架。</p>
+                    </div>
+                </details>
+                
+                <details>
+                    <summary>
+                        <span><span class="num-circle">2</span>性格长相断法</span>
+                    </summary>
+                    <div class="detail-content">
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>外在性格特征</li>
+                            <li>内在性格秉性</li>
+                            <li>长相特征、体态相貌</li>
+                        </ul>
+                    </div>
+                </details>
+                
+                <details>
+                    <summary>
+                        <span><span class="num-circle">3</span>健康状况断法</span>
+                    </summary>
+                    <div class="detail-content">
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>健康问题、疾病隐患</li>
+                            <li>伤灾意外、血光之灾</li>
+                            <li>手术信息、刀疤痕迹</li>
+                        </ul>
+                    </div>
+                </details>
+                
+                <details>
+                    <summary>
+                        <span><span class="num-circle">4</span>婚姻感情断法</span>
+                    </summary>
+                    <div class="detail-content">
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>婚姻好坏、感情顺逆</li>
+                            <li>双方强弱、是否多婚</li>
+                            <li>晚婚早婚、桃花外遇</li>
+                            <li>结婚时间、离婚风险</li>
+                            <li>孤老命、克妻克夫、旺夫旺妻</li>
+                        </ul>
+                    </div>
+                </details>
+                
+                <details>
+                    <summary>
+                        <span><span class="num-circle">5</span>财运事业断法</span>
+                    </summary>
+                    <div class="detail-content">
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>名字里有无财库、财大财小</li>
+                            <li>适合行业、职业选择</li>
+                            <li>财运流年、方位选择</li>
+                            <li>公司发展、企业运势、管理水平</li>
+                        </ul>
+                    </div>
+                </details>
+                
+                <details>
+                    <summary>
+                        <span><span class="num-circle">6</span>交友合作断法</span>
+                    </summary>
+                    <div class="detail-content">
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>是否适合做朋友</li>
+                            <li>是否适合合伙经营</li>
+                            <li>谈判合作利弊</li>
+                        </ul>
+                    </div>
+                </details>
+                
+                <details>
+                    <summary>
+                        <span><span class="num-circle">7</span>学业考试断法</span>
+                    </summary>
+                    <div class="detail-content">
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>学历高低、读书天赋</li>
+                            <li>流年学习运势起伏</li>
+                            <li>考学顺利与否、有利方位</li>
+                        </ul>
+                    </div>
+                </details>
+                
+                <details>
+                    <summary>
+                        <span><span class="num-circle">8</span>风水环境断法</span>
+                    </summary>
+                    <div class="detail-content">
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>阳宅内环境断法</li>
+                            <li>阳宅外环境断法</li>
+                            <li>姓名与风水的对应关系</li>
+                        </ul>
+                    </div>
+                </details>
+                
+                <details>
+                    <summary>
+                        <span><span class="num-circle">9</span>六亲关系断法</span>
+                    </summary>
+                    <div class="detail-content">
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>父母之间关系</li>
+                            <li>自己与父母关系</li>
+                            <li>子女缘分、兄弟姐妹关系</li>
+                        </ul>
+                    </div>
+                </details>
+                
+                <details>
+                    <summary>
+                        <span><span class="num-circle">10</span>大运流年断法</span>
+                    </summary>
+                    <div class="detail-content">
+                        <p>大运走势、流年吉凶应期，推算每年运势起伏，把握机遇，规避风险。</p>
+                    </div>
+                </details>
+                
+                <details>
+                    <summary>
+                        <span><span class="num-circle">11</span>起名改名秘法</span>
+                    </summary>
+                    <div class="detail-content">
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>正宗起名原则</li>
+                            <li>结合八字喜用神起名</li>
+                            <li>高级起名方法</li>
+                            <li>起名忌讳字详解</li>
+                        </ul>
+                    </div>
+                </details>
+                
+                <details>
+                    <summary>
+                        <span><span class="num-circle">12</span>实战应用拓展</span>
+                    </summary>
+                    <div class="detail-content">
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>用姓名选手机号</li>
+                            <li>用姓名选班级、选座位</li>
+                            <li>企业起名、品牌命名</li>
+                            <li>赠送起名宝典资料</li>
+                        </ul>
+                    </div>
+                </details>
+                
+                <details>
+                    <summary>
+                        <span><span class="num-circle">+</span>风水化解破解</span>
+                    </summary>
+                    <div class="detail-content">
+                        <p>独家教授如何通过风水布局化解破解姓名中存在的问题，先天不足后天补，真正做到趋吉避凶。</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider-ornament">
+        <div class="divider-line"></div>
+        <div class="divider-diamond"></div>
+        <div class="divider-line"></div>
+    </div>
+
+    <!-- 学习收获 -->
+    <section id="harvest" class="py-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="section-title font-serif-cn text-3xl font-bold text-[#2f2f2f] mb-4">学成之后</h2>
+                <p class="text-[#666] mt-8">掌握一门绝学，受益终身</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="feature-card p-8">
+                    <div class="text-4xl mb-4">✍️</div>
+                    <h3 class="text-xl font-bold mb-3 font-serif-cn">起名改名</h3>
+                    <p class="text-[#555]">可以为个人起名、改名，为企业、店铺、品牌起名，一个好名伴随一生，兴旺事业。</p>
+                </div>
+                <div class="feature-card p-8">
+                    <div class="text-4xl mb-4">👁️</div>
+                    <h3 class="text-xl font-bold mb-3 font-serif-cn">观字知人</h3>
+                    <p class="text-[#555]">看到姓名就能预测一个人、一个企业的各方面情况及运势走势，知人知面更知心。</p>
+                </div>
+                <div class="feature-card p-8">
+                    <div class="text-4xl mb-4">🧭</div>
+                    <h3 class="text-xl font-bold mb-3 font-serif-cn">人生运筹</h3>
+                    <p class="text-[#555]">为个人和企业做综合运筹：发展方向、从事行业、公司选择、人员配置、合作选择等。</p>
+                </div>
+                <div class="feature-card p-8">
+                    <div class="text-4xl mb-4">🏮</div>
+                    <h3 class="text-xl font-bold mb-3 font-serif-cn">风水化解</h3>
+                    <p class="text-[#555]">掌握姓名问题的风水化解方法，趋吉避凶，弥补先天不足，真正做到改运造命。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider-ornament">
+        <div class="divider-line"></div>
+        <div class="divider-diamond"></div>
+        <div class="divider-line"></div>
+    </div>
+
+    <!-- 课程体系图 -->
+    <section class="py-16 px-4 bg-[rgba(139,69,19,0.03)]">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="section-title font-serif-cn text-3xl font-bold text-[#2f2f2f] mb-4">课程体系总览</h2>
+            <p class="text-[#666] mt-8 mb-10">完整教学体系，一目了然</p>
+            <div class="bg-white p-4 rounded-xl shadow-sm border">
+                <img src="https://aisearch.bj.bcebos.com/fileAsset/4JtdFL1oELFEJ1rpxeUZAA/1795358773119O6KEoA.jpg?authorization=bce-auth-v1%2F7e22d8caf5af46cc9310f1e3021709f3%2F2026-11-22T15%3A01%3A27Z%2F604800%2Fhost%2F51fa6d156a72ccb22fecc3bb3be8a33f60fb70b78cccb1dad3dcdfe122f60211" 
+                     alt="姓名学教学内容思维导图" 
+                     class="w-full rounded-lg"
+                     loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- 报名咨询 -->
+    <section id="contact" class="py-20 px-4">
+        <div class="max-w-3xl mx-auto">
+            <div class="contact-card">
+                <h2 class="font-serif-cn text-3xl font-bold mb-4 text-[#2f2f2f]">咨询报名</h2>
+                <p class="text-[#666] mb-8">欢迎添加老师微信，了解课程详情，预约报名</p>
+                
+                <div class="flex flex-col items-center gap-8">
+                    <div class="grid md:grid-cols-2 gap-6 w-full">
+                        <div class="text-center p-6 bg-[rgba(178,34,34,0.05)] rounded-xl">
+                            <div class="text-sm text-[#666] mb-2">主讲老师</div>
+                            <div class="font-serif-cn text-2xl font-bold text-[#b22222]">无镜道老师</div>
+                        </div>
+                        <div class="text-center p-6 bg-[rgba(184,134,11,0.05)] rounded-xl">
+                            <div class="text-sm text-[#666] mb-2">微信/电话</div>
+                            <div class="font-bold text-2xl text-[#b8860b]">15512141951</div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+
+<img src="data:image/jpeg;base64,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" alt="image">
+                        
+                        <p class="text-[#666] text-sm">扫码添加微信咨询</p>
+                        <p class="text-[#8b4513] font-medium mt-2">公众号：无镜易道</p>
+                    </div>
+                    
+                    <a href="tel:15512141951" class="contact-btn mt-4">
+                        <span>📞 立即拨打咨询</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-[#2f2f2f] text-white/70 py-10 px-4 text-center">
+        <div class="max-w-6xl">
+            <div class="font-serif-cn text-xl mb-4">无镜道 · 正宗中华姓名学</div>
+            <p class="text-sm mb-2">传承千年易学智慧，弘扬正宗汉字文化</p>
+            <p class="text-sm text-white/40">微信/电话：15512141951</p>
+        </div>
+    </footer>
+</body>
+</html>

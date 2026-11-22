@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>微信头像预测 · 观象术入门 | 无镜道老师亲授</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root{
+    --ink:#1a1510;
+    --gold:#c9a96e;
+    --gold-deep:#a8823f;
+    --red:#8b2626;
+    --red-deep:#6b1c1c;
+    --paper:#f6efe2;
+    --paper-dark:#e8dcc4;
+  }
+  html{scroll-behavior:smooth}
+  body{
+    /* 国内原生系统字体栈，无需外网加载 */
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans CN","WenQuanYi Micro Hei","Helvetica Neue",Helvetica,Arial,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  /* 中文衬线字体栈，适配macOS/Windows/国产Linux */
+  .font-serif-cn{
+    font-family:"Source Han Serif SC","Songti SC","SimSun","STSong","Noto Serif CJK SC",Georgia,"Times New Roman",serif;
+    font-weight:600;
+  }
+  /* 背景纹理 */
+  .paper-texture{
+    background-color:#f6efe2;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(201,169,110,0.08) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(139,38,38,0.05) 0%, transparent 40%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a8823f' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-bg{
+    background:
+      linear-gradient(135deg, rgba(26,21,16,0.88) 0%, rgba(58,42,28,0.82) 50%, rgba(26,21,16,0.92) 100%),
+      radial-gradient(ellipse at top, rgba(201,169,110,0.25) 0%, transparent 60%);
+  }
+  .taiji-spin{
+    animation:spin 60s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .bagua-glow{
+    box-shadow:0 0 80px rgba(201,169,110,0.3), 0 0 120px rgba(139,38,38,0.15);
+  }
+  .gold-text{
+    background:linear-gradient(135deg,#e6c882 0%,#c9a96e 50%,#a8823f 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .red-seal{
+    background:var(--red);
+    color:#f6efe2;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-family:"Source Han Serif SC","Songti SC","SimSun","STSong",serif;
+    font-weight:700;
+    letter-spacing:0.15em;
+  }
+  .card-ink{
+    background:linear-gradient(145deg,#fdfaf2,#f0e6d0);
+    border:1px solid rgba(168,130,63,0.25);
+    box-shadow:0 4px 20px rgba(26,21,16,0.08),inset 0 1px 0 rgba(255,255,255,0.6);
+    transition:all .4s ease;
+  }
+  .card-ink:hover{
+    transform:translateY(-4px);
+    box-shadow:0 12px 32px rgba(26,21,16,0.15),inset 0 1px 0 rgba(255,255,255,0.6);
+    border-color:var(--gold);
+  }
+  .divider-ornament{
+    display:flex;align-items:center;justify-content:center;gap:1rem;
+  }
+  .divider-ornament::before,.divider-ornament::after{
+    content:"";flex:1;height:1px;
+    background:linear-gradient(to right,transparent,var(--gold-deep),transparent);
+    max-width:120px;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--red) 0%,var(--red-deep) 100%);
+    color:var(--paper);
+    box-shadow:0 6px 20px rgba(139,38,38,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+    transition:all .3s ease;
+  }
+  .btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 28px rgba(139,38,38,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+  .btn-gold{
+    background:linear-gradient(135deg,#e6c882 0%,var(--gold) 50%,var(--gold-deep) 100%);
+    color:var(--ink);
+    box-shadow:0 6px 20px rgba(201,169,110,0.4), inset 0 1px 0 rgba(255,255,255,0.4);
+    transition:all .3s ease;
+  }
+  .btn-gold:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 28px rgba(201,169,110,0.55), inset 0 1px 0 rgba(255,255,255,0.5);
+  }
+  .hex-pattern{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='%23c9a96e' fill-opacity='0.08'%3E%3Cpath d='M0 0h20v20H0zM20 20h20v20H20z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .bagua-border{
+    border:2px solid var(--gold);
+    position:relative;
+  }
+  .bagua-border::before{
+    content:"";position:absolute;inset:4px;border:1px solid rgba(201,169,110,0.5);
+    pointer-events:none;
+  }
+  .vertical-text{
+    writing-mode:vertical-rl;
+    text-orientation:upright;
+    letter-spacing:0.3em;
+  }
+  .tag-hero{
+    display:inline-block;padding:.45rem 1.1rem;border-radius:2px;
+    font-size:.88rem;letter-spacing:.1em;font-weight:700;
+    font-family:"Source Han Serif SC","Songti SC","SimSun","STSong",serif;
+    background:linear-gradient(135deg,rgba(139,38,38,0.92) 0%,rgba(107,28,28,0.95) 100%);
+    color:#f6efe2;
+    border:1px solid rgba(230,200,130,0.6);
+    box-shadow:0 3px 10px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .pulse-ring{
+    animation:pulseRing 2s ease-in-out infinite;
+  }
+  @keyframes pulseRing{
+    0%,100%{box-shadow:0 0 0 0 rgba(139,38,38,0.5)}
+    50%{box-shadow:0 0 0 14px rgba(139,38,38,0)}
+  }
+  .fade-in-up{
+    animation:fadeInUp .8s ease-out both;
+  }
+  @keyframes fadeInUp{
+    from{opacity:0;transform:translateY(30px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  .quote-mark{
+    font-family:"Source Han Serif SC","Songti SC","SimSun","STSong",serif;
+    font-size:5rem;line-height:1;color:var(--gold);opacity:.3;
+  }
+</style>
+</head>
+<body class="paper-texture">
+
+<!-- 顶部导航/LOGO -->
+<nav class="relative z-20">
+  <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bagua-border flex items-center justify-center">
+        <span class="font-serif-cn font-black text-lg gold-text">易</span>
+      </div>
+      <div>
+        <div class="font-serif-cn font-bold text-base">无镜道 · 观象堂</div>
+        <div class="text-xs text-stone-500 tracking-widest">WU JING DAO YI XUE</div>
+      </div>
+    </div>
+    <a href="#contact" class="hidden md:inline-flex items-center gap-2 text-sm font-medium text-stone-700 hover:text-red-800 transition">
+      立即咨询 →
+    </a>
+  </div>
+</nav>
+
+<!-- HERO 主视觉 -->
+<section class="relative overflow-hidden">
+  <div class="hero-bg absolute inset-0"></div>
+  <div class="absolute inset-0 hex-pattern opacity-40"></div>
+  <!-- 太极装饰 -->
+  <div class="absolute -right-40 -top-40 w-[600px] h-[600px] opacity-10 taiji-spin pointer-events-none">
+    <svg viewBox="0 0 100 100" class="w-full h-full">
+      <circle cx="50" cy="50" r="48" fill="none" stroke="#c9a96e" stroke-width="0.5"/>
+      <path d="M50 2 A48 48 0 0 1 50 98 A24 24 0 0 1 50 50 A24 24 0 0 0 50 2 Z" fill="#c9a96e"/>
+      <!-- 黑鱼白眼 -->
+      <circle cx="50" cy="26" r="6" fill="#1a1510"/>
+      <circle cx="50" cy="26" r="2.2" fill="#f6efe2"/>
+      <!-- 白鱼黑眼（太极点） -->
+      <circle cx="50" cy="74" r="6" fill="#c9a96e"/>
+      <circle cx="50" cy="74" r="2.2" fill="#1a1510"/>
+    </svg>
+  </div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-6 py-16 md:py-24">
+    <div class="grid md:grid-cols-12 gap-10 items-center">
+      <div class="md:col-span-7 text-stone-100 fade-in-up">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="red-seal px-3 py-1 text-xs rounded-sm">玄门秘法</span>
+          <span class="text-amber-200/80 text-sm tracking-widest">高手不传之秘 · 首次系统传授</span>
+        </div>
+        <h1 class="font-serif-cn font-black text-4xl md:text-6xl leading-tight mb-6">
+          <span class="gold-text">一眼识天机</span><br>
+          微信头像观象预测术
+        </h1>
+        <p class="text-lg md:text-xl text-stone-300 leading-relaxed mb-8 font-light">
+          一幅头像，便是一幅活的画。<br>
+          看头像即知人生命运——<br>
+          <span class="text-amber-200">大运 · 流年 · 财运 · 事业 · 婚姻 · 健康 · 六亲</span><br>
+          所见即所得，张口即断，百不失一。
+        </p>
+        <div class="flex flex-wrap gap-3 mb-10">
+          <span class="tag-hero">无需起卦</span>
+          <span class="tag-hero">不用八字</span>
+          <span class="tag-hero">见象直断</span>
+          <span class="tag-hero">零基础可学</span>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="#contact" class="btn-primary px-8 py-4 rounded-sm font-serif-cn font-bold text-lg text-center pulse-ring">
+            加老师微信 · 抢占名额
+          </a>
+          <a href="#content" class="btn-gold px-8 py-4 rounded-sm font-serif-cn font-bold text-lg text-center">
+            了解课程内容
+          </a>
+        </div>
+        <p class="mt-6 text-sm text-stone-400">
+          ⚠ 仅限有缘人 · 名额有限 · 先到先学
+        </p>
+      </div>
+
+      <!-- 右侧太极八卦图 -->
+      <div class="md:col-span-5 flex justify-center fade-in-up" style="animation-delay:.2s">
+        <div class="relative">
+          <div class="w-72 h-72 md:w-80 md:h-80 rounded-full bagua-border bagua-glow bg-gradient-to-br from-stone-800 to-stone-950 flex items-center justify-center relative overflow-hidden">
+            <!-- 八卦符号环 -->
+            <svg viewBox="0 0 200 200" class="absolute inset-0 w-full h-full taiji-spin" style="animation-duration:120s">
+              <!-- 先天八卦方位示意 -->
+              <g fill="none" stroke="#c9a96e" stroke-width="2" opacity="0.5">
+                <!-- 乾 三连 -->
+                <line x1="90" y1="15" x2="110" y2="15"/><line x1="90" y1="22" x2="110" y2="22"/><line x1="90" y1="29" x2="110" y2="29"/>
+                <!-- 坤 六断 -->
+                <line x1="90" y1="171" x2="97" y2="171"/><line x1="103" y1="171" x2="110" y2="171"/>
+                <line x1="90" y1="178" x2="97" y2="178"/><line x1="103" y1="178" x2="110" y2="178"/>
+                <line x1="90" y1="185" x2="97" y2="185"/><line x1="103" y1="185" x2="110" y2="185"/>
+              </g>
+            </svg>
+            <!-- 中心太极（含阴阳鱼眼·太极点） -->
+            <svg viewBox="0 0 100 100" class="w-48 h-48 relative z-10">
+              <circle cx="50" cy="50" r="48" fill="#f6efe2"/>
+              <path d="M50 2 A48 48 0 0 1 50 98 A24 24 0 0 1 50 50 A24 24 0 0 0 50 2 Z" fill="#1a1510"/>
+              <!-- 白鱼黑眼（阴中含阳） -->
+              <circle cx="50" cy="26" r="7" fill="#f6efe2"/>
+              <circle cx="50" cy="26" r="2.6" fill="#1a1510"/>
+              <!-- 黑鱼白眼（阳中含阴·太极点） -->
+              <circle cx="50" cy="74" r="7" fill="#1a1510"/>
+              <circle cx="50" cy="74" r="2.6" fill="#f6efe2"/>
+              <circle cx="50" cy="50" r="48" fill="none" stroke="#c9a96e" stroke-width="1"/>
+            </svg>
+          </div>
+          <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 red-seal px-4 py-2 rounded-sm text-sm font-serif-cn">
+            观象悟道
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 痛点引入 -->
+<section class="py-16 md:py-20">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-12">
+      <div class="divider-ornament mb-4">
+        <span class="font-serif-cn text-xl gold-text font-bold tracking-widest">你是否也有这样的困惑</span>
+      </div>
+      <p class="text-stone-500 text-sm tracking-widest">WHY LEARN</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="card-ink rounded-sm p-6">
+        <div class="text-red-800 text-3xl font-serif-cn font-black mb-2">?</div>
+        <h3 class="font-serif-cn font-bold text-lg mb-2">想学易学却不得其门</h3>
+        <p class="text-stone-600 text-sm leading-relaxed">八字深奥、六爻繁杂、奇门遁甲更是天书，传统术数理法庞杂，苦学数年仍不敢开口断事。</p>
+      </div>
+      <div class="card-ink rounded-sm p-6">
+        <div class="text-red-800 text-3xl font-serif-cn font-black mb-2">?</div>
+        <h3 class="font-serif-cn font-bold text-lg mb-2">换了头像运势却反复</h3>
+        <p class="text-stone-600 text-sm leading-relaxed">听说头像影响运气，跟风换了图却毫无起色，甚至越换越差——因为你不懂象，不知道哪里出了问题。</p>
+      </div>
+      <div class="card-ink rounded-sm p-6">
+        <div class="text-red-800 text-3xl font-serif-cn font-black mb-2">?</div>
+        <h3 class="font-serif-cn font-bold text-lg mb-2">识人无术，常看错人</h3>
+        <p class="text-stone-600 text-sm leading-relaxed">合作伙伴靠不靠谱？对象人品如何？客户是否真心？学会观象，一眼看穿人心，无需日久见人心。</p>
+      </div>
+      <div class="card-ink rounded-sm p-6">
+        <div class="text-red-800 text-3xl font-serif-cn font-black mb-2">?</div>
+        <h3 class="font-serif-cn font-bold text-lg mb-2">遇困厄不知如何化解</h3>
+        <p class="text-stone-600 text-sm leading-relaxed">事业受阻、感情不顺、健康出状况，不知问题出在哪，更不知如何调整——头像就是你随身的风水。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 什么是观象术 -->
+<section class="py-16 md:py-20 bg-gradient-to-b from-transparent to-stone-900/5 relative">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <div class="divider-ornament mb-4">
+        <span class="font-serif-cn text-xl gold-text font-bold tracking-widest">观象者 · 观天之道</span>
+      </div>
+      <h2 class="font-serif-cn font-black text-3xl md:text-4xl mb-4">什么是观象预测术？</h2>
+      <p class="text-stone-600 max-w-2xl mx-auto leading-relaxed">
+        微信头像预测，本质是<span class="text-red-800 font-bold">观象预测术</span>——
+        而观象预测术，是易学中最高级的预测术。
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 mb-12">
+      <div class="card-ink rounded-sm p-7 text-center">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-amber-100 to-amber-200 flex items-center justify-center">
+          <span class="font-serif-cn text-3xl font-black gold-text">易</span>
+        </div>
+        <h3 class="font-serif-cn font-bold text-lg mb-3">简单易学</h3>
+        <p class="text-stone-600 text-sm leading-relaxed">麻雀虽小，五脏俱全。看图说话，所见即所得，无需起卦排盘，零基础也能快速入门。</p>
+      </div>
+      <div class="card-ink rounded-sm p-7 text-center">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center">
+          <span class="font-serif-cn text-3xl font-black text-red-800">准</span>
+        </div>
+        <h3 class="font-serif-cn font-bold text-lg mb-3">直断精准</h3>
+        <p class="text-stone-600 text-sm leading-relaxed">看到头像即可占断一切：大运流年、财运事业、婚姻感情、健康官灾，张口即断，准确无误。</p>
+      </div>
+      <div class="card-ink rounded-sm p-7 text-center">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-stone-100 to-stone-200 flex items-center justify-center">
+          <span class="font-serif-cn text-3xl font-black text-stone-700">通</span>
+        </div>
+        <h3 class="font-serif-cn font-bold text-lg mb-3">一通百通</h3>
+        <p class="text-stone-600 text-sm leading-relaxed">掌握观象思维，不止于头像。火眼金睛，随时随地抓象占断，达到"善易者不卜"的至高境界。</p>
+      </div>
+    </div>
+
+    <!-- 引言 -->
+    <div class="relative max-w-3xl mx-auto bg-gradient-to-br from-stone-50 to-amber-50 border-l-4 border-red-800 p-8 rounded-sm">
+      <span class="quote-mark absolute top-2 left-4">"</span>
+      <p class="font-serif-cn text-lg md:text-xl leading-relaxed text-stone-800 pl-8 italic">
+        善易者不卜。高手都深谙观象术——<br>
+        不用起卦，不用排盘，眼睛看到什么，<br>
+        张口即断，一语中的。
+      </p>
+      <p class="mt-4 pl-8 text-stone-500 text-sm">—— 无镜道老师</p>
+    </div>
+  </div>
+</section>
+
+<!-- 课程内容 -->
+<section id="content" class="py-16 md:py-24">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-14">
+      <div class="divider-ornament mb-4">
+        <span class="font-serif-cn text-xl gold-text font-bold tracking-widest">课程大纲</span>
+      </div>
+      <h2 class="font-serif-cn font-black text-3xl md:text-4xl mb-4">你将系统学到什么</h2>
+      <p class="text-stone-500 max-w-2xl mx-auto">
+        融汇阴阳五行、八卦四象、天干地支，传授十二大高级断法，从入门到精通，从断事到化解。
+      </p>
+    </div>
+
+    <!-- 理论基础 -->
+    <div class="mb-12">
+      <h3 class="font-serif-cn font-bold text-xl mb-6 flex items-center gap-3">
+        <span class="red-seal w-8 h-8 text-sm rounded-sm">壹</span>
+        核心理论基础
+      </h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="card-ink rounded-sm p-4 text-center"><span class="font-serif-cn font-bold">阴 阳</span></div>
+        <div class="card-ink rounded-sm p-4 text-center"><span class="font-serif-cn font-bold">五 行</span></div>
+        <div class="card-ink rounded-sm p-4 text-center"><span class="font-serif-cn font-bold">八 卦</span></div>
+        <div class="card-ink rounded-sm p-4 text-center"><span class="font-serif-cn font-bold">四 象</span></div>
+        <div class="card-ink rounded-sm p-4 text-center"><span class="font-serif-cn font-bold">观 象</span></div>
+        <div class="card-ink rounded-sm p-4 text-center"><span class="font-serif-cn font-bold">天 干</span></div>
+        <div class="card-ink rounded-sm p-4 text-center"><span class="font-serif-cn font-bold">地 支</span></div>
+        <div class="card-ink rounded-sm p-4 text-center opacity-60"><span class="text-stone-500 text-sm">…… 筑基</span></div>
+      </div>
+    </div>
+
+    <!-- 高级断法 -->
+    <div class="mb-12">
+      <h3 class="font-serif-cn font-bold text-xl mb-6 flex items-center gap-3">
+        <span class="red-seal w-8 h-8 text-sm rounded-sm">贰</span>
+        十二大高级断法（真传秘法）
+      </h3>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="card-ink rounded-sm p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="w-2 h-2 rounded-full bg-red-800"></span>
+            <span class="font-serif-cn font-bold">阴阳断法</span>
+          </div>
+          <p class="text-stone-600 text-sm leading-relaxed pl-5">明辨阴阳盛衰，判吉凶之根本。</p>
+        </div>
+        <div class="card-ink rounded-sm p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="w-2 h-2 rounded-full bg-red-800"></span>
+            <span class="font-serif-cn font-bold">五行断法</span>
+          </div>
+          <p class="text-stone-600 text-sm leading-relaxed pl-5">金木水火土生克制化，断健康财运。</p>
+        </div>
+        <div class="card-ink rounded-sm p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="w-2 h-2 rounded-full bg-red-800"></span>
+            <span class="font-serif-cn font-bold">九宫八卦断法</span>
+          </div>
+          <p class="text-stone-600 text-sm leading-relaxed pl-5">九宫定位，八卦类象，断六亲方位。</p>
+        </div>
+        <div class="card-ink rounded-sm p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="w-2 h-2 rounded-full bg-red-800"></span>
+            <span class="font-serif-cn font-bold">形象法</span>
+          </div>
+          <p class="text-stone-600 text-sm leading-relaxed pl-5">以形取象，所见即所断，直观神准。</p>
+        </div>
+        <div class="card-ink rounded-sm p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="w-2 h-2 rounded-full bg-red-800"></span>
+            <span class="font-serif-cn font-bold">太极断法</span>
+          </div>
+          <p class="text-stone-600 text-sm leading-relaxed pl-5">太极点转换，一象多断，层层深入。</p>
+        </div>
+        <div class="card-ink rounded-sm p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="w-2 h-2 rounded-full bg-red-800"></span>
+            <span class="font-serif-cn font-bold">六亲断法</span>
+          </div>
+          <p class="text-stone-600 text-sm leading-relaxed pl-5">父母、兄弟、妻财、子孙、官鬼全断。</p>
+        </div>
+        <div class="card-ink rounded-sm p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="w-2 h-2 rounded-full bg-red-800"></span>
+            <span class="font-serif-cn font-bold">六神断法</span>
+          </div>
+          <p class="text-stone-600 text-sm leading-relaxed pl-5">青龙白虎朱雀玄武，断性情灾祸。</p>
+        </div>
+        <div class="card-ink rounded-sm p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="w-2 h-2 rounded-full bg-red-800"></span>
+            <span class="font-serif-cn font-bold">数字卦断法</span>
+          </div>
+          <p class="text-stone-600 text-sm leading-relaxed pl-5">数字起卦与头像数字象综合判断。</p>
+        </div>
+        <div class="card-ink rounded-sm p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="w-2 h-2 rounded-full bg-red-800"></span>
+            <span class="font-serif-cn font-bold">奇门断法</span>
+          </div>
+          <p class="text-stone-600 text-sm leading-relaxed pl-5">融合奇门遁甲格局，提升断事层次。</p>
+        </div>
+        <div class="card-ink rounded-sm p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="w-2 h-2 rounded-full bg-red-800"></span>
+            <span class="font-serif-cn font-bold">平面八卦</span>
+          </div>
+          <p class="text-stone-600 text-sm leading-relaxed pl-5">头像平面九宫八卦布局精断。</p>
+        </div>
+        <div class="card-ink rounded-sm p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="w-2 h-2 rounded-full bg-red-800"></span>
+            <span class="font-serif-cn font-bold">立体八卦</span>
+          </div>
+          <p class="text-stone-600 text-sm leading-relaxed pl-5">空间立体象思维，断深层信息。</p>
+        </div>
+        <div class="card-ink rounded-sm p-5">
+          <div class="flex items-center gap-3 mb-2">
+            <span class="w-2 h-2 rounded-full bg-red-800"></span>
+            <span class="font-serif-cn font-bold">动静断法</span>
+          </div>
+          <p class="text-stone-600 text-sm leading-relaxed pl-5">动象静象结合，断应期与走势。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 额外绝学：设计 + 化解 -->
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="relative rounded-sm overflow-hidden">
+        <div class="bg-gradient-to-br from-stone-800 to-stone-900 p-8 h-full text-stone-100">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl font-serif-cn gold-text font-black">设</span>
+            <div>
+              <h3 class="font-serif-cn font-bold text-xl gold-text">吉祥头像设计</h3>
+              <p class="text-stone-400 text-xs tracking-widest">DESIGN</p>
+            </div>
+          </div>
+          <p class="text-stone-300 leading-relaxed text-sm mb-4">
+            学会为自己、为他人量身定制旺运头像。根据个人八字、命理喜忌、五行补缺，结合八卦方位布局，设计真正助运的微信头像。
+          </p>
+          <ul class="space-y-2 text-sm text-stone-300">
+            <li>◆ 五行喜忌配色法</li>
+            <li>◆ 九宫吉祥元素布局</li>
+            <li>◆ 招财旺桃花事业专题</li>
+          </ul>
+        </div>
+      </div>
+      <div class="relative rounded-sm overflow-hidden">
+        <div class="bg-gradient-to-br from-red-900 to-red-950 p-8 h-full text-stone-100">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl font-serif-cn text-amber-200 font-black">化</span>
+            <div>
+              <h3 class="font-serif-cn font-bold text-xl text-amber-200">风水化解秘法</h3>
+              <p class="text-red-200/70 text-xs tracking-widest">FENG SHUI CURE</p>
+            </div>
+          </div>
+          <p class="text-red-100/90 leading-relaxed text-sm mb-4">
+            头像出问题，运势就会出问题。本课程独家传授如何通过调整头像破解凶象、化解不利，让头像成为你随身携带的风水局。
+          </p>
+          <ul class="space-y-2 text-sm text-red-100/90">
+            <li>◆ 凶象识别与破解</li>
+            <li>◆ 伤病官灾象化解</li>
+            <li>◆ 婚姻财运破局转运</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 你能断什么 -->
+<section class="py-16 md:py-20 bg-stone-900 text-stone-100 relative overflow-hidden">
+  <div class="absolute inset-0 hex-pattern opacity-30"></div>
+  <div class="relative max-w-5xl mx-auto px-6">
+    <div class="text-center mb-12">
+      <div class="divider-ornament mb-4">
+        <span class="font-serif-cn text-xl gold-text font-bold tracking-widest">学成之后</span>
+      </div>
+      <h2 class="font-serif-cn font-black text-3xl md:text-4xl mb-4">一幅头像，能断什么？</h2>
+      <p class="text-stone-400 max-w-2xl mx-auto">
+        掌握观象术后，打开微信通讯录，所有人在你面前再无秘密。
+      </p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+      <div class="p-5 border border-amber-200/20 rounded-sm hover:border-amber-300/50 transition">
+        <div class="text-3xl mb-2">💰</div>
+        <div class="font-serif-cn font-bold gold-text">财运</div>
+        <p class="text-stone-400 text-xs mt-1">破财/旺财/偏财</p>
+      </div>
+      <div class="p-5 border border-amber-200/20 rounded-sm hover:border-amber-300/50 transition">
+        <div class="text-3xl mb-2">💼</div>
+        <div class="font-serif-cn font-bold gold-text">事业</div>
+        <p class="text-stone-400 text-xs mt-1">升迁/阻滞/贵人</p>
+      </div>
+      <div class="p-5 border border-amber-200/20 rounded-sm hover:border-amber-300/50 transition">
+        <div class="text-3xl mb-2">💕</div>
+        <div class="font-serif-cn font-bold gold-text">婚姻</div>
+        <p class="text-stone-400 text-xs mt-1">感情/桃花/离合</p>
+      </div>
+      <div class="p-5 border border-amber-200/20 rounded-sm hover:border-amber-300/50 transition">
+        <div class="text-3xl mb-2">🏥</div>
+        <div class="font-serif-cn font-bold gold-text">健康</div>
+        <p class="text-stone-400 text-xs mt-1">伤病/脏腑/寿元</p>
+      </div>
+      <div class="p-5 border border-amber-200/20 rounded-sm hover:border-amber-300/50 transition">
+        <div class="text-3xl mb-2">📚</div>
+        <div class="font-serif-cn font-bold gold-text">学业</div>
+        <p class="text-stone-400 text-xs mt-1">考试/文昌/功名</p>
+      </div>
+      <div class="p-5 border border-amber-200/20 rounded-sm hover:border-amber-300/50 transition">
+        <div class="text-3xl mb-2">👨‍👩‍👧</div>
+        <div class="font-serif-cn font-bold gold-text">六亲</div>
+        <p class="text-stone-400 text-xs mt-1">父母/子女/兄弟</p>
+      </div>
+      <div class="p-5 border border-amber-200/20 rounded-sm hover:border-amber-300/50 transition">
+        <div class="text-3xl mb-2">🎭</div>
+        <div class="font-serif-cn font-bold gold-text">性格</div>
+        <p class="text-stone-400 text-xs mt-1">性情/长相/人品</p>
+      </div>
+      <div class="p-5 border border-amber-200/20 rounded-sm hover:border-amber-300/50 transition">
+        <div class="text-3xl mb-2">⚖️</div>
+        <div class="font-serif-cn font-bold gold-text">官灾</div>
+        <p class="text-stone-400 text-xs mt-1">是非/官司/刑克</p>
+      </div>
+      <div class="p-5 border border-amber-200/20 rounded-sm hover:border-amber-300/50 transition">
+        <div class="text-3xl mb-2">🔮</div>
+        <div class="font-serif-cn font-bold gold-text">大运</div>
+        <p class="text-stone-400 text-xs mt-1">十年大运走势</p>
+      </div>
+      <div class="p-5 border border-amber-200/20 rounded-sm hover:border-amber-300/50 transition">
+        <div class="text-3xl mb-2">⏳</div>
+        <div class="font-serif-cn font-bold gold-text">流年</div>
+        <p class="text-stone-400 text-xs mt-1">当年吉凶应期</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 适合人群 -->
+<section class="py-16 md:py-20">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="text-center mb-12">
+      <div class="divider-ornament mb-4">
+        <span class="font-serif-cn text-xl gold-text font-bold tracking-widest">适合谁学</span>
+      </div>
+      <h2 class="font-serif-cn font-black text-3xl md:text-4xl mb-4">这门课，为你而设</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="card-ink rounded-sm p-6 flex gap-4">
+        <div class="text-4xl">🌱</div>
+        <div>
+          <h3 class="font-serif-cn font-bold text-lg mb-2">易学零基础爱好者</h3>
+          <p class="text-stone-600 text-sm leading-relaxed">对传统文化、易经玄学感兴趣，想找一门<span class="text-red-800 font-bold">简单、好上手、见效快</span>的预测术入门。</p>
+        </div>
+      </div>
+      <div class="card-ink rounded-sm p-6 flex gap-4">
+        <div class="text-4xl">📖</div>
+        <div>
+          <h3 class="font-serif-cn font-bold text-lg mb-2">传统术数学习者</h3>
+          <p class="text-stone-600 text-sm leading-relaxed">学过八字、六爻、奇门等，希望掌握<span class="text-red-800 font-bold">观象直断</span>这门高阶技术，提升实战层次。</p>
+        </div>
+      </div>
+      <div class="card-ink rounded-sm p-6 flex gap-4">
+        <div class="text-4xl">🔮</div>
+        <div>
+          <h3 class="font-serif-cn font-bold text-lg mb-2">命理风水从业者</h3>
+          <p class="text-stone-600 text-sm leading-relaxed">增加<span class="text-red-800 font-bold">头像断事+定制设计+风水化解</span>服务，拓展业务、提升收入、建立差异化竞争力。</p>
+        </div>
+      </div>
+      <div class="card-ink rounded-sm p-6 flex gap-4">
+        <div class="text-4xl">🔍</div>
+        <div>
+          <h3 class="font-serif-cn font-bold text-lg mb-2">想提升识人能力者</h3>
+          <p class="text-stone-600 text-sm leading-relaxed">创业者、销售、管理者、婚恋人群——<span class="text-red-800 font-bold">一眼看透</span>对方人品心性，识人少走十年弯路。</p>
+        </div>
+      </div>
+      <div class="card-ink rounded-sm p-6 flex gap-4">
+        <div class="text-4xl">✨</div>
+        <div>
+          <h3 class="font-serif-cn font-bold text-lg mb-2">想改变自身运势者</h3>
+          <p class="text-stone-600 text-sm leading-relaxed">婚姻不顺、事业受阻、财运低迷、健康堪忧，通过调整<span class="text-red-800 font-bold">随身风水（头像）</span>改善运势。</p>
+        </div>
+      </div>
+      <div class="card-ink rounded-sm p-6 flex gap-4">
+        <div class="text-4xl">🎨</div>
+        <div>
+          <h3 class="font-serif-cn font-bold text-lg mb-2">设计/美业从业者</h3>
+          <p class="text-stone-600 text-sm leading-relaxed">学会旺运头像设计原理，为客户提供<span class="text-red-800 font-bold">"命理+美学"</span>高附加值服务，客单价翻倍。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 学习收获/为什么选我们 -->
+<section class="py-16 md:py-20 bg-gradient-to-b from-amber-50/50 to-transparent">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="text-center mb-12">
+      <div class="divider-ornament mb-4">
+        <span class="font-serif-cn text-xl gold-text font-bold tracking-widest">课程优势</span>
+      </div>
+      <h2 class="font-serif-cn font-black text-3xl md:text-4xl mb-4">为什么选择无镜道老师？</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="text-center">
+        <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-red-800 to-red-950 flex items-center justify-center text-stone-100">
+          <span class="font-serif-cn text-2xl font-black">实</span>
+        </div>
+        <h3 class="font-serif-cn font-bold text-lg mb-2">真传实教</span></h3>
+        <p class="text-stone-600 text-sm leading-relaxed">不绕弯子、不灌鸡汤，直接讲干货、教真东西，每节课都有可落地的断法与案例。</p>
+      </div>
+      <div class="text-center">
+        <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-red-800 to-red-950 flex items-center justify-center text-stone-100">
+          <span class="font-serif-cn text-2xl font-black">全</span>
+        </div>
+        <h3 class="font-serif-cn font-bold text-lg mb-2">体系完整</h3>
+        <p class="text-stone-600 text-sm leading-relaxed">从基础理论到高级断法，从断事到设计再到化解，体系完整，一门课学透观象。</p>
+      </div>
+      <div class="text-center">
+        <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-red-800 to-red-950 flex items-center justify-center text-stone-100">
+          <span class="font-serif-cn text-2xl font-black">陪</span>
+        </div>
+        <h3 class="font-serif-cn font-bold text-lg mb-2">一对一辅导</h3>
+        <p class="text-stone-600 text-sm leading-relaxed">欢迎单约老师，课后可加微信一对一答疑、带练、实战，学不会不放手。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 老师介绍 -->
+<section class="py-16 md:py-20">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="card-ink rounded-sm p-8 md:p-12">
+      <div class="flex flex-col md:flex-row gap-8 items-center">
+        <div class="flex-shrink-0">
+          <div class="w-40 h-40 rounded-full bagua-border bagua-glow bg-gradient-to-br from-stone-100 to-amber-100 flex items-center justify-center relative">
+            <span class="font-serif-cn text-6xl font-black gold-text">無</span>
+            <div class="absolute -bottom-2 -right-2 red-seal w-12 h-12 rounded-full text-xs">
+              无镜道
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="text-sm text-stone-500 tracking-widest mb-2">主讲老师</p>
+          <h2 class="font-serif-cn font-black text-3xl mb-4">无镜道 老师</h2>
+          <div class="space-y-3 text-stone-700 leading-relaxed">
+            <p>深耕易学多年，精通观象预测术、八字、风水、奇门等多门传统术数。</p>
+            <p>尤其擅长<span class="text-red-800 font-bold">"观象直断"</span>——无需起卦、无需排盘，见象即断，实战经验丰富，断事精准，弟子遍布全国。</p>
+            <p>教学风格<span class="text-red-800 font-bold">深入浅出、直指核心</span>，擅长将深奥玄理化为人人可懂的实操方法，让零基础学员也能快速上手、敢开口断事。</p>
+            <p class="font-serif-cn text-lg gold-text font-bold pt-2">发愿：以象传道，领有缘人进入观象大门。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--  CTA 联系方式 -->
+<section id="contact" class="py-20 md:py-28 relative overflow-hidden">
+  <div class="hero-bg absolute inset-0"></div>
+  <div class="absolute inset-0 hex-pattern opacity-30"></div>
+  <div class="absolute -left-20 -bottom-20 w-80 h-80 opacity-10 taiji-spin pointer-events-none">
+    <svg viewBox="0 0 100 100" class="w-full h-full">
+      <circle cx="50" cy="50" r="48" fill="none" stroke="#c9a96e" stroke-width="0.5"/>
+      <path d="M50 2 A48 48 0 0 1 50 98 A24 24 0 0 1 50 50 A24 24 0 0 0 50 2 Z" fill="#c9a96e"/>
+    </svg>
+  </div>
+
+  <div class="relative max-w-3xl mx-auto px-6 text-center text-stone-100">
+    <div class="mb-6">
+      <span class="red-seal px-4 py-1 text-sm rounded-sm">限量收徒</span>
+    </div>
+    <h2 class="font-serif-cn font-black text-3xl md:text-5xl leading-tight mb-6">
+      <span class="gold-text">名额有限</span><br>
+      遇见即是有缘
+    </h2>
+    <p class="text-lg text-stone-300 leading-relaxed mb-10 max-w-xl mx-auto">
+      观象术传承殊胜，非有缘人不轻传。<br>
+      添加无镜道老师微信，咨询课程详情、<br class="md:hidden">抢占学习名额、预约一对一单约辅导。
+    </p>
+
+    <!-- 微信卡片 -->
+    <div class="max-w-md mx-auto bg-gradient-to-br from-stone-50 to-amber-50 rounded-sm p-8 text-stone-800 mb-8 bagua-glow">
+      <p class="text-sm text-stone-500 tracking-widest mb-2">立即扫码 / 添加微信</p>
+      <h3 class="font-serif-cn font-black text-2xl mb-4">无镜道老师</h3>
+
+      <div class="flex items-center justify-center gap-2 mb-6">
+        <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.27-.027-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg>
+        <span class="text-stone-600 text-sm">微信 / 电话同号</span>
+      </div>
+
+      <div class="bg-stone-900 text-amber-300 font-mono text-2xl md:text-3xl py-4 px-6 rounded-sm tracking-widest font-bold mb-2 select-all">
+        155 1214 1951</div>
+      <p class="text-xs text-stone-500">长按/复制添加微信，请备注"<span class="text-red-800 font-bold">头像课</span>"快速通过</p>
+    </div>
+
+    <a href="tel:15512141951" class="btn-gold inline-flex items-center gap-3 px-10 py-4 rounded-sm font-serif-cn font-bold text-lg">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
+      一键拨打电话咨询
+    </a>
+
+    <p class="mt-10 text-stone-400 text-sm">
+      天机不可泄露 · 道法只度有缘人<br>
+      期待与你相遇在观象的世界
+    </p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-stone-950 text-stone-500 py-8 text-center text-sm">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center justify-center gap-3 mb-3">
+      <div class="w-8 h-8 rounded-full bagua-border flex items-center justify-center">
+        <span class="font-serif-cn font-black gold-text">易</span>
+      </div>
+      <span class="font-serif-cn text-stone-300">无镜道 · 观象堂</span>
+    </div>
+    <p>微信头像预测 · 观象术课程 | 主讲：无镜道老师</p>
+    <p class="mt-2 text-xs text-stone-600">© 版权所有 · 本课程内容仅供传统文化学习研究</p>
+  </div>
+</footer>
+
+</body>
+</html>
