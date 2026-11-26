@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>户型图风水专题课 · 无镜道易学 | 面授招生</title>
+<meta name="description" content="户型图风水专题课：九宫八卦、阳宅三要、八宅吉凶、砂水太极、紫白飞星、十大断法。无镜道老师面授，微信电话 15512141951。">
+<style>
+  :root{
+    --gold:#d4af37;
+    --gold-light:#f6e6b4;
+    --gold-deep:#9c7a22;
+    --bg:#08090c;
+    --text:#ece9e2;
+    --muted:#949ba8;
+    --card-border:rgba(255,255,255,.07);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    line-height:1.8;
+    overflow-x:hidden;
+    padding-bottom:80px;
+  }
+  .serif{font-family:"Songti SC","SimSun","STSong",Georgia,serif}
+  .container{width:100%;max-width:1140px;margin:0 auto;padding:0 24px}
+  section{position:relative;padding:92px 0}
+  @media(max-width:640px){section{padding:64px 0}}
+
+  /* ---------- 通用 ---------- */
+  .gold{
+    background:linear-gradient(100deg,#fdf6d4,#e4c86c 40%,#b8933f 65%,#f3e0a3 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+  }
+  .sec-head{max-width:800px;margin:0 auto 56px;text-align:center}
+  .sec-eyebrow{
+    font-size:13px;letter-spacing:.26em;color:#c9a850;margin-bottom:14px;
+    text-transform:uppercase;
+  }
+  .sec-head h2{font-size:clamp(26px,4.4vw,42px);line-height:1.3;font-weight:800;letter-spacing:.02em}
+  .sec-head p{margin-top:18px;color:var(--muted);font-size:16px}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    padding:16px 38px;border-radius:999px;font-size:16px;font-weight:700;
+    text-decoration:none;transition:.3s;border:1px solid transparent;cursor:pointer;
+    white-space:nowrap;
+  }
+  .btn-primary{
+    background:linear-gradient(100deg,#f7e6b4,#d4af37 45%,#a8842f);
+    color:#15110a;
+    box-shadow:0 14px 40px -12px rgba(212,175,55,.85);
+  }
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 50px -12px rgba(212,175,55,1)}
+  .btn-ghost{color:#e8e6e1;border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.03)}
+  .btn-ghost:hover{border-color:rgba(212,175,55,.6);color:#f6e6b4;transform:translateY(-3px)}
+
+  /* ---------- 首屏 ---------- */
+  .hero{
+    min-height:100vh;display:flex;align-items:center;
+    padding:120px 0 90px;overflow:hidden;position:relative;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(900px 520px at 50% -6%, rgba(212,175,55,.22), transparent 70%),
+      radial-gradient(700px 420px at 85% 20%, rgba(80,120,255,.08), transparent 70%),
+      radial-gradient(640px 420px at 10% 80%, rgba(212,175,55,.08), transparent 72%);
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(circle at 50% 40%,#000 0%,transparent 75%);
+    mask-image:radial-gradient(circle at 50% 40%,#000 0%,transparent 75%);
+  }
+  .floaters{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+  .floaters span{
+    position:absolute;color:#d4af37;font-family:"Courier New",monospace;font-weight:700;
+    animation-name:drift;animation-timing-function:ease-in-out;animation-iteration-count:infinite;
+    will-change:transform;
+  }
+  @keyframes drift{
+    0%,100%{transform:translate(0,0) rotate(0deg)}
+    33%{transform:translate(16px,-26px) rotate(7deg)}
+    66%{transform:translate(-14px,20px) rotate(-6deg)}
+  }
+  .hero .container{position:relative;z-index:2;text-align:center}
+  .badge{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:8px 20px;border-radius:999px;
+    border:1px solid rgba(212,175,55,.35);
+    background:rgba(212,175,55,.07);
+    color:#e4c86c;font-size:13px;letter-spacing:.18em;
+  }
+  .badge i{width:6px;height:6px;border-radius:50%;background:#d4af37;display:block;
+    box-shadow:0 0 0 0 rgba(212,175,55,.7);animation:pulse 2s infinite}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(212,175,55,.65)}
+    70%{box-shadow:0 0 0 12px rgba(212,175,55,0)}
+    100%{box-shadow:0 0 0 0 rgba(212,175,55,0)}
+  }
+  .hero h1{
+    margin:28px 0 20px;
+    font-size:clamp(40px,8.5vw,82px);
+    line-height:1.08;letter-spacing:.04em;font-weight:800;
+  }
+  .hero-sub{
+    max-width:740px;margin:0 auto;
+    font-size:clamp(15px,2.3vw,19px);color:#b9bfcb;
+  }
+  .hero-sub b{color:#f6e6b4;font-weight:700}
+  .hero-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:42px}
+  .hero-stats{
+    display:flex;gap:56px;justify-content:center;flex-wrap:wrap;
+    margin-top:64px;padding-top:38px;border-top:1px solid rgba(255,255,255,.07);
+  }
+  .hero-stats>div{text-align:center;min-width:110px}
+  .hero-stats b{
+    display:block;font-size:34px;font-weight:800;line-height:1.2;
+    background:linear-gradient(100deg,#fdf6d4,#e4c86c 45%,#b8933f 90%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .hero-stats span{font-size:13px;color:var(--muted);letter-spacing:.06em}
+  @media(max-width:640px){
+    .hero-stats{gap:26px;margin-top:46px;padding-top:28px}
+    .hero-stats b{font-size:26px}
+    .hero-stats>div{min-width:88px}
+  }
+
+  /* ---------- 卡片 ---------- */
+  .grid{display:grid;gap:22px}
+  .grid-2{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:960px){.grid-3,.grid-4{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:640px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+
+  .card{
+    position:relative;padding:34px 30px;border-radius:18px;
+    border:1px solid var(--card-border);
+    background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.012));
+    transition:transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+    overflow:hidden;
+  }
+  .card::after{
+    content:"";position:absolute;inset:0;border-radius:18px;pointer-events:none;
+    background:radial-gradient(420px 220px at 82% 0%,rgba(212,175,55,.16),transparent 70%);
+    opacity:0;transition:opacity .35s;
+  }
+  .card:hover{transform:translateY(-6px);border-color:rgba(212,175,55,.42);
+    box-shadow:0 24px 52px -28px rgba(212,175,55,.5)}
+  .card:hover::after{opacity:1}
+  .card .idx{
+    font-family:"Courier New",monospace;font-size:12px;letter-spacing:.24em;
+    color:#c9a850;display:block;margin-bottom:14px;
+  }
+  .card h3{font-size:20px;font-weight:800;margin-bottom:12px;letter-spacing:.01em}
+  .card p{color:var(--muted);font-size:15px}
+  .card p + p{margin-top:10px}
+  .card strong{color:#f6e6b4;font-weight:700}
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .chip{
+    font-size:13px;padding:5px 13px;border-radius:999px;
+    border:1px solid rgba(212,175,55,.3);color:#e0c684;background:rgba(212,175,55,.07);
+  }
+
+  /* ---------- 核心里程碑块 ---------- */
+  .core-block{
+    position:relative;margin-top:24px;padding:52px 42px;border-radius:24px;overflow:hidden;
+    background:
+      radial-gradient(620px 320px at 12% 0%,rgba(212,175,55,.18),transparent 70%),
+      linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.012));
+    border:1px solid rgba(212,175,55,.3);
+  }
+  .core-block h3{font-size:clamp(22px,3.4vw,30px);font-weight:800;margin-bottom:8px}
+  .core-tag{
+    display:inline-block;font-size:12px;letter-spacing:.18em;color:#1a1508;
+    background:linear-gradient(100deg,#f7e6b4,#d4af37);
+    padding:4px 14px;border-radius:999px;margin-bottom:18px;font-weight:700;
+  }
+  .core-block p{color:#b9bfcb;font-size:16px;max-width:820px}
+  .core-block p strong{color:#f6e6b4;font-weight:700}
+  @media(max-width:640px){.core-block{padding:36px 24px;border-radius:20px}}
+
+  /* ---------- 清单 ---------- */
+  .checklist{list-style:none;display:grid;gap:13px;margin-top:22px}
+  .checklist li{
+    display:flex;gap:12px;align-items:flex-start;
+    color:#b9bfcb;font-size:15px;line-height:1.7;
+  }
+  .checklist li::before{
+    content:"◆";color:#d4af37;font-size:12px;line-height:2.2;flex:0 0 auto;
+  }
+
+  /* ---------- 理念 ---------- */
+  .quote-wrap{max-width:840px;margin:0 auto;text-align:center}
+  .quote{
+    position:relative;padding:38px 34px;border-radius:20px;
+    border:1px solid rgba(212,175,55,.22);
+    background:linear-gradient(160deg,rgba(212,175,55,.09),rgba(255,255,255,.015));
+    font-size:clamp(17px,2.6vw,21px);font-weight:600;line-height:1.7;
+  }
+  .quote::before{
+    content:"“";position:absolute;left:16px;top:0;font-size:64px;color:rgba(212,175,55,.28);
+    font-family:Georgia,serif;line-height:1;
+  }
+  .quote + .quote{margin-top:20px}
+
+  /* ---------- 联系 ---------- */
+  .contact-card{
+    text-align:center;padding:66px 32px;border-radius:28px;
+    background:
+      radial-gradient(720px 340px at 50% 0%,rgba(212,175,55,.20),transparent 70%),
+      linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015));
+    border:1px solid rgba(212,175,55,.3);
+  }
+  .contact-card h2{font-size:clamp(24px,4vw,36px);font-weight:800;line-height:1.35}
+  .contact-card .who{margin-top:14px;color:var(--muted);font-size:15px}
+  .phone-box{
+    display:flex;align-items:center;justify-content:center;gap:14px;
+    flex-wrap:wrap;margin:28px 0 32px;
+  }
+  .phone{
+    font-family:"Courier New",monospace;font-weight:800;letter-spacing:.05em;
+    font-size:clamp(26px,6vw,42px);line-height:1.1;
+    background:linear-gradient(100deg,#fdf6d4,#e4c86c 45%,#b8933f 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .copy-btn{
+    padding:9px 20px;border-radius:999px;font-size:14px;cursor:pointer;
+    border:1px solid rgba(212,175,55,.45);background:rgba(212,175,55,.1);
+    color:#e4c86c;transition:.25s;font-family:inherit;
+  }
+  .copy-btn:hover{background:rgba(212,175,55,.22)}
+  .copy-btn.ok{background:rgba(120,220,150,.16);border-color:rgba(120,220,150,.5);color:#8ee0a8}
+  .contact-note{margin-top:22px;font-size:14px;color:#7f8794}
+
+  /* ---------- 底部固定栏 ---------- */
+  .fixed-bar{
+    position:fixed;left:0;right:0;bottom:0;z-index:60;
+    display:flex;align-items:center;justify-content:center;gap:16px;
+    padding:12px 18px;flex-wrap:wrap;
+    background:rgba(8,9,12,.92);
+    -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+    border-top:1px solid rgba(212,175,55,.2);
+    transform:translateY(112%);transition:transform .42s cubic-bezier(.2,.7,.3,1);
+  }
+  .fixed-bar.show{transform:translateY(0)}
+  .fixed-bar .fb-text{font-size:14px;color:#b9bfcb}
+  .fixed-bar .fb-text b{color:#f6e6b4}
+  .fixed-bar .btn{padding:11px 26px;font-size:15px}
+  @media(max-width:520px){
+    .fixed-bar{gap:10px;padding:10px 14px}
+    .fixed-bar .fb-text{display:none}
+    .fixed-bar .btn{flex:1;padding:12px 10px;font-size:15px}
+  }
+
+  /* ---------- 滚动出现 ---------- */
+  .reveal{opacity:0;transform:translateY(28px);
+    transition:opacity .85s cubic-bezier(.2,.7,.3,1),transform .85s cubic-bezier(.2,.7,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+  .d1{transition-delay:.08s}
+  .d2{transition-delay:.16s}
+  .d3{transition-delay:.24s}
+  .d4{transition-delay:.32s}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+
+  footer{
+    text-align:center;padding:34px 22px 10px;
+    color:#5f6673;font-size:13px;border-top:1px solid rgba(255,255,255,.06);
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 首屏 ============ -->
+<header class="hero">
+  <div class="floaters" id="floaters" aria-hidden="true"></div>
+  <div class="container">
+    <div class="badge"><i></i>无镜道易学 · 面授招生</div>
+    <h1 class="serif">户型图<span class="gold">风水</span>专题课</h1>
+    <p class="hero-sub">
+      九宫八卦，一眼看透家宅吉凶<br>
+      门主灶砂，精准断出流年祸福<br>
+      <b>从零基础到实战高手，一张户型图就能开口断事</b>
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-primary">立即咨询 · 加微信单约</a>
+      <a href="#content" class="btn btn-ghost">查看课程大纲</a>
+    </div>
+    <div class="hero-stats">
+      <div><b>10+</b><span>种实战断法</span></div>
+      <div><b>9宫</b><span>八卦象义全解</span></div>
+      <div><b>秒断</b><span>户型吉凶一眼定</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 痛点引入 ============ -->
+<section id="pain">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-eyebrow">为什么学户型风水</div>
+      <h2>拿到户型图，你是否<span class="gold">无从下手</span>？</h2>
+      <p>网上理论看了一堆，实战依然一头雾水。看户型只会说“方正就好”，却说不出个子丑寅卯。</p>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="card reveal">
+        <span class="idx">痛点 01</span>
+        <h3>只会看形，不会断事</h3>
+        <p>知道缺角不好，但具体影响谁？哪一年发凶？身体哪个部位出问题？一概不知。</p>
+      </div>
+      <div class="card reveal d1">
+        <span class="idx">痛点 02</span>
+        <h3>理论堆砌，缺乏主线</h3>
+        <p>八宅、飞星、砂水、生肖……知识点散落一地，不知道怎么把它们串起来用。</p>
+      </div>
+      <div class="card reveal d2">
+        <span class="idx">痛点 03</span>
+        <h3>不敢开口，怕断错</h3>
+        <p>缺少现场实战经验，看到户型图心虚，不知道从哪个宫位、哪个角度切入。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 课程大纲 ============ -->
+<section id="content">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-eyebrow">课程核心体系</div>
+      <h2>从<span class="gold">基础基石</span>到<span class="gold">实战断法</span>，层层递进</h2>
+      <p>不照搬死案例，用真实户型图手把手教你起局、定太极、断吉凶。</p>
+    </div>
+
+    <!-- 基础模块 -->
+    <div class="grid grid-2">
+      <div class="card reveal">
+        <span class="idx">基石 01</span>
+        <h3>九宫八卦与象义全解</h3>
+        <p>方位、排行、属相、年龄、身体部位、年份，一宫多象，一象多断。</p>
+        <div class="chips">
+          <span class="chip">九宫常用象义</span>
+          <span class="chip">先后天八卦同断</span>
+          <span class="chip">身体部位对应</span>
+        </div>
+      </div>
+      <div class="card reveal d1">
+        <span class="idx">基石 02</span>
+        <h3>阳宅三要与八宅吉凶</h3>
+        <p>入户门、主卧、灶——阳宅三要真传。重点看门与各处的生克关系。八宅吉凶星（生气、延年、天医 vs 绝命、五鬼、六煞、祸害）的实战用法。</p>
+        <div class="chips">
+          <span class="chip">门主灶断</span>
+          <span class="chip">八宅吉凶</span>
+          <span class="chip">星宫生克</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 高阶模块 -->
+    <div class="grid grid-2" style="margin-top:22px">
+      <div class="card reveal">
+        <span class="idx">高阶 03</span>
+        <h3>砂水理论与太极九宫</h3>
+        <p>1234要砂，6789要水。高一寸为砂，低一寸为水。大中小太极如何划分？四分法怎么用？砂水反位怎么断？</p>
+        <div class="chips">
+          <span class="chip">砂水断</span>
+          <span class="chip">太极九宫</span>
+          <span class="chip">四分法</span>
+        </div>
+      </div>
+      <div class="card reveal d1">
+        <span class="idx">高阶 04</span>
+        <h3>缺角多角与流年紫白</h3>
+        <p>三七分法判断缺角与多角。流年紫白飞星（一白、六白、八白、九紫等）吉凶星落宫，结合砂水反位、门宫相克，精准断流年。</p>
+        <div class="chips">
+          <span class="chip">缺角与多角</span>
+          <span class="chip">紫白飞星</span>
+          <span class="chip">流年应期</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 核心断法 -->
+    <div class="core-block reveal d2" style="margin-top:40px">
+      <span class="core-tag">十大断法 · 课程核心</span>
+      <h3>一套户型图，十种断法，交叉验证</h3>
+      <p><strong>观象断</strong>（看象义）、<strong>九宫断</strong>（按宫位断人断事）、<strong>门主灶断</strong>（门宫生克）、<strong>八宅断</strong>（吉凶磁场）、<strong>砂水断</strong>（砂水吉凶）、<strong>生肖断</strong>（宫位生肖）、<strong>宫星生克</strong>（星宫关系）、<strong>太极断</strong>（大中小太极）、<strong>气断</strong>（旺衰聚散）、<strong>煞断</strong>（穿堂、墙切等）。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 实战特色 ============ -->
+<section id="feature">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="sec-eyebrow">教学特色</div>
+      <h2>不教死知识，只教<span class="gold">真功夫</span></h2>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="card reveal">
+        <span class="idx">特色 01</span>
+        <h3>学员户型现场剖析</h3>
+        <p>不照搬网上案例，直接拿学员自己的户型图现场起局、现场断，断得对不对当场验证。</p>
+      </div>
+      <div class="card reveal d1">
+        <span class="idx">特色 02</span>
+        <h3>秘而不宣的技法讲透</h3>
+        <p>把一些秘而不宣的技法讲透，让你悟到、深入。知其然，更知其所以然。</p>
+      </div>
+      <div class="card reveal d2">
+        <span class="idx">特色 03</span>
+        <h3>互动教学，学真东西</h3>
+        <p>互动教学，不照搬死的案例。每期更新新鲜的干货，跟我玩透风水，成为真正的大师。</p>
+      </div>
+    </div>
+
+    <div class="quote-wrap" style="margin-top:56px">
+      <div class="quote reveal">吉凶要根据力量大小判断，不可教条，发凶一定是力量过大才会发生。如西南放一盆很小的绿植，则不会产生什么明显危害，但是若西南种了一棵高大的大树则会有不吉。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 联系 ============ -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-card reveal">
+      <div class="sec-eyebrow">欢迎与老师单约</div>
+      <h2 class="serif">加微信咨询<br><span class="gold">了解面授详情与开课安排</span></h2>
+      <p class="who">无镜道易学 · 微信电话同号</p>
+
+      <div class="phone-box">
+        <span class="phone" id="phoneNum">15512141951</span>
+        <button class="copy-btn" id="copyBtn" type="button" onclick="copyPhone(this)">复制号码</button>
+      </div>
+
+      <a href="tel:15512141951" class="btn btn-primary">拨打电话 · 立即咨询</a>
+      <p class="contact-note">添加时请备注「户型风水」，方便老师第一时间通过</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 户型图风水专题课 · 无镜道易学 面授招生　|　微信电话同号：15512141951
+</footer>
+
+<!-- ============ 底部固定栏 ============ -->
+<div class="fixed-bar" id="fixedBar">
+  <span class="fb-text">无镜道易学 · 微信电话同号 <b>15512141951</b></span>
+  <a href="#contact" class="btn btn-primary">立即咨询</a>
+</div>
+
+<script>
+(function () {
+  /* ---------- 首屏漂浮符号 ---------- */
+  var floaters = document.getElementById('floaters');
+  if (floaters) {
+    var glyphs = ['☰','☱','☲','☳','☴','☵','☶','☷','1','2','3','4','5','6','7','8','9','0'];
+    for (var i = 0; i < 28; i++) {
+      var s = document.createElement('span');
+      s.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+      s.style.left = (Math.random() * 100).toFixed(2) + '%';
+      s.style.top = (Math.random() * 100).toFixed(2) + '%';
+      s.style.fontSize = (12 + Math.random() * 34).toFixed(0) + 'px';
+      s.style.animationDuration = (10 + Math.random() * 15).toFixed(1) + 's';
+      s.style.animationDelay = '-' + (Math.random() * 20).toFixed(1) + 's';
+      s.style.opacity = (0.04 + Math.random() * 0.08).toFixed(3);
+      floaters.appendChild(s);
+    }
+  }
+
+  /* ---------- 滚动出现 ---------- */
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.add('in');
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ---------- 底部固定栏 ---------- */
+  var bar = document.getElementById('fixedBar');
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      bar.classList.toggle('show', window.scrollY > 560);
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- 复制号码 ---------- */
+  window.copyPhone = function (btn) {
+    var num = '15512141951';
+    var original = btn.textContent;
+    var done = function () {
+      btn.textContent = '已复制 ✓';
+      btn.classList.add('ok');
+      setTimeout(function () {
+        btn.textContent = original;
+        btn.classList.remove('ok');
+      }, 1800);
+    };
+    var fallback = function () {
+      var ta = document.createElement('textarea');
+      ta.value = num;
+      ta.style.position = 'fixed';
+      ta.style.top = '-9999px';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      document.body.removeChild(ta);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(num).then(done).catch(fallback);
+    } else {
+      fallback();
+    }
+  };
+})();
+</script>
+</body>
+</html>
